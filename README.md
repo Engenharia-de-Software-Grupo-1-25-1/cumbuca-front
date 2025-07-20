@@ -1,12 +1,63 @@
-# React + Vite
+## ✅ Instalação e Configuração do Ambiente
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### 1. Instale o **NVM** (Node Version Manager)
 
-Currently, two official plugins are available:
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Depois, carregue o NVM no terminal atual:
 
-## Expanding the ESLint configuration
+```bash
+source ~/.bashrc
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 2. Instale a versão correta do Node.js
+
+```bash
+nvm install v22.17.0
+```
+
+### 3. Instale o **Yarn** globalmente
+
+```bash
+npm install --global yarn
+```
+
+---
+
+## 🚀 Rodando o Projeto
+
+Na raiz do projeto, execute:
+
+```bash
+yarn
+```
+
+> Isso irá instalar todas as dependências definidas no `package.json`.
+
+Para iniciar a aplicação em ambiente de desenvolvimento:
+
+```bash
+yarn dev
+```
+
+---
+
+## 🧹 Lint — Análise de Código Estático
+
+Para verificar erros de estilo, problemas de sintaxe e más práticas de código, use:
+
+```bash
+yarn lint
+```
+
+---
+
+## 🎨 Format — Formatação Automática com Prettier
+
+Para aplicar automaticamente o estilo de código definido no projeto, execute:
+
+```bash
+yarn format
+```
