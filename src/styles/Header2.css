@@ -26,5 +26,21 @@ header {
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-left: 0em, 1vw, 10em;
+  margin-left: 10em;
+}
+
+.logoContainer {
+  margin-left: 8em;
+}
+
+@media (max-width: 1024px) {
+  .logoContainer {
+    margin-left: 5em;
+  }
+}
+
+@media (max-width: 768px) {
+  .logoContainer {
+    margin-left: 0em;
+  }
 }
