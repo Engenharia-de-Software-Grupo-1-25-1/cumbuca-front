@@ -41,6 +41,9 @@ header {
 
 @media (max-width: 768px) {
   .logoContainer {
-    margin-left: 0em;
+    margin-left: -2em;
+  }
+  .sair {
+    width: 3em;
   }
 }
