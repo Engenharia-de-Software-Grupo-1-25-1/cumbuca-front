@@ -1,10 +1,10 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles/index.css';
-import Tela1 from './pages/Tela1.jsx';
+import Tela2 from './pages/Tela2.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Tela1 />
+    <Tela2 />
   </StrictMode>
 );
