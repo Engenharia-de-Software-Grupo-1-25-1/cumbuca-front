@@ -19,17 +19,12 @@ header {
   background-image: url('../assets/fundo_header.svg');
   border-bottom: 0.5em solid #db520a;
   height: 10%;
-  width: 100%;
-  padding: 1rem;
+  padding: 1rem 5rem;
 }
 
 .logoContainer {
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-left: clamp(1rem, 8vw, 10em);
-}
-
-.sair {
-  margin-right: 5em;
+  margin-left: 0em, 1vw, 10em;
 }
