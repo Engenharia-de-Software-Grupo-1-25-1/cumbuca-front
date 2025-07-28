@@ -1,6 +1,6 @@
 import cumbucaLogo from '../assets/logo.svg';
 import bandeiras from '../assets/bandeiras.svg';
-import '../styles/Header1.css'
+import '../styles/Header1.css';
 
 function Header() {
   return (

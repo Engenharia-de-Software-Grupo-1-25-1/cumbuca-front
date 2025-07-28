@@ -3,7 +3,7 @@
   will-change: filter;
   transition: filter 300ms;
 }
-  
+
 .logo:hover {
   transform: scale(1.1);
   transition: transform 0.2s;
@@ -17,7 +17,7 @@ header {
   display: flex;
   justify-content: space-between;
   background-image: url('../assets/fundo_header.svg');
-  border-bottom: 0.5em solid #DB520A;
+  border-bottom: 0.5em solid #db520a;
   height: 10%;
   width: 100%;
   padding: 1rem;
@@ -27,7 +27,7 @@ header {
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-left:10em
+  margin-left: 10em;
 }
 
 .sair {
