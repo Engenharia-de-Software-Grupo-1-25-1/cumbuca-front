@@ -4,7 +4,7 @@ import '../styles/Header1.css';
 
 function Header() {
   return (
-    /* Cria o primeiro padrão de Header */
+    /* Padrão de Header com Título */
     <header>
       <img src={bandeiras} className="bandeiras" alt="Bandeiras" />
       <a href="./">

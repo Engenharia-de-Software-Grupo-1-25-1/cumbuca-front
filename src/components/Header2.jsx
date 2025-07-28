@@ -4,7 +4,7 @@ import '../styles/Header2.css';
 
 function Header() {
   return (
-    /* Cria o segundo padrão de Header */
+    /* Padrão de Header com logo e botão de sair */
     <header>
       <a href="/" className="logoContainer">
         <img src={cumbucaLogo} className="logo" alt="Logo da Cumbuca" />
