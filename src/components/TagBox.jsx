@@ -1,4 +1,5 @@
 import '../styles/TagBox.css';
+import Icone from './Icone.jsx'
 
 function TagBox({ icone, nomeTag, nPublicacoes, corFundo, corDestaque }) {
   return (
@@ -6,7 +7,7 @@ function TagBox({ icone, nomeTag, nPublicacoes, corFundo, corDestaque }) {
       className="tagBox"
       style={{ backgroundColor: corFundo, borderColor: corDestaque }}
     >
-      <img src={icone} className="iconeTag" />
+      <Icone url={icone} cor={corDestaque} tamanho="30px" />
       <p className="nomeTag">{nomeTag}</p>
       <p className="nPublicacoes" style={{ backgroundColor: corDestaque }}>
         {nPublicacoes}
