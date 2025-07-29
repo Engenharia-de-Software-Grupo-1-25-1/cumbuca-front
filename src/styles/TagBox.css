@@ -1,0 +1,26 @@
+.tagBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 1em;
+  border: 2px solid;
+  border-radius: 10px;
+  padding: 1em 0.5em;
+  width: 100%;
+}
+
+.nomeTag {
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.nPublicacoes {
+  color: #fefefe;
+  border-radius: 10px;
+  padding: 0.3em 0.5em;
+  margin-left: auto;
+}
+
+.iconeTag {
+  width: 30px;
+}

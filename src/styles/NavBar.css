@@ -11,6 +11,10 @@
   justify-content: space-around;
 }
 
+.navBarItens li {
+  width: 100%;
+}
+
 .navBarItem {
   display: flex;
   align-items: center;
@@ -19,11 +23,11 @@
   font-size: 25px;
   padding: 0.5em;
   border-radius: 10px;
-  gap:1em;
+  gap: 1em;
 }
 
 .navBarItem.active {
-  background-color: #FF8C00;
+  background-color: #ff8c00;
 }
 
 .navBarItem img {

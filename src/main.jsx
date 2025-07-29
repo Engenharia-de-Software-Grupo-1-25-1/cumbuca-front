@@ -6,6 +6,6 @@ import Layout3 from './components/Layout3.jsx';
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
-    <Layout3/>
+    <Layout3 />
   </BrowserRouter>
 );

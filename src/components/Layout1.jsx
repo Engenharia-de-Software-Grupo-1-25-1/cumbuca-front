@@ -2,7 +2,7 @@ import Header from './Header1';
 import '../styles/Layout1.css';
 
 //Layout Padrão com Título e Subtítulo
-function Layout1({subtitulo}) {
+function Layout1({ subtitulo }) {
   return (
     <>
       <Header />

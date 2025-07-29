@@ -10,17 +10,32 @@ function NavBar() {
     <nav className="navBar">
       <ul className="navBarItens">
         <li>
-          <NavLink to="/" className={({ isActive }) => isActive ? 'navBarItem active' : 'navBarItem'}>
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive ? 'navBarItem active' : 'navBarItem'
+            }
+          >
             <img src={feed}></img>Feed
           </NavLink>
         </li>
         <li>
-          <NavLink to="/estabelecimentos" className={({ isActive }) => isActive ? 'navBarItem active' : 'navBarItem'}>
+          <NavLink
+            to="/estabelecimentos"
+            className={({ isActive }) =>
+              isActive ? 'navBarItem active' : 'navBarItem'
+            }
+          >
             <img src={estabelecimentos}></img>Estabelecimentos
           </NavLink>
         </li>
         <li>
-          <NavLink to="/meuPerfil" className={({ isActive }) => isActive ? 'navBarItem active' : 'navBarItem'}>
+          <NavLink
+            to="/meuPerfil"
+            className={({ isActive }) =>
+              isActive ? 'navBarItem active' : 'navBarItem'
+            }
+          >
             <img src={meuPerfil}></img>Meu Perfil
           </NavLink>
         </li>
