@@ -1,0 +1,29 @@
+.navBar {
+  width: 65%;
+  height: 4%;
+  background-color: #f4a831;
+  margin: 1em 0 1em 4em;
+  border-radius: 10px;
+  padding: 1em;
+}
+
+.navBarItens {
+  display: flex;
+  justify-content: space-around;
+}
+
+.navBarItem {
+  display: flex;
+  align-items: center;
+  color: #1e1e1e;
+  gap: 1em;
+  font-size: 25px;
+}
+
+#feed {
+  background-color: #ff8c00;
+}
+
+.navBarItem img {
+  width: 40px;
+}

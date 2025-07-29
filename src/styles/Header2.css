@@ -20,6 +20,7 @@ header {
   border-bottom: 0.5em solid #db520a;
   height: 10%;
   padding: 1rem 5rem;
+  align-content: center;
 }
 
 .logoContainer {
