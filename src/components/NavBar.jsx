@@ -14,12 +14,12 @@ function NavBar() {
           </a>
         </li>
         <li>
-          <a href="/estabelecimentos">
+          <a href="/estabelecimentos" className="navBarItem">
             <img src={estabelecimentos}></img>Estabelecimentos
           </a>
         </li>
         <li>
-          <a href="/perfil">
+          <a href="/perfil" className="navBarItem">
             <img src={meuPerfil}></img>Meu Perfil
           </a>
         </li>
