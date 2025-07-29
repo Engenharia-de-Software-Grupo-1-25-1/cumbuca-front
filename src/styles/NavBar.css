@@ -1,10 +1,9 @@
 .navBar {
   width: 65%;
-  height: 4%;
   background-color: #f4a831;
   margin: 1em 0 1em 4em;
   border-radius: 10px;
-  padding: 1em;
+  padding: 0.5em;
 }
 
 .navBarItens {
@@ -15,13 +14,16 @@
 .navBarItem {
   display: flex;
   align-items: center;
+  justify-content: center;
   color: #1e1e1e;
-  gap: 1em;
   font-size: 25px;
+  padding: 0.5em;
+  border-radius: 10px;
+  gap:1em;
 }
 
-#feed {
-  background-color: #ff8c00;
+.navBarItem.active {
+  background-color: #FF8C00;
 }
 
 .navBarItem img {
