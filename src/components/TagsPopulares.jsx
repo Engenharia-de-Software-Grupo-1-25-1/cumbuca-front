@@ -1,6 +1,7 @@
 import '../styles/TagsPopulares.css';
 import TagBox from './TagBox';
 
+//Container de Tags Populares
 function TagsPopulares({ tags }) {
   return (
     <ul className="tagsPopulares">

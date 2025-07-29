@@ -1,0 +1,34 @@
+.perfilBox {
+  background-color: #bc6302;
+  margin: 1em 2em 1em 4em;
+  width: 80%;
+  border-radius: 10px;
+  padding: 2em;
+}
+
+.informacoesUsuario {
+  display: flex;
+  justify-content: space-between;
+  width: 32%;
+}
+
+.textosUsuario {
+  align-self: center;
+}
+
+.fotoDePerfil {
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+}
+
+.nomeUsuario {
+  font-weight: 600;
+  font-size: 48px;
+}
+
+.usernameUsuario {
+  font-weight: 400;
+  margin: 0;
+  font-size: 24px;
+}

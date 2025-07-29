@@ -1,19 +1,21 @@
-function Icone({ url, cor, tamanho}) {
-    const estilo = {
-      width: tamanho,
-      height: tamanho,
-      backgroundColor: cor,
-      WebkitMaskImage: `url(${url})`,
-      WebkitMaskRepeat: 'no-repeat',
-      WebkitMaskSize: 'contain',
-      WebkitMaskPosition: 'center',
-      maskImage: `url(${url})`,
-      maskRepeat: 'no-repeat',
-      maskSize: 'contain',
-      maskPosition: 'center',
-    };
-  
-    return <div style={estilo} />;
-  }
+// Essa função recebe o url de um ícone SVG, um hexcode(cor) e um tamanho
+// Retorna uma div que apresenta o ícone da entrada com todas características oferecidas como parâmetro
+function Icone({ url, cor, tamanho }) {
+  const estilo = {
+    width: tamanho,
+    height: tamanho,
+    backgroundColor: cor,
+    WebkitMaskImage: `url(${url})`,
+    WebkitMaskRepeat: 'no-repeat',
+    WebkitMaskSize: 'contain',
+    WebkitMaskPosition: 'center',
+    maskImage: `url(${url})`,
+    maskRepeat: 'no-repeat',
+    maskSize: 'contain',
+    maskPosition: 'center',
+  };
 
-  export default Icone;
+  return <div style={estilo} />;
+}
+
+export default Icone;
