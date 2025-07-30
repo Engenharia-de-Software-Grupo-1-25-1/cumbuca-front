@@ -2,10 +2,14 @@ import Header from '../headers/Header2';
 import NavBar from './NavBar';
 import TagsPopulares from './TagsPopulares';
 import PerfilBox from './PerfilBox';
+import fotoDePerfil from '../../assets/fotoDePerfil.jpg';
+import tags from '../temporario/tags';
 import '../../styles/layouts/Layout4.css';
 
 //Layout Padrão com Header simples, Tags Populares e box de Perfil
-function Layout4({ tags, nomeUsuario, usernameUsuario, fotoDePerfil }) {
+//function Layout({ tags, nomeUsuario, usernameUsuario, fotoDePerfil }) {
+//function Layout({ nomeUsuario, usernameUsuario, fotoDePerfil }) {
+function Layout({ nomeUsuario = 'Teste', usernameUsuario = '@teste' }) {
   return (
     <>
       <Header />
@@ -22,4 +26,4 @@ function Layout4({ tags, nomeUsuario, usernameUsuario, fotoDePerfil }) {
   );
 }
 
-export default Layout4;
+export default Layout;

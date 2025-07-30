@@ -3,7 +3,8 @@ import '../../styles/layouts/Layout5.css';
 
 //Layout Padrão com Header de busca, filtragem e resultado de busca
 //É possível definir um placeholder para a barra de pesquisa, e o texto do resultado da busca
-function Layout5({ placeholder, resultadoBusca }) {
+//function Layout({ placeholder, resultadoBusca }) {
+function Layout({ placeholder = 'Pesquisar...', resultadoBusca = 'busca' }) {
   return (
     <>
       <Header placeholder={placeholder} />
@@ -14,4 +15,4 @@ function Layout5({ placeholder, resultadoBusca }) {
   );
 }
 
-export default Layout5;
+export default Layout;

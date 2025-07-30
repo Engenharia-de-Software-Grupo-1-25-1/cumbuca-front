@@ -1,8 +1,8 @@
 import Header from '../headers/Header2';
-import '../styles/layouts/Layout2.css';
+import '../../styles/layouts/Layout2.css';
 
 //Layout Padrão com Header simples
-function Layout2() {
+function Layout() {
   return (
     <>
       <Header />
@@ -10,4 +10,4 @@ function Layout2() {
   );
 }
 
-export default Layout2;
+export default Layout;

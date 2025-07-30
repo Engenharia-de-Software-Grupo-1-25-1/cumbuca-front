@@ -1,9 +1,10 @@
 import Header from '../headers/Header1';
-import '../styles/layouts/Layout1.css';
+import '../../styles/layouts/Layout1.css';
 
 //Layout Padrão com Título e Subtítulo
 //É possível dizer qual o subtitulo a partir do parâmetro
-function Layout1({ subtitulo }) {
+//function Layout({ subtitulo }) {
+function Layout({ subtitulo = 'Login' }) {
   return (
     <>
       <Header />
@@ -12,4 +13,4 @@ function Layout1({ subtitulo }) {
   );
 }
 
-export default Layout1;
+export default Layout;

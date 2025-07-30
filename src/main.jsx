@@ -2,10 +2,10 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import './styles/reset.css';
 import './styles/index.css';
-import Layout5 from './components/layouts/Layout5.jsx';
+import Layout from './components/layouts/Layout5.jsx';
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
-    <Layout5 />
+    <Layout />
   </BrowserRouter>
 );
