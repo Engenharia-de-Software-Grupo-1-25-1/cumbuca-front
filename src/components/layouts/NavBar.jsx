@@ -1,8 +1,8 @@
-import '../styles/NavBar.css';
+import '../../styles/layouts/NavBar.css';
 import { NavLink } from 'react-router-dom';
-import feed from '../assets/feed.svg';
-import estabelecimentos from '../assets/estabelecimentos.svg';
-import meuPerfil from '../assets/meu_perfil.svg';
+import feed from '../../assets/feed.svg';
+import estabelecimentos from '../../assets/estabelecimentos.svg';
+import meuPerfil from '../../assets/meu_perfil.svg';
 
 function NavBar() {
   return (

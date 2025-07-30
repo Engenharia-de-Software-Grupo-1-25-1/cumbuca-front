@@ -1,5 +1,5 @@
-import Header from './Header2';
-import '../styles/Layout2.css';
+import Header from '../headers/Header2';
+import '../styles/layouts/Layout2.css';
 
 //Layout Padrão com Header simples
 function Layout2() {

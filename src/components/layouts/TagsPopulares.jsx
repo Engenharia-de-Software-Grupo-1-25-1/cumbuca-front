@@ -1,4 +1,4 @@
-import '../styles/TagsPopulares.css';
+import '../../styles/layouts/TagsPopulares.css';
 import TagBox from './TagBox';
 
 //Container de Tags Populares

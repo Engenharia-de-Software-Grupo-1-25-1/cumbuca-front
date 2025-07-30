@@ -1,5 +1,5 @@
-import '../styles/TagBox.css';
-import Icone from './Icone';
+import '../../styles/layouts/TagBox.css';
+import Icone from '../Icone';
 
 //Box que apresenta tags populares
 function TagBox({ icone, nomeTag, nPublicacoes, corFundo, corDestaque }) {

@@ -1,9 +1,9 @@
-import Header from './Header2';
+import Header from '../headers/Header2';
 import NavBar from './NavBar';
 import TagsPopulares from './TagsPopulares';
 import PerfilBox from './PerfilBox';
-import estabelecimentos from '../assets/estabelecimentos.svg';
-import '../styles/Layout4.css';
+import estabelecimentos from '../../assets/estabelecimentos.svg';
+import '../../styles/layouts/Layout4.css';
 
 const tags = [
   {

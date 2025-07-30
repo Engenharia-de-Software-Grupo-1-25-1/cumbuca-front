@@ -1,6 +1,6 @@
-import cumbucaLogo from '../assets/logo.svg';
-import sair from '../assets/sair.svg';
-import '../styles/Header2.css';
+import cumbucaLogo from '../../assets/logo.svg';
+import sair from '../../assets/sair.svg';
+import '../../styles/headers/Header2.css';
 
 function Header() {
   return (

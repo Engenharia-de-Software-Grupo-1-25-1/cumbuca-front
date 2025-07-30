@@ -1,5 +1,5 @@
-import Header from './Header1';
-import '../styles/Layout1.css';
+import Header from '../headers/Header1';
+import '../styles/layouts/Layout1.css';
 
 //Layout Padrão com Título e Subtítulo
 //É possível dizer qual o subtitulo a partir do parâmetro

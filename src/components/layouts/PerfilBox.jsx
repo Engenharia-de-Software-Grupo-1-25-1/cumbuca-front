@@ -1,4 +1,4 @@
-import '../styles/PerfilBox.css';
+import '../../styles/layouts/PerfilBox.css';
 
 //Box que apresenta tags populares
 function PerfilBox({ fotoDePerfil, nomeUsuario, usernameUsuario }) {
