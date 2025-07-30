@@ -9,14 +9,10 @@
   transition: transform 0.2s;
 }
 
-body {
-  margin: 0;
-}
-
 header {
   display: flex;
   justify-content: space-between;
-  background-image: url('../assets/fundo_header.svg');
+  background-image: url('../../assets/fundo_header.svg');
   border-bottom: 0.5em solid #db520a;
   height: 10%;
   padding: 1rem 5rem;

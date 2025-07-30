@@ -1,0 +1,14 @@
+#root {
+  width: 100%;
+}
+
+.resultadoBuscaBox {
+  font-size: 40px;
+  font-weight: 600;
+  color: #1e1e1e;
+  margin: 0.5em 0 1em 1em;
+  padding: 0.2em 0.8em;
+  background-color: #f4a831;
+  width: fit-content;
+  border-radius: 10px;
+}
