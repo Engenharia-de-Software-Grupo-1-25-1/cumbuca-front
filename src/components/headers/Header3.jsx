@@ -12,17 +12,18 @@ function Header({ placeholder }) {
       <a href="/" className="logoContainer">
         <img src={cumbucaLogo} className="logo" alt="Logo da Cumbuca" />
       </a>
-      <img src={pesquisar} alt="Pesquisar" className="iconePesquisar"></img>
-      <input
-        type="search"
-        placeholder={placeholder}
-        id="inputPesquisa"
-        onInput={toggleClearBtn}
-      />
-      <button class="botaoLimpar" onClick={clearInput}>
-        <img src={limparBusca} alt="Limpar Pesquisa" className="iconeLimpar" />
-      </button>
-      <img src={pesquisar} alt="Limpar Busca" className="iconePesquisar"></img>
+      <div className='pesquisaContainer'>
+        <img src={pesquisar} alt="Pesquisar" className="iconePesquisar"></img>
+        <input
+          type="search"
+          placeholder={placeholder}
+          id="inputPesquisa"
+          onInput={toggleClearBtn}
+        />
+        <button class="botaoLimpar" onClick={clearInput}>
+          <img src={limparBusca} alt="Limpar Pesquisa" className="iconeLimpar" />
+        </button>
+      </div>
       <div className="botoes">
         <button>
           <img src={filtrar} className="filtrar" alt="Filtrar"></img>
