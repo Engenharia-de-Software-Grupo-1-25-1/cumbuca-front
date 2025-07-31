@@ -12,7 +12,7 @@ function Header({ placeholder }) {
       <a href="/" className="logoContainer">
         <img src={cumbucaLogo} className="logo" alt="Logo da Cumbuca" />
       </a>
-      <div className='pesquisaContainer'>
+      <div className="pesquisaContainer">
         <img src={pesquisar} alt="Pesquisar" className="iconePesquisar"></img>
         <input
           type="search"
@@ -21,7 +21,11 @@ function Header({ placeholder }) {
           onInput={toggleClearBtn}
         />
         <button class="botaoLimpar" onClick={clearInput}>
-          <img src={limparBusca} alt="Limpar Pesquisa" className="iconeLimpar" />
+          <img
+            src={limparBusca}
+            alt="Limpar Pesquisa"
+            className="iconeLimpar"
+          />
         </button>
       </div>
       <div className="botoes">
