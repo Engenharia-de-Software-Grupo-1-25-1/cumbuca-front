@@ -25,6 +25,14 @@ header {
   gap: 1em;
 }
 
+.filtrar, .sair {
+  width: 45px;
+}
+
+.iconePesquisar, .iconeLimpar {
+  width: 30px;
+}
+
 .iconePesquisar {
   position: absolute;
   margin: 0 9em;
