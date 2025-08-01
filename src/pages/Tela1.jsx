@@ -1,5 +1,4 @@
 import Header from '../components/Header1';
-import '../styles/Tela1.css';
 
 function Tela1() {
   return (

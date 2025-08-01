@@ -1,18 +1,38 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, Router } from 'react-router-dom';
 import TelaLogin from '../pages/login/TelaLogin';
+import Tela1 from '../pages/Tela1';
 import NaoEncontrado from '../pages/NaoEncontrado';
+import PrivateRoute from './PriveteRoute';
 
-const AppRouter = () => {
+export default function RoutesApp() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="*" element={<NaoEncontrado />} />
-        <Route path="/login" element={<TelaLogin />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <PrivateRoute>
+            <Navigate to="/login" replace />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/login"
+        element={
+          <PrivateRoute>
+            <TelaLogin />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/tela1"
+        element={
+          <PrivateRoute>
+            <Tela1 />
+          </PrivateRoute>
+        }
+      />
+      <Route path="*" element={<NaoEncontrado />} />
+    </Routes>
   );
-};
-
-export default AppRouter;
+}
