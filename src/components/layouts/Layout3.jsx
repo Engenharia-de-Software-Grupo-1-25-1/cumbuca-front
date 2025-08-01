@@ -5,12 +5,15 @@ import tags from '../temporario/tags';
 
 //Layout Padrão com Header simples e Tags Populares
 //function Layout({ tags }) {
-function Layout() {
+function Layout({ Conteudo, conteudoProps }) {
   return (
     <>
       <Header />
       <NavBar />
-      <TagsPopulares tags={tags} />
+      <div className="flex justify-center">
+        {Conteudo ? <Conteudo {...conteudoProps} /> : null}
+        <TagsPopulares tags={tags} />
+      </div>
     </>
   );
 }

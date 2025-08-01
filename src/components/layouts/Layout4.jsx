@@ -1,9 +1,6 @@
-import Header from '../headers/Header2';
-import NavBar from './NavBar';
-import TagsPopulares from './TagsPopulares';
+import LayoutBase from './Layout3';
 import PerfilBox from './PerfilBox';
 import fotoDePerfil from '../../assets/fotoDePerfil.jpg';
-import tags from '../temporario/tags';
 
 //Layout Padrão com Header simples, Tags Populares e box de Perfil
 //function Layout({ tags, nomeUsuario, usernameUsuario, fotoDePerfil }) {
@@ -11,16 +8,14 @@ import tags from '../temporario/tags';
 function Layout({ nomeUsuario = 'Teste', usernameUsuario = '@teste' }) {
   return (
     <>
-      <Header />
-      <NavBar />
-      <div className="conteudo flex justify-center">
-        <PerfilBox
-          nomeUsuario={nomeUsuario}
-          usernameUsuario={usernameUsuario}
-          fotoDePerfil={fotoDePerfil}
-        />
-        <TagsPopulares tags={tags} />
-      </div>
+      <LayoutBase
+        Conteudo={PerfilBox}
+        conteudoProps={{
+          nomeUsuario,
+          usernameUsuario,
+          fotoDePerfil,
+        }}
+      />
     </>
   );
 }
