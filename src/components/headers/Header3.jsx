@@ -4,6 +4,7 @@ import pesquisar from '../../assets/pesquisar.svg';
 import filtrar from '../../assets/filtrar.svg';
 import limparBusca from '../../assets/limpar_busca.svg';
 
+//Padrão de Header com logo, barra de pesquisa, botão de filtrar e botão de sair
 function Header({ placeholder }) {
   return (
     <header className="flex items-center justify-between gap-4 bg-[url('../assets/fundo_header.svg')] border-b-[0.5em] border-[#db520a] py-4 px-10 lg:px-20 h-[10%]">

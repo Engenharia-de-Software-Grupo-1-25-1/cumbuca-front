@@ -14,6 +14,7 @@ const navItems = [
   { to: '/meuPerfil', label: 'Meu Perfil', icon: meuPerfil },
 ];
 
+//NavBar padrão com opções de Feed, Estabelecimentos e Meu Perfil
 function NavBar() {
   return (
     <nav className="w-[80%] sm:w-[80%] md:w-[85%] lg:w-[65%] bg-[#f4a831] mt-4 mb-4 md:ml-16 lg:ml-16 mx-auto sm:mx-auto md:mx-4 lg:mx-4 rounded-xl p-2">

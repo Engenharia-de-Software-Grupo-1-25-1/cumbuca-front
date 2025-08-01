@@ -1,6 +1,7 @@
 import cumbucaLogo from '../../assets/logo.svg';
 import sair from '../../assets/sair.svg';
 
+//Padrão de Header com logo e botão de sair
 function Header() {
   return (
     <header

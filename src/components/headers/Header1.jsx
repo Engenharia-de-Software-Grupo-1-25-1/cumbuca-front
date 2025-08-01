@@ -1,9 +1,9 @@
 import cumbucaLogo from '../../assets/logo.svg';
 import bandeiras from '../../assets/bandeiras.svg';
 
+//Padrão de Header com Título
 function Header() {
   return (
-    /* Padrão de Header com Título */
     <>
       <div className="w-full h-auto max-h-32 sm:max-h-24 lg:max-h-40 object-cover">
         <img
