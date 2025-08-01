@@ -4,7 +4,7 @@ import estabelecimentos from '../../assets/estabelecimentos.svg';
 const tags = [
   {
     icone: estabelecimentos,
-    nome: 'Estabelecimentos',
+    nome: 'Novo',
     nPublicacoes: '50',
     corFundo: '#F9BD5A',
     corDestaque: '#D46106',

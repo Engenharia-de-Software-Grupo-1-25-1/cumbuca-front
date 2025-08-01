@@ -15,7 +15,7 @@ function Icone({ url, cor, tamanho }) {
     maskPosition: 'center',
   };
 
-  return <div style={estilo} />;
+  return <div className="flex-shrink-0" style={estilo} />;
 }
 
 export default Icone;

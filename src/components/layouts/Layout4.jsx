@@ -4,7 +4,6 @@ import TagsPopulares from './TagsPopulares';
 import PerfilBox from './PerfilBox';
 import fotoDePerfil from '../../assets/fotoDePerfil.jpg';
 import tags from '../temporario/tags';
-import '../../styles/layouts/Layout4.css';
 
 //Layout Padrão com Header simples, Tags Populares e box de Perfil
 //function Layout({ tags, nomeUsuario, usernameUsuario, fotoDePerfil }) {
@@ -14,7 +13,7 @@ function Layout({ nomeUsuario = 'Teste', usernameUsuario = '@teste' }) {
     <>
       <Header />
       <NavBar />
-      <div className="conteudo">
+      <div className="conteudo flex justify-center">
         <PerfilBox
           nomeUsuario={nomeUsuario}
           usernameUsuario={usernameUsuario}
