@@ -2,7 +2,6 @@ import Header from '../headers/Header3';
 
 //Layout Padrão com Header de busca, filtragem e resultado de busca
 //É possível definir um placeholder para a barra de pesquisa, e o texto do resultado da busca
-//function Layout({ placeholder, resultadoBusca }) {
 function Layout({ placeholder = 'Pesquisar...', resultadoBusca = 'busca' }) {
   return (
     <>

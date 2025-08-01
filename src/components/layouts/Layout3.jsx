@@ -4,7 +4,6 @@ import TagsPopulares from './TagsPopulares';
 import tags from '../temporario/tags';
 
 //Layout Padrão com Header simples e Tags Populares
-//function Layout({ tags }) {
 function Layout({ Conteudo, conteudoProps }) {
   return (
     <>

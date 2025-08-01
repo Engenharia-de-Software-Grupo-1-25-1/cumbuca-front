@@ -3,8 +3,6 @@ import PerfilBox from './PerfilBox';
 import fotoDePerfil from '../../assets/fotoDePerfil.jpg';
 
 //Layout Padrão com Header simples, Tags Populares e box de Perfil
-//function Layout({ tags, nomeUsuario, usernameUsuario, fotoDePerfil }) {
-//function Layout({ nomeUsuario, usernameUsuario, fotoDePerfil }) {
 function Layout({ nomeUsuario = 'Teste', usernameUsuario = '@teste' }) {
   return (
     <>

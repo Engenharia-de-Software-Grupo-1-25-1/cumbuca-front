@@ -2,7 +2,6 @@ import Header from '../headers/Header1';
 
 //Layout Padrão com Título e Subtítulo
 //É possível dizer qual o subtitulo a partir do parâmetro
-//function Layout({ subtitulo }) {
 function Layout({ subtitulo = 'Login' }) {
   return (
     <>
