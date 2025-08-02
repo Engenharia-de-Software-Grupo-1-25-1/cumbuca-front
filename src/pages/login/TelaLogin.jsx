@@ -67,8 +67,8 @@ export default function TelaLogin() {
         </form>
 
         <p className="mt-4 text-sm text-[#2e3d36]">
-          Ainda não tem conta?{' '}
-          <a href="./cadastro-usuario" className="text-sm font-semibold hover:underline">
+          {'Ainda não tem conta? '}
+          <a href="./cadastrar-usuario" className="text-sm font-semibold hover:underline">
             Cadastre-se
           </a>
         </p>
