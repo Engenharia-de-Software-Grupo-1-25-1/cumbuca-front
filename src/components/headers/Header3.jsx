@@ -6,6 +6,7 @@ import filtrar from '../../assets/filtrar.svg';
 import limparBusca from '../../assets/limpar_busca.svg';
 
 //Padrão de Header com logo, barra de pesquisa, botão de filtrar e botão de sair
+//É possível definir um placeholder para a barra de pesquisa através do parâmetro
 function Header({ placeholder }) {
   const [searchValue, setSearchValue] = useState('');
   const inputRef = useRef(null);

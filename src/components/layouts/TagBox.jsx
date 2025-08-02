@@ -1,6 +1,7 @@
 import Icone from '../util/Icone';
 
 //Box de tag popular, cada tag apresenta um ícone, seu nome e seu número de publicações
+//As cores do componente são definidas pelos parâmetros corFundo e corDestaque
 function TagBox({ icone, nomeTag, nPublicacoes, corFundo, corDestaque }) {
   return (
     <button

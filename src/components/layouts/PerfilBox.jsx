@@ -1,4 +1,5 @@
 //Box que armazena perfil de estabelecimento ou de usuário
+// É possível definir o nome do usuário exibido, seu username e sua foto de perfil através dos parâmetros
 function PerfilBox({ fotoDePerfil, nomeUsuario, usernameUsuario }) {
   return (
     <div className="bg-[#bc6302] w-[80%] rounded-[10px] p-8 md:ml-16 lg:ml-16 sm:mx-auto md:mx-4 lg:mx-4">

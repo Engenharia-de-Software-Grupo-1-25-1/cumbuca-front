@@ -4,6 +4,8 @@ import TagsPopulares from './TagsPopulares';
 import tags from '../temporario/tags';
 
 //Layout Padrão com Header simples e Tags Populares
+//É possível definir o conteúdo que do lado esquerdo do Layout utilizando o parâmetro Conteudo
+//Atributos de Conteudo são definidos em conteudoProps
 function Layout({ Conteudo, conteudoProps }) {
   return (
     <>
