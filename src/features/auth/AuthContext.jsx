@@ -29,7 +29,9 @@ export function AuthProvider({ children }) {
   };
 
   useEffect(() => {
-    fetchUser();
+    if (!import.meta.env.VITE_DEV) {
+      fetchUser();
+    }
   }, []);
 
   return <AuthContext.Provider value={{ user, login, logout }}>{children}</AuthContext.Provider>;

@@ -13,7 +13,7 @@ export default defineConfig([
       js.configs.recommended,
       reactHooks.configs['recommended-latest'],
       reactRefresh.configs.vite,
-      prettier, // Desativa regras conflitantes com Prettier
+      prettier,
     ],
     languageOptions: {
       ecmaVersion: 2020,

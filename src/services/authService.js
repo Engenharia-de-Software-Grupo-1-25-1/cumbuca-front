@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import api from './api';
 
-const isDev = import.meta.env.VITE_DEV === 'true'; // certifique-se de comparar com string
+const isDev = import.meta.env.VITE_DEV;
 
 export const login = (email, senha) => {
   if (isDev) {
