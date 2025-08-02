@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { message } from 'antd';
 import Header from '../../components/Header1';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
-import { useAuth } from '../../features/auth/AuthContext';
+import { useAuth } from '../../features/auth/useAuth';
 
 export default function TelaLogin() {
   const [email, setEmail] = useState('');
@@ -15,6 +15,7 @@ export default function TelaLogin() {
       await login(email, senha);
     } catch (err) {
       message.error('Falha no login');
+      console.error(err);
     }
   };
 
@@ -23,9 +24,7 @@ export default function TelaLogin() {
       <Header />
 
       <div className="flex flex-col items-center mt-4 px-4">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#F5DFB6] mb-6">
-          Login
-        </h2>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#F5DFB6] mb-6">Login</h2>
 
         <form
           onSubmit={handleSubmit}
@@ -63,16 +62,13 @@ export default function TelaLogin() {
             type="submit"
             className="mt-6 bg-red-700 hover:bg-red-800 text-[#f5dfb6] font-bold py-2 px-6 rounded-full text-lg w-full transition"
           >
-            <a href="./feed"> Entrar</a>
+            Entrar
           </button>
         </form>
 
         <p className="mt-4 text-sm text-[#2e3d36]">
           Ainda não tem conta?{' '}
-          <a
-            href="./cadastro-usuario"
-            className="text-sm font-semibold hover:underline"
-          >
+          <a href="./cadastro-usuario" className="text-sm font-semibold hover:underline">
             Cadastre-se
           </a>
         </p>

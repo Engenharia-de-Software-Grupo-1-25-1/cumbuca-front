@@ -3,7 +3,7 @@ import { Routes, Route, Navigate, Router } from 'react-router-dom';
 import TelaLogin from '../pages/login/TelaLogin';
 import Tela1 from '../pages/Tela1';
 import NaoEncontrado from '../pages/NaoEncontrado';
-import PrivateRoute from './PriveteRoute';
+import PrivateRoute from './PrivateRoute';
 
 export default function RoutesApp() {
   return (

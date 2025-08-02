@@ -1,8 +1,7 @@
-import { createContext, useContext, useState, useEffect } from 'react';
-import { login as loginRequest, logout as logoutRequest, getUser } from '../../services/authService';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-const AuthContext = createContext();
+import { login as loginRequest, logout as logoutRequest, getUser } from '../../services/authService';
+import { AuthContext } from './AuthContextInstance';
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -33,11 +32,5 @@ export function AuthProvider({ children }) {
     fetchUser();
   }, []);
 
-  return (
-    <AuthContext.Provider value={{ user, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ user, login, logout }}>{children}</AuthContext.Provider>;
 }
-
-export const useAuth = () => useContext(AuthContext);
