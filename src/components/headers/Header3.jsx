@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react';
 import cumbucaLogo from '../../assets/logo.svg';
 import sair from '../../assets/sair.svg';
 import pesquisar from '../../assets/pesquisar.svg';
@@ -6,6 +7,18 @@ import limparBusca from '../../assets/limpar_busca.svg';
 
 //Padrão de Header com logo, barra de pesquisa, botão de filtrar e botão de sair
 function Header({ placeholder }) {
+  const [searchValue, setSearchValue] = useState('');
+  const inputRef = useRef(null);
+
+  const handleInputChange = e => {
+    setSearchValue(e.target.value);
+  };
+
+  const clearInput = () => {
+    setSearchValue('');
+    inputRef.current?.focus();
+  };
+
   return (
     <header className="flex items-center justify-between gap-4 bg-[url('../assets/fundo_header.svg')] border-b-[0.5em] border-[#db520a] py-4 px-10 lg:px-20 h-[10%]">
       <a
@@ -27,47 +40,37 @@ function Header({ placeholder }) {
         />
         <input
           type="search"
+          ref={inputRef}
+          value={searchValue}
           placeholder={placeholder}
-          id="inputPesquisa"
           className="w-full bg-transparent border-none outline-none font-poppins sm:text-[20px] md:text-[24px] lg:text-[32px] text-[#1e1e1e] px-4"
-          onInput={toggleClearBtn}
+          onChange={handleInputChange}
         />
-        <button className="botaoLimpar hidden mr-2" onClick={clearInput}>
-          <img src={limparBusca} alt="Limpar Pesquisa" className="w-[30px]" />
-        </button>
+        {searchValue && (
+          <button className="mr-2" onClick={clearInput}>
+            <img src={limparBusca} alt="Limpar Pesquisa" className="w-[30px]" />
+          </button>
+        )}
       </div>
 
       <div className="flex gap-1 sm:gap-1 md:gap-4 lg:gap-4 ml-0 sm:ml-0 md:ml-4 lg:ml-4">
         <button className="flex-shrink-0">
           <img
             src={filtrar}
-            className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] "
+            className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px]"
             alt="Filtrar"
           />
         </button>
         <button className="flex-shrink-0">
           <img
             src={sair}
-            className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] "
+            className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px]"
             alt="Sair"
           />
         </button>
       </div>
     </header>
   );
-}
-
-function toggleClearBtn() {
-  const input = document.getElementById('inputPesquisa');
-  const btn = document.querySelector('.botaoLimpar');
-  btn.style.display = input.value ? 'block' : 'none';
-}
-
-function clearInput() {
-  const input = document.getElementById('inputPesquisa');
-  input.value = '';
-  toggleClearBtn();
-  input.focus();
 }
 
 export default Header;
