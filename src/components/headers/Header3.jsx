@@ -21,7 +21,7 @@ function Header({ placeholder }) {
   };
 
   return (
-    <header className="flex items-center justify-between gap-4 bg-[url('../assets/fundo_header.svg')] border-b-[0.5em] border-[#db520a] py-4 px-10 lg:px-20 h-[10%]">
+    <header className="flex items-center justify-between gap-4 bg-[url('../assets/fundo_header.svg')] bg-cover bg-center border-b-[0.5em] border-[#db520a] py-4 px-10 lg:px-20 h-[10%]">
       <a
         href="/"
         className="flex items-center gap-4 sm:ml-0 md:ml-4 lg:ml-20 flex-shrink-0"

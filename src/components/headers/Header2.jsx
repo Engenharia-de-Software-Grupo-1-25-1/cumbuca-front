@@ -7,7 +7,7 @@ function Header() {
     <header
       className="
         flex justify-between
-        bg-[url('../assets/fundo_header.svg')]
+        bg-[url('../assets/fundo_header.svg')] bg-cover bg-center
         border-b-[0.5em] border-b-[#db520a]
         h-[10%]
         px-2 py-4 sm:px-2 md:px-8 lg:px-20
