@@ -54,7 +54,7 @@ function Header({ placeholder }) {
         )}
       </div>
 
-      <div className="flex gap-1 sm:gap-1 md:gap-4 lg:gap-4 ml-0 sm:ml-0 md:ml-4 lg:ml-4">
+      <div className="flex gap-1 sm:gap-1 md:gap-4 lg:gap-4">
         <button className="flex-shrink-0">
           <img
             src={filtrar}
