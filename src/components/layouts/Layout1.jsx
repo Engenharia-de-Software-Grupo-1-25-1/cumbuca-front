@@ -6,9 +6,7 @@ function Layout({ subtitulo = 'Login' }) {
   return (
     <>
       <Header />
-      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#F5DFB6] mb-6 text-center">
-        {subtitulo}
-      </h2>
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#F5DFB6] mb-6 text-center">{subtitulo}</h2>
     </>
   );
 }

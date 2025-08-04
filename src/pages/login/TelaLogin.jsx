@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { message } from 'antd';
-import Header from '../../components/Header1';
+import Layout from '../../components/layouts/Layout1';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { useAuth } from '../../features/auth/useAuth';
 
@@ -21,11 +21,9 @@ export default function TelaLogin() {
 
   return (
     <>
-      <Header />
+      <Layout subtitulo="Login" />
 
       <div className="flex flex-col items-center mt-4 px-4">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#F5DFB6] mb-6">Login</h2>
-
         <form
           onSubmit={handleSubmit}
           className="bg-[#f5dfb6] rounded-xl p-4 sm:p-6 w-full max-w-sm shadow-md space-y-4"
