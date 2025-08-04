@@ -4,7 +4,7 @@ import Layout from '../../components/layouts/Layout1';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { useAuth } from '../../features/auth/useAuth';
 
-export default function TelaLogin() {
+export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const { login } = useAuth();

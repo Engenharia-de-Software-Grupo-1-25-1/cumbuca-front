@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import TelaLogin from '../pages/login/TelaLogin';
+import Login from '../pages/login/Login';
 import NaoEncontrado from '../pages/NaoEncontrado';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
@@ -13,7 +13,7 @@ export default function RoutesApp() {
         path="/login"
         element={
           <PublicRoute>
-            <TelaLogin />
+            <Login />
           </PublicRoute>
         }
       />
