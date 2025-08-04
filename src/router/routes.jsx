@@ -1,9 +1,9 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import TelaLogin from '../pages/login/TelaLogin';
-import Tela1 from '../pages/Tela1';
 import NaoEncontrado from '../pages/NaoEncontrado';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
+import Layout4 from '../components/layouts/Layout4';
 
 export default function RoutesApp() {
   return (
@@ -18,10 +18,10 @@ export default function RoutesApp() {
         }
       />
       <Route
-        path="/tela1"
+        path="/feed"
         element={
           <PrivateRoute>
-            <Tela1 />
+            <Layout4 />
           </PrivateRoute>
         }
       />
