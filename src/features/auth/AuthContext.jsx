@@ -7,14 +7,14 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  const fetchUser = async () => {
-    try {
-      const res = await getUser();
-      setUser(res.data);
-    } catch {
-      setUser(null);
-    }
-  };
+  // const fetchUser = async () => {
+  //   try {
+  //     const res = await getUser();
+  //     setUser(res.data);
+  //   } catch {
+  //     setUser(null);
+  //   }
+  // };
 
   const login = async (email, senha) => {
     await loginRequest(email, senha);
