@@ -5,11 +5,7 @@
 @tailwind utilities;
 
 :root {
-  --gradiente-fundo: linear-gradient(
-    180deg,
-    rgba(50, 84, 96, 1) 32%,
-    rgba(230, 116, 4, 1) 100%
-  );
+  --gradiente-fundo: linear-gradient(180deg, rgba(50, 84, 96, 1) 32%, rgba(230, 116, 4, 1) 100%);
   --cor-texto-titulo: #f5dfb6;
 }
 
