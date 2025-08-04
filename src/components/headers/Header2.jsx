@@ -1,8 +1,19 @@
+import { useState } from 'react';
 import cumbucaLogo from '../../assets/logo.svg';
 import sair from '../../assets/sair.svg';
+import pesquisarbtn from '../../assets/pesquisarbtn.svg';
+import filtrar from '../../assets/filtrar.svg';
+import fecharPesquisa from '../../assets/fecharPesquisa.svg';
+import BarraDePesquisa from './BarraDePesquisa';
 
-//Padrão de Header com logo e botão de sair
-function Header() {
+//Padrão de Header com logo com título, barra de pesquisa expansível, botão de filtrar e botão de sair
+function Header({ placeholder }) {
+  const [mostrarPesquisa, setMostrarPesquisa] = useState(false);
+
+  const alternarPesquisa = () => {
+    setMostrarPesquisa(prev => !prev);
+  };
+
   return (
     <header
       className="
@@ -11,12 +22,13 @@ function Header() {
         border-b-[0.5em] border-b-[#db520a]
         h-[10%]
         px-2 py-4 sm:px-2 md:px-8 lg:px-20
+        gap-4
         items-center
       "
     >
       <a
         href="/"
-        className="flex items-center gap-4 ml-[0em] sm:ml-[0em] md:ml-[2em] lg:ml-[4em]"
+        className="flex items-center gap-4 ml-[0em] sm:ml-[0em] md:ml-[0em] lg:ml-[4em]"
       >
         <img
           src={cumbucaLogo}
@@ -28,14 +40,42 @@ function Header() {
             hover:scale-110 hover:transition-transform hover:duration-200
           "
         />
-        <h1 className="text-4xl sm:text-4xl md:text-4xl lg:text-5xl font-extrabold text-[#f5dfb6]">
-          CUMBUCA
-        </h1>
+        {!mostrarPesquisa && (
+          <h1
+            className="
+          text-4xl sm:text-4xl md:text-4xl lg:text-5xl font-extrabold text-[#f5dfb6]
+          hidden sm:hidden md:block lg:block"
+          >
+            CUMBUCA
+          </h1>
+        )}
       </a>
 
-      <button>
-        <img src={sair} alt="Sair" className="h-10 sm:h-12 md:h-16 w-auto" />
-      </button>
+      {mostrarPesquisa && <BarraDePesquisa placeholder={placeholder} />}
+
+      <div className="flex gap-1 sm:gap-1 md:gap-4 lg:gap-4">
+        <button className="flex-shrink-0" onClick={alternarPesquisa}>
+          <img
+            src={mostrarPesquisa ? fecharPesquisa : pesquisarbtn}
+            className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px]"
+            alt={mostrarPesquisa ? 'Fechar pesquisa' : 'Pesquisar'}
+          />
+        </button>
+        <button className="flex-shrink-0">
+          <img
+            src={filtrar}
+            className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px]"
+            alt="Filtrar"
+          />
+        </button>
+        <button className="flex-shrink-0">
+          <img
+            src={sair}
+            className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px]"
+            alt="Sair"
+          />
+        </button>
+      </div>
     </header>
   );
 }
