@@ -14,6 +14,7 @@ const AppRouter = () => {
         <Route path="/" element={<Layout />} />
         <Route path="/meuPerfil" element={<Layout />} />
         <Route path="/estabelecimentos" element={<Layout />} />
+        <Route path="/recuperarSenha" element={<Layout />} />
       </Routes>
     </Router>
   );
