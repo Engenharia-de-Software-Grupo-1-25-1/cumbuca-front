@@ -18,7 +18,7 @@ export function AuthProvider({ children }) {
 
   const login = async (email, senha) => {
     await loginRequest(email, senha);
-    await fetchUser();
+    //await fetchUser();
     navigate('/feed');
   };
 
@@ -29,9 +29,7 @@ export function AuthProvider({ children }) {
   };
 
   useEffect(() => {
-    if (!import.meta.env.VITE_DEV) {
-      fetchUser();
-    }
+    //fetchUser();
   }, []);
 
   return <AuthContext.Provider value={{ user, login, logout }}>{children}</AuthContext.Provider>;

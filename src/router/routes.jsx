@@ -25,7 +25,14 @@ export default function RoutesApp() {
           </PrivateRoute>
         }
       />
-      <Route path="*" element={<NaoEncontrado />} />
+      <Route
+        path="*"
+        element={
+          <PrivateRoute>
+            <NaoEncontrado />
+          </PrivateRoute>
+        }
+      />
     </Routes>
   );
 }
