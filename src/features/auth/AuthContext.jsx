@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login as loginRequest, logout as logoutRequest, getUser } from '../../services/authService';
+import {
+  login as loginRequest,
+  logout as logoutRequest, //getUser
+} from '../../services/authService';
 import { AuthContext } from './AuthContextInstance';
 
 export function AuthProvider({ children }) {
