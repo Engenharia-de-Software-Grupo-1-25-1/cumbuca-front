@@ -1,23 +1,33 @@
-import React from 'react';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from 'react-router-dom';
-import Layout from '../components/layouts/Layout3';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import TelaLogin from '../pages/login/TelaLogin';
+import NaoEncontrado from '../pages/NaoEncontrado';
+import PrivateRoute from './PrivateRoute';
+import PublicRoute from './PublicRoute';
+import Layout4 from '../components/layouts/Layout4';
+import RecuperarSenha from '../pages/RecuperarSenha';
 
-const AppRouter = () => {
+export default function RoutesApp() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Layout />} />
-        <Route path="/meuPerfil" element={<Layout />} />
-        <Route path="/estabelecimentos" element={<Layout />} />
-        <Route path="/recuperarSenha" element={<Layout />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route
+        path="/login"
+        element={
+          <PublicRoute>
+            <TelaLogin />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="/feed"
+        element={
+          <PrivateRoute>
+            <Layout4 />
+          </PrivateRoute>
+        }
+      />
+      <Route path="*" element={<NaoEncontrado />} />
+      <Route path="/recuperar-senha" element={<RecuperarSenha />} />
+    </Routes>
   );
-};
-
-export default AppRouter;
+}

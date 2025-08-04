@@ -5,7 +5,7 @@ import estabelecimentos from '../../assets/estabelecimentos.svg';
 import meuPerfil from '../../assets/meu_perfil.svg';
 
 const navItems = [
-  { to: '/', label: 'Feed', icon: feed },
+  { to: '/feed', label: 'Feed', icon: feed },
   {
     to: '/estabelecimentos',
     label: 'Estabelecimentos',
@@ -29,11 +29,7 @@ function NavBar() {
                 }`
               }
             >
-              <img
-                src={icon}
-                alt={label}
-                className="w-6 sm:w-6 md:w-8 lg:w-10"
-              />
+              <img src={icon} alt={label} className="w-6 sm:w-6 md:w-8 lg:w-10" />
               {label}
             </NavLink>
           </li>

@@ -5,6 +5,7 @@ import pesquisarbtn from '../../assets/pesquisarbtn.svg';
 import filtrar from '../../assets/filtrar.svg';
 import fecharPesquisa from '../../assets/fecharPesquisa.svg';
 import BarraDePesquisa from './BarraDePesquisa';
+import { useAuth } from '../../features/auth/useAuth';
 
 //Padrão de Header com logo com título, barra de pesquisa expansível, botão de filtrar e botão de sair
 function Header({ placeholder }) {
@@ -13,6 +14,8 @@ function Header({ placeholder }) {
   const alternarPesquisa = () => {
     setMostrarPesquisa(prev => !prev);
   };
+
+  const { logout } = useAuth();
 
   return (
     <header
@@ -26,10 +29,7 @@ function Header({ placeholder }) {
         items-center
       "
     >
-      <a
-        href="/"
-        className="flex items-center gap-4 ml-[0em] sm:ml-[0em] md:ml-[0em] lg:ml-[4em]"
-      >
+      <a href="/" className="flex items-center gap-4 ml-[0em] sm:ml-[0em] md:ml-[0em] lg:ml-[4em]">
         <img
           src={cumbucaLogo}
           alt="Logo da Cumbuca"
@@ -62,18 +62,10 @@ function Header({ placeholder }) {
           />
         </button>
         <button className="flex-shrink-0">
-          <img
-            src={filtrar}
-            className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px]"
-            alt="Filtrar"
-          />
+          <img src={filtrar} className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px]" alt="Filtrar" />
         </button>
-        <button className="flex-shrink-0">
-          <img
-            src={sair}
-            className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px]"
-            alt="Sair"
-          />
+        <button className="flex-shrink-0" onClick={logout}>
+          <img src={sair} className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px]" alt="Sair" />
         </button>
       </div>
     </header>

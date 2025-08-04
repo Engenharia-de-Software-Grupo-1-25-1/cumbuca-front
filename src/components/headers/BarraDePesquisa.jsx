@@ -17,11 +17,7 @@ function BarraDePesquisa({ placeholder = 'Pesquisar...' }) {
 
   return (
     <div className="flex items-center bg-[#f5dfb6] border border-[#db520a] rounded-full sm:px-0 md:px-4 lg:px-4 py-2 w-[45%] sm:w-[45%] md:w-[80%] lg:w-full max-w-4xl">
-      <img
-        src={pesquisar}
-        alt="Pesquisar"
-        className="w-[30px] hidden sm:block ml-4"
-      />
+      <img src={pesquisar} alt="Pesquisar" className="w-[30px] hidden sm:block ml-4" />
       <input
         type="search"
         ref={inputRef}

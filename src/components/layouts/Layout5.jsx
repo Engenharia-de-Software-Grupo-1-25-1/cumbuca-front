@@ -2,10 +2,7 @@ import LayoutBase from './Layout2';
 
 //Layout Padrão com Header de busca, filtragem e resultado de busca
 //É possível definir um placeholder para a barra de pesquisa, e o texto do resultado da busca
-function Layout({
-  placeholder = 'Pesquisar Estabelecimentos...',
-  resultadoBusca = 'busca',
-}) {
+function Layout({ placeholder = 'Pesquisar Estabelecimentos...', resultadoBusca = 'busca' }) {
   return (
     <>
       <LayoutBase placeholder={placeholder} />
