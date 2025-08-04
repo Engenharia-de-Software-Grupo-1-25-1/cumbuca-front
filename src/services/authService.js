@@ -7,6 +7,7 @@ export const login = async (username, senha) => {
     .then(res => {
       const token = res.data;
       localStorage.setItem('token', token);
+      return token;
     })
     .catch(err => {
       message.error('Erro ao realizar login');

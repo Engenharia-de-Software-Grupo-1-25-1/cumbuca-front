@@ -23,7 +23,7 @@ export function AuthProvider({ children }) {
   };
 
   const logout = async () => {
-    await logoutRequest();
+    logoutRequest();
     setUser(null);
     navigate('/login');
   };
