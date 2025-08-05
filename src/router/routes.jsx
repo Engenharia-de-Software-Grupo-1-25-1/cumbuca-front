@@ -4,6 +4,7 @@ import NaoEncontrado from '../pages/NaoEncontrado';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
 import Layout4 from '../components/layouts/Layout4';
+import CriarConta from '../pages/CriarConta';
 
 export default function RoutesApp() {
   return (
@@ -26,6 +27,8 @@ export default function RoutesApp() {
         }
       />
       <Route path="*" element={<NaoEncontrado />} />
+      <Route path="/cadastrar-usuario" element={<CriarConta />} />
+
     </Routes>
   );
 }

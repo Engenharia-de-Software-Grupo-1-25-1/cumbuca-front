@@ -1,0 +1,165 @@
+import React, { useState } from 'react';
+import {
+  User2 as LuUser2,
+  AtSign as LuAtSign,
+  Mail as LuMail,
+  Calendar as LuCalendar,
+  Lock as LuLock
+} from 'lucide-react';
+import Layout from '../components/layouts/Layout1';
+
+const CriarConta = () => {
+  const [nome, setNome] = useState('');
+  const [usuario, setUsuario] = useState('');
+  const [email, setEmail] = useState('');
+  const [dataNascimento, setDataNascimento] = useState('');
+  const [senha, setSenha] = useState('');
+  const [confirmarSenha, setConfirmarSenha] = useState('');
+  const [mensagemErro, setMensagemErro] = useState('');
+
+  const formatarDataParaEnvio = (data) => {
+  const [ano, mes, dia] = data.split('-');
+  return `${ano}-${mes}-${dia}`;
+};
+
+  const handleSubmit = () => {
+  if (!nome || !usuario || !email || !dataNascimento || !senha || !confirmarSenha) {
+    setMensagemErro('Por favor, preencha todos os campos obrigatórios.');
+    return;
+  }
+
+  if (senha !== confirmarSenha) {
+    setMensagemErro('As senhas não coincidem.');
+    return;
+  }
+
+  const hoje = new Date();
+  const nascimento = new Date(dataNascimento);
+  const idade = hoje.getFullYear() - nascimento.getFullYear();
+  const mes = hoje.getMonth() - nascimento.getMonth();
+  const dia = hoje.getDate() - nascimento.getDate();
+
+  const idadeValida = idade > 14 || (idade === 14 && (mes > 0 || (mes === 0 && dia >= 0)));
+
+  if (!idadeValida) {
+    setMensagemErro('Você precisa ter no mínimo 14 anos para se cadastrar.');
+    return;
+  }
+
+  setMensagemErro('');
+  const dadosParaEnvio = {
+    nome,
+    usuario,
+    email,
+    senha,
+    dataNascimento: formatarDataParaEnvio(dataNascimento),
+    status: 'ATIVO',
+  };
+
+  console.log('Dados validados para envio:', dadosParaEnvio);
+  //começar requisição back
+};
+
+return (
+  <>
+    <Layout subtitulo="Criar Conta" />
+    <div className="flex flex-col items-center mt-4 px-4 font-poppins">
+      <div className="flex flex-col gap-6 bg-[#f8e8af] rounded-2xl p-9 w-[600px] h-[470px] shadow-md">
+
+        {/* Nome */}
+        <div className="flex items-center w-full h-[54px]">
+          <LuUser2 className="text-[#5F584E] mr-5 self-center w-[44px] h-[44px]" />
+          <input
+            type="text"
+            value={nome}
+            onChange={e => setNome(e.target.value)}
+            placeholder="Nome"
+            className="w-full h-full text-[28px] font-light text-[#5F584E] border-0 border-b-2 border-[#555] bg-transparent outline-none placeholder:text-[#5F584E]"
+            required
+          />
+        </div>
+
+        {/* Nome de Usuário */}
+        <div className="flex items-center w-full h-[54px]">
+          <LuAtSign className="text-[#5F584E] mr-5 self-center w-[44px] h-[44px]" />
+          <input
+            type="text"
+            value={usuario}
+            onChange={e => setUsuario(e.target.value)}
+            placeholder="Nome de Usuário"
+            className="w-full h-full text-[28px] font-light text-[#5F584E] border-0 border-b-2 border-[#555] bg-transparent outline-none placeholder:text-[#5F584E]"
+            required
+          />
+        </div>
+
+        {/* E-mail */}
+        <div className="flex items-center w-full h-[54px]">
+          <LuMail className="text-[#5F584E] mr-5 self-center w-[44px] h-[44px]" />
+          <input
+            type="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            placeholder="E-mail"
+            className="w-full h-full text-[28px] font-light text-[#5F584E] border-0 border-b-2 border-[#555] bg-transparent outline-none placeholder:text-[#5F584E]"
+            required
+          />
+        </div>
+
+        {/* Data de Nascimento */}
+        <div className="flex items-center w-full h-[54px]">
+          <LuCalendar className="text-[#5F584E] mr-5 self-center w-[44px] h-[44px]" />
+          <input
+            type="date"
+            value={dataNascimento}
+            onChange={e => setDataNascimento(e.target.value)}
+            className="w-full h-full text-[28px] font-light text-[#5F584E] border-0 border-b-2 border-[#555] bg-transparent outline-none placeholder:text-[#5F584E]"
+            required
+          />
+        </div>
+
+        {/* Senha */}
+        <div className="flex items-center w-full h-[54px]">
+          <LuLock className="text-[#5F584E] mr-5 self-center w-[44px] h-[44px]" />
+          <input
+            type="password"
+            value={senha}
+            onChange={e => setSenha(e.target.value)}
+            placeholder="Senha"
+            className="w-full h-full text-[28px] font-light text-[#5F584E] border-0 border-b-2 border-[#555] bg-transparent outline-none placeholder:text-[#5F584E]"
+            required
+          />
+        </div>
+
+        {/* Confirmar Senha */}
+        <div className="flex items-center w-full h-[54px]">
+          <LuLock className="text-[#5F584E] mr-5 self-center w-[44px] h-[44px]" />
+          <input
+            type="password"
+            value={confirmarSenha}
+            onChange={e => setConfirmarSenha(e.target.value)}
+            placeholder="Confirmar Senha"
+            className="w-full h-full text-[28px] font-light text-[#5F584E] border-0 border-b-2 border-[#555] bg-transparent outline-none placeholder:text-[#5F584E]"
+            required
+          />
+        </div>
+      </div>
+
+      {/* Botão */}
+      <button
+        type="button"
+        onClick={handleSubmit}
+        className="mt-5 w-[610px] h-[85px] bg-[#B62506] text-[#F4E9C3] text-[40px] font-poppins font-semibold rounded-full flex items-center justify-center transition hover:brightness-110"
+      >
+        Cadastrar
+      </button>
+      {mensagemErro && (
+        <p className="mt-4 text-red-700 text-lg font-semibold text-center">
+          {mensagemErro}
+        </p>
+      )}
+    </div>
+  </>
+    );
+};
+
+export default CriarConta;
