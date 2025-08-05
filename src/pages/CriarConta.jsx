@@ -7,6 +7,7 @@ import {
   Lock as LuLock
 } from 'lucide-react';
 import { Camera } from 'lucide-react';
+import api from '../services/api';
 
 import Layout from '../components/layouts/Layout1';
 
@@ -80,10 +81,10 @@ return (
     <div className="flex flex-col items-center mt-4 px-4 font-poppins">
       
       {/* Container da bolinha + formulário */}
-      <div className="flex items-center justify-center mt-6 w-full gap-1">
+      <div className="flex items-center justify-center mt-1 w-full gap-1">
 
         {/* Upload da Foto de Perfil */}
-        <label className="relative cursor-pointer flex-shrink-0 mr-2">
+        <label className="relative cursor-pointer flex-shrink-0 mr-1">
         <input
             type="file"
             accept="image/*"
@@ -97,7 +98,7 @@ return (
             className="hidden"
         />
 
-        <div className="w-[160px] h-[160px] bg-[#f8e8af] rounded-full shadow-md border flex items-center justify-center overflow-hidden relative">
+        <div className="w-[140px] h-[140px] bg-[#f8e8af] rounded-full shadow-md border flex items-center justify-center overflow-hidden relative">
             {/* Imagem de perfil */}
             <img
             src={previewFoto || '/imagens/avatar_padrao.png'}
@@ -113,7 +114,6 @@ return (
         </div>
         </div>
         </label>
-
 
         {/* Formulário */}
         <div className="flex flex-col gap-6 bg-[#f8e8af] rounded-2xl p-9 w-[550px] h-[470px] shadow-md mr-[10em]">
@@ -164,6 +164,7 @@ return (
               type="date"
               value={dataNascimento}
               onChange={e => setDataNascimento(e.target.value)}
+
               className="w-full h-full text-[28px] font-light text-[#5F584E] border-0 border-b-2 border-[#555] bg-transparent outline-none placeholder:text-[#5F584E]"
               required
             />
@@ -197,21 +198,21 @@ return (
         </div>
       </div>
 
+        {/* Mensagem de erro */}
+      {mensagemErro && (
+        <p className="mt-2 text-red-700 text-lg font-semibold text-center">
+          {mensagemErro}
+        </p>
+      )}
+
       {/* Botão */}
       <button
         type="button"
         onClick={handleSubmit}
-        className="mt-5 w-[610px] h-[85px] bg-[#B62506] text-[#F4E9C3] text-[40px] font-poppins font-semibold rounded-full flex items-center justify-center transition hover:brightness-110"
+        className="mt-1 w-[600px] h-[85px] bg-[#B62506] text-[#F4E9C3] text-[45px] font-poppins font-semibold rounded-full flex items-center justify-center transition hover:brightness-110"
       >
         Cadastrar
       </button>
-
-      {/* Mensagem de erro */}
-      {mensagemErro && (
-        <p className="mt-4 text-red-700 text-lg font-semibold text-center">
-          {mensagemErro}
-        </p>
-      )}
     </div>
   </>
 );
