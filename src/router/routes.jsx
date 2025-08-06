@@ -28,7 +28,6 @@ export default function RoutesApp() {
       />
       <Route path="*" element={<NaoEncontrado />} />
       <Route path="/cadastrar-usuario" element={<CriarConta />} />
-
     </Routes>
   );
 }

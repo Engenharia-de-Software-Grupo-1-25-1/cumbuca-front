@@ -1,13 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  User2 as LuUser2,
-  AtSign as LuAtSign,
-  Mail as LuMail,
-  Calendar as LuCalendar,
-  Lock as LuLock
-} from 'lucide-react';
-import { Camera } from 'lucide-react';
+import { FaUser, FaAt, FaEnvelope, FaCalendarAlt, FaLock, FaCamera } from 'react-icons/fa';
 import { criarUsuario } from '../services/usuarioService';
 import Layout from '../components/layouts/Layout1';
 
@@ -74,147 +67,116 @@ const CriarConta = () => {
     }
   };
 
-return (
-  <>
-    <Layout subtitulo="Criar Conta" />
-    <div className="flex flex-col items-center mt-4 px-4 font-poppins">
-      
-      {/* Container da bolinha + formulário */}
-      <div className="flex items-center justify-center mt-1 w-full gap-1">
-
-        {/* Upload da Foto de Perfil */}
-        <label className="relative cursor-pointer flex-shrink-0 mr-1">
-        <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => {
-            const file = e.target.files[0];
-            if (file) {
-                setFoto(file);
-                setPreviewFoto(URL.createObjectURL(file));
-            }
-            }}
-            className="hidden"
-        />
-
-        <div className="w-[140px] h-[140px] bg-[#f8e8af] rounded-full shadow-md border flex items-center justify-center overflow-hidden relative">
-            {/* Imagem de perfil */}
-            <img
-            src={previewFoto || '/imagens/avatar_padrao.png'}
-            alt="Foto de perfil"
-            className="w-full h-full object-cover rounded-full"
-            onError={(e) => {
-                e.target.src = '/imagens/avatar_padrao.png';
-            }}
+  return (
+    <>
+      <Layout subtitulo="Criar Conta" />
+      <div className="flex flex-col items-center mt-4 px-4 font-poppins">
+        <form onSubmit={handleSubmit} className="bg-[#f5dfb6] rounded-xl p-6 w-full max-w-sm shadow-md space-y-4">
+          <label className="relative cursor-pointer flex flex-col items-center">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={e => {
+                const file = e.target.files[0];
+                if (file) {
+                  setFoto(file);
+                  setPreviewFoto(URL.createObjectURL(file));
+                }
+              }}
+              className="hidden"
             />
+            <div className="w-28 h-28 bg-[#f8e8af] rounded-full shadow-md border flex items-center justify-center overflow-hidden relative">
+              <img
+                src={previewFoto || '/imagens/avatar_padrao.png'}
+                alt="Foto de perfil"
+                className="w-full h-full object-cover rounded-full"
+                onError={e => {
+                  e.target.src = '/imagens/avatar_padrao.png';
+                }}
+              />
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <FaCamera className="text-[#5F584E]" size={24} />
+              </div>
+            </div>
+          </label>
 
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <Camera className="w-10 h-10 text-[#5F584E]" />
-        </div>
-        </div>
-        </label>
-
-        {/* Formulário */}
-        <div className="flex flex-col gap-6 bg-[#f8e8af] rounded-2xl p-9 w-[550px] h-[470px] shadow-md mr-[10em]">
-
-          {/* Nome */}
-          <div className="flex items-center w-full h-[54px]">
-            <LuUser2 className="text-[#5F584E] mr-5 self-center w-[44px] h-[44px]" />
+          <div className="flex items-center border-b border-gray-400 py-2">
+            <FaUser className="text-gray-600 mr-3" />
             <input
               type="text"
               value={nome}
               onChange={e => setNome(e.target.value)}
               placeholder="Nome"
-              className="w-full h-full text-[28px] font-light text-[#5F584E] border-0 border-b-2 border-[#555] bg-transparent outline-none placeholder:text-[#5F584E]"
-              required
+              className="bg-transparent outline-none w-full text-gray-800 placeholder-gray-600"
             />
           </div>
 
-          {/* Nome de Usuário */}
-          <div className="flex items-center w-full h-[54px]">
-            <LuAtSign className="text-[#5F584E] mr-5 self-center w-[44px] h-[44px]" />
+          <div className="flex items-center border-b border-gray-400 py-2">
+            <FaAt className="text-gray-600 mr-3" />
             <input
               type="text"
               value={username}
               onChange={e => setUsername(e.target.value)}
               placeholder="Nome de Usuário"
-              className="w-full h-full text-[28px] font-light text-[#5F584E] border-0 border-b-2 border-[#555] bg-transparent outline-none placeholder:text-[#5F584E]"
-              required
+              className="bg-transparent outline-none w-full text-gray-800 placeholder-gray-600"
             />
           </div>
 
-          {/* E-mail */}
-          <div className="flex items-center w-full h-[54px]">
-            <LuMail className="text-[#5F584E] mr-5 self-center w-[44px] h-[44px]" />
+          <div className="flex items-center border-b border-gray-400 py-2">
+            <FaEnvelope className="text-gray-600 mr-3" />
             <input
               type="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
               placeholder="E-mail"
-              className="w-full h-full text-[28px] font-light text-[#5F584E] border-0 border-b-2 border-[#555] bg-transparent outline-none placeholder:text-[#5F584E]"
-              required
+              className="bg-transparent outline-none w-full text-gray-800 placeholder-gray-600"
             />
           </div>
 
-          {/* Data de Nascimento */}
-          <div className="flex items-center w-full h-[54px]">
-            <LuCalendar className="text-[#5F584E] mr-5 self-center w-[44px] h-[44px]" />
+          <div className="flex items-center border-b border-gray-400 py-2">
+            <FaCalendarAlt className="text-gray-600 mr-3" />
             <input
               type="date"
               value={dtNascimento}
               onChange={e => setDtNascimento(e.target.value)}
-
-              className="w-full h-full text-[28px] font-light text-[#5F584E] border-0 border-b-2 border-[#555] bg-transparent outline-none placeholder:text-[#5F584E]"
-              required
+              className="bg-transparent outline-none w-full text-gray-800 placeholder-gray-600"
             />
           </div>
 
-          {/* Senha */}
-          <div className="flex items-center w-full h-[54px]">
-            <LuLock className="text-[#5F584E] mr-5 self-center w-[44px] h-[44px]" />
+          <div className="flex items-center border-b border-gray-400 py-2">
+            <FaLock className="text-gray-600 mr-3" />
             <input
               type="password"
               value={senha}
               onChange={e => setSenha(e.target.value)}
               placeholder="Senha"
-              className="w-full h-full text-[28px] font-light text-[#5F584E] border-0 border-b-2 border-[#555] bg-transparent outline-none placeholder:text-[#5F584E]"
-              required
+              className="bg-transparent outline-none w-full text-gray-800 placeholder-gray-600"
             />
           </div>
 
-          {/* Confirmar Senha */}
-          <div className="flex items-center w-full h-[54px]">
-            <LuLock className="text-[#5F584E] mr-5 self-center w-[44px] h-[44px]" />
+          <div className="flex items-center border-b border-gray-400 py-2">
+            <FaLock className="text-gray-600 mr-3" />
             <input
               type="password"
               value={confirmarSenha}
               onChange={e => setConfirmarSenha(e.target.value)}
               placeholder="Confirmar Senha"
-              className="w-full h-full text-[28px] font-light text-[#5F584E] border-0 border-b-2 border-[#555] bg-transparent outline-none placeholder:text-[#5F584E]"
-              required
+              className="bg-transparent outline-none w-full text-gray-800 placeholder-gray-600"
             />
           </div>
-        </div>
+
+          {mensagemErro && <p className="text-red-700 text-sm font-medium text-center">{mensagemErro}</p>}
+
+          <button
+            type="submit"
+            className="w-full py-3 bg-[#B62506] text-[#F4E9C3] text-lg font-semibold rounded-full transition hover:brightness-110"
+          >
+            Cadastrar
+          </button>
+        </form>
       </div>
-
-        {/* Mensagem de erro */}
-      {mensagemErro && (
-        <p className="mt-2 text-red-700 text-lg font-semibold text-center">
-          {mensagemErro}
-        </p>
-      )}
-
-      {/* Botão */}
-      <button
-        type="button"
-        onClick={handleSubmit}
-        className="mt-4 w-[600px] h-[85px] bg-[#B62506] text-[#F4E9C3] text-[45px] font-poppins font-semibold rounded-full flex items-center justify-center transition hover:brightness-110"
-      >
-        Cadastrar
-      </button>
-    </div>
-  </>
-);
+    </>
+  );
 };
 
 export default CriarConta;
