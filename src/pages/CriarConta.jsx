@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   User2 as LuUser2,
   AtSign as LuAtSign,
@@ -22,6 +23,7 @@ const CriarConta = () => {
   const [mensagemErro, setMensagemErro] = useState('');
   const [fotoPerfil, setFotoPerfil] = useState(null);
   const [previewFoto, setPreviewFoto] = useState(null);
+  const navigate = useNavigate();
 
   const handleSubmit = () => {
   if (!nome || !usuario || !email || !dataNascimento || !senha || !confirmarSenha) {
@@ -69,6 +71,8 @@ const CriarConta = () => {
             setSenha('');
             setConfirmarSenha('');
             setFotoPerfil(null);
+            
+            navigate('/login');
         })
         .catch((err) => {
             const mensagem = err.response?.data?.message || 'Erro ao cadastrar. Verifique se e-mail ou usuário já estão em uso.';
@@ -210,7 +214,7 @@ return (
       <button
         type="button"
         onClick={handleSubmit}
-        className="mt-1 w-[600px] h-[85px] bg-[#B62506] text-[#F4E9C3] text-[45px] font-poppins font-semibold rounded-full flex items-center justify-center transition hover:brightness-110"
+        className="mt-4 w-[600px] h-[85px] bg-[#B62506] text-[#F4E9C3] text-[45px] font-poppins font-semibold rounded-full flex items-center justify-center transition hover:brightness-110"
       >
         Cadastrar
       </button>
