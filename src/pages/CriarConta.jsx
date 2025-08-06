@@ -7,6 +7,7 @@ import {
   Lock as LuLock
 } from 'lucide-react';
 import { Camera } from 'lucide-react';
+import endpoints from '../constants/ApiEndPoints';
 import api from '../services/api';
 
 import Layout from '../components/layouts/Layout1';
@@ -59,7 +60,7 @@ const CriarConta = () => {
         formData.append('fotoPerfil', fotoPerfil);
     }
 
-    api.post('/usuarios', formData)
+    api.post(`/${endpoints.usuario}`, formData)
         .then(() => {
             setNome('');
             setUsuario('');
