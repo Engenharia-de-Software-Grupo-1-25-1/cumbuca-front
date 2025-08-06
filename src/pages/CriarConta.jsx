@@ -15,18 +15,18 @@ import Layout from '../components/layouts/Layout1';
 
 const CriarConta = () => {
   const [nome, setNome] = useState('');
-  const [usuario, setUsuario] = useState('');
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
-  const [dataNascimento, setDataNascimento] = useState('');
+  const [dtNascimento, setDtNascimento] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
   const [mensagemErro, setMensagemErro] = useState('');
-  const [fotoPerfil, setFotoPerfil] = useState(null);
+  const [foto, setFoto] = useState(null);
   const [previewFoto, setPreviewFoto] = useState(null);
   const navigate = useNavigate();
 
   const handleSubmit = () => {
-  if (!nome || !usuario || !email || !dataNascimento || !senha || !confirmarSenha) {
+  if (!nome || !username || !email || !dtNascimento || !senha || !confirmarSenha) {
     setMensagemErro('Por favor, preencha todos os campos obrigatórios.');
     return;
   }
@@ -37,7 +37,7 @@ const CriarConta = () => {
   }
 
   const hoje = new Date();
-  const nascimento = new Date(dataNascimento);
+  const nascimento = new Date(dtNascimento);
   const idade = hoje.getFullYear() - nascimento.getFullYear();
   const mes = hoje.getMonth() - nascimento.getMonth();
   const dia = hoje.getDate() - nascimento.getDate();
@@ -53,25 +53,25 @@ const CriarConta = () => {
 
     const formData = new FormData();
     formData.append('nome', nome);
-    formData.append('usuario', usuario);
+    formData.append('username', username);
     formData.append('email', email);
     formData.append('senha', senha);
-    formData.append('dataNascimento', dataNascimento);
+    formData.append('dtNascimento', dtNascimento);
 
-    if (fotoPerfil instanceof File) {
-        formData.append('fotoPerfil', fotoPerfil);
+    if (foto instanceof File) {
+        formData.append('foto', foto);
     }
 
-    api.post(`/${endpoints.usuario}`, formData)
+    api.post(`/${endpoints.usuario}/criar`, formData)
         .then(() => {
             setNome('');
-            setUsuario('');
+            setUsername('');
             setEmail('');
-            setDataNascimento('');
+            setDtNascimento('');
             setSenha('');
             setConfirmarSenha('');
-            setFotoPerfil(null);
-            
+            setFoto(null);
+
             navigate('/login');
         })
         .catch((err) => {
@@ -141,8 +141,8 @@ return (
             <LuAtSign className="text-[#5F584E] mr-5 self-center w-[44px] h-[44px]" />
             <input
               type="text"
-              value={usuario}
-              onChange={e => setUsuario(e.target.value)}
+              value={username}
+              onChange={e => setUsername(e.target.value)}
               placeholder="Nome de Usuário"
               className="w-full h-full text-[28px] font-light text-[#5F584E] border-0 border-b-2 border-[#555] bg-transparent outline-none placeholder:text-[#5F584E]"
               required
@@ -167,8 +167,8 @@ return (
             <LuCalendar className="text-[#5F584E] mr-5 self-center w-[44px] h-[44px]" />
             <input
               type="date"
-              value={dataNascimento}
-              onChange={e => setDataNascimento(e.target.value)}
+              value={dtNascimento}
+              onChange={e => setDtNascimento(e.target.value)}
 
               className="w-full h-full text-[28px] font-light text-[#5F584E] border-0 border-b-2 border-[#555] bg-transparent outline-none placeholder:text-[#5F584E]"
               required
