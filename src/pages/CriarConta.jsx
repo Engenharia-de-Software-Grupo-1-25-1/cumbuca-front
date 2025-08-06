@@ -8,9 +8,7 @@ import {
   Lock as LuLock
 } from 'lucide-react';
 import { Camera } from 'lucide-react';
-import endpoints from '../constants/ApiEndPoints';
-import api from '../services/api';
-
+import { criarUsuario } from '../services/usuarioService';
 import Layout from '../components/layouts/Layout1';
 
 const CriarConta = () => {
@@ -25,31 +23,31 @@ const CriarConta = () => {
   const [previewFoto, setPreviewFoto] = useState(null);
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
-  if (!nome || !username || !email || !dtNascimento || !senha || !confirmarSenha) {
-    setMensagemErro('Por favor, preencha todos os campos obrigatórios.');
-    return;
-  }
+  const handleSubmit = async () => {
+    if (!nome || !username || !email || !dtNascimento || !senha || !confirmarSenha) {
+      setMensagemErro('Por favor, preencha todos os campos obrigatórios.');
+      return;
+    }
 
-  if (senha !== confirmarSenha) {
-    setMensagemErro('As senhas não coincidem.');
-    return;
-  }
+    if (senha !== confirmarSenha) {
+      setMensagemErro('As senhas não coincidem.');
+      return;
+    }
 
-  const hoje = new Date();
-  const nascimento = new Date(dtNascimento);
-  const idade = hoje.getFullYear() - nascimento.getFullYear();
-  const mes = hoje.getMonth() - nascimento.getMonth();
-  const dia = hoje.getDate() - nascimento.getDate();
+    const hoje = new Date();
+    const nascimento = new Date(dtNascimento);
+    const idade = hoje.getFullYear() - nascimento.getFullYear();
+    const mes = hoje.getMonth() - nascimento.getMonth();
+    const dia = hoje.getDate() - nascimento.getDate();
 
-  const idadeValida = idade > 14 || (idade === 14 && (mes > 0 || (mes === 0 && dia >= 0)));
+    const idadeValida = idade > 14 || (idade === 14 && (mes > 0 || (mes === 0 && dia >= 0)));
 
-  if (!idadeValida) {
-    setMensagemErro('Você precisa ter no mínimo 14 anos para se cadastrar.');
-    return;
-  }
+    if (!idadeValida) {
+      setMensagemErro('Você precisa ter no mínimo 14 anos para se cadastrar.');
+      return;
+    }
 
-  setMensagemErro('');
+    setMensagemErro('');
 
     const formData = new FormData();
     formData.append('nome', nome);
@@ -57,28 +55,24 @@ const CriarConta = () => {
     formData.append('email', email);
     formData.append('senha', senha);
     formData.append('dtNascimento', dtNascimento);
-
     if (foto instanceof File) {
-        formData.append('foto', foto);
+      formData.append('foto', foto);
     }
 
-    api.post(`/${endpoints.usuario}/criar`, formData)
-        .then(() => {
-            setNome('');
-            setUsername('');
-            setEmail('');
-            setDtNascimento('');
-            setSenha('');
-            setConfirmarSenha('');
-            setFoto(null);
-
-            navigate('/login');
-        })
-        .catch((err) => {
-            const mensagem = err.response?.data?.message || 'Erro ao cadastrar. Verifique se e-mail ou usuário já estão em uso.';
-            setMensagemErro(mensagem);
-        });
-};
+    const resposta = await criarUsuario(formData);
+    if (resposta.sucesso) {
+      setNome('');
+      setUsername('');
+      setEmail('');
+      setDtNascimento('');
+      setSenha('');
+      setConfirmarSenha('');
+      setFoto(null);
+      navigate('/login');
+    } else {
+      setMensagemErro(resposta.erro);
+    }
+  };
 
 return (
   <>
@@ -96,7 +90,7 @@ return (
             onChange={(e) => {
             const file = e.target.files[0];
             if (file) {
-                setFotoPerfil(file);
+                setFoto(file);
                 setPreviewFoto(URL.createObjectURL(file));
             }
             }}
