@@ -16,7 +16,9 @@ const CriarConta = () => {
   const [previewFoto, setPreviewFoto] = useState(null);
   const navigate = useNavigate();
 
-  const handleSubmit = async () => {
+  const handleSubmit = async event => {
+    event.preventDefault();
+
     if (!nome || !username || !email || !dtNascimento || !senha || !confirmarSenha) {
       setMensagemErro('Por favor, preencha todos os campos obrigatórios.');
       return;
