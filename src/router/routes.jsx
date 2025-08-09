@@ -5,6 +5,8 @@ import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
 import Layout4 from '../components/layouts/Layout4';
 import RecuperarSenha from '../pages/RecuperarSenha';
+import NovaSenha from '../pages/NovaSenha';
+
 
 export default function RoutesApp() {
   return (
@@ -28,6 +30,14 @@ export default function RoutesApp() {
       />
       <Route path="*" element={<NaoEncontrado />} />
       <Route path="/recuperar-senha" element={<RecuperarSenha />} />
+      <Route
+        path="/nova-senha"
+        element={
+          <PrivateRoute>
+            <NovaSenha />
+          </PrivateRoute>
+        }
+      />
     </Routes>
   );
 }

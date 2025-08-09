@@ -20,9 +20,8 @@ const NovaSenha = () => {
     <>
       <Layout subtitulo="Nova Senha" />
       <div className="flex flex-col items-center mt-4 px-4">
-        
         <div className="flex flex-col items-center border-b border-gray-400 bg-[#f5dfb6] rounded-xl  sm:p-6 w-full max-w-sm shadow-md bg-[#f8e8af]">
-          <div className='flex'>
+          <div className="flex">
             <FaLock className="text-gray-600 mr-3" />
             <input
               type="password"
@@ -34,7 +33,7 @@ const NovaSenha = () => {
             />
           </div>
 
-          <div className='flex mt-4'>
+          <div className="flex mt-4">
             <FaLock className="text-gray-600 mr-3" />
             <input
               type="password"
@@ -47,10 +46,10 @@ const NovaSenha = () => {
           </div>
 
           {error && (
-          <div className="flex text-[#e60000] text-[0.65rem] self-start mt-1">
-            <FaExclamationCircle className="mr-[0.4rem] text-[0.9rem]" />
-            <span>As senhas devem ser iguais</span>
-          </div>
+            <div className="flex text-[#e60000] text-[0.65rem] self-start mt-1">
+              <FaExclamationCircle className="mr-[0.4rem] text-[0.9rem]" />
+              <span>As senhas devem ser iguais</span>
+            </div>
           )}
         </div>
 
