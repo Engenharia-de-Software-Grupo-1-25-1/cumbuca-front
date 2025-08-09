@@ -1,31 +1,35 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { message } from 'antd';
 import { FaUser, FaAt, FaEnvelope, FaCalendarAlt, FaLock, FaCamera } from 'react-icons/fa';
 import { criarUsuario } from '../services/usuarioService';
 import Layout from '../components/layouts/Layout1';
 
 const CriarConta = () => {
-  const [nome, setNome] = useState('');
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [dtNascimento, setDtNascimento] = useState('');
-  const [senha, setSenha] = useState('');
-  const [confirmarSenha, setConfirmarSenha] = useState('');
-  const [mensagemErro, setMensagemErro] = useState('');
+  const [usuario, setUsuario] = useState({
+    nome: '',
+    username: '',
+    email: '',
+    dtNascimento: '',
+    senha: '',
+    confirmarSenha: '',
+  });
   const [foto, setFoto] = useState(null);
   const [previewFoto, setPreviewFoto] = useState(null);
   const navigate = useNavigate();
 
-  const handleSubmit = async event => {
+  const handleSubmit = event => {
     event.preventDefault();
 
+    const { nome, username, email, dtNascimento, senha, confirmarSenha } = usuario;
+
     if (!nome || !username || !email || !dtNascimento || !senha || !confirmarSenha) {
-      setMensagemErro('Por favor, preencha todos os campos obrigatórios.');
+      message.error('Por favor, preencha todos os campos obrigatórios.');
       return;
     }
 
     if (senha !== confirmarSenha) {
-      setMensagemErro('As senhas não coincidem.');
+      message.error('As senhas não coincidem.');
       return;
     }
 
@@ -36,13 +40,10 @@ const CriarConta = () => {
     const dia = hoje.getDate() - nascimento.getDate();
 
     const idadeValida = idade > 14 || (idade === 14 && (mes > 0 || (mes === 0 && dia >= 0)));
-
     if (!idadeValida) {
-      setMensagemErro('Você precisa ter no mínimo 14 anos para se cadastrar.');
+      message.error('Você precisa ter no mínimo 14 anos para se cadastrar.');
       return;
     }
-
-    setMensagemErro('');
 
     const formData = new FormData();
     formData.append('nome', nome);
@@ -54,19 +55,25 @@ const CriarConta = () => {
       formData.append('foto', foto);
     }
 
-    const resposta = await criarUsuario(formData);
-    if (resposta.sucesso) {
-      setNome('');
-      setUsername('');
-      setEmail('');
-      setDtNascimento('');
-      setSenha('');
-      setConfirmarSenha('');
-      setFoto(null);
-      navigate('/login');
-    } else {
-      setMensagemErro(resposta.erro);
-    }
+    criarUsuario(formData)
+      .then(res => {
+        message.success(res?.data?.message || 'Conta criada com sucesso!');
+        setUsuario({
+          nome: '',
+          username: '',
+          email: '',
+          dtNascimento: '',
+          senha: '',
+          confirmarSenha: '',
+        });
+        setFoto(null);
+        navigate('/login');
+      })
+      .catch(err => {
+        message.error(
+          err?.response?.data?.message || 'Erro ao cadastrar. Verifique se e-mail ou usuário já estão em uso.'
+        );
+      });
   };
 
   return (
@@ -106,8 +113,8 @@ const CriarConta = () => {
             <FaUser className="text-gray-600 mr-3" />
             <input
               type="text"
-              value={nome}
-              onChange={e => setNome(e.target.value)}
+              value={usuario.nome}
+              onChange={e => setUsuario({ ...usuario, nome: e.target.value })}
               placeholder="Nome"
               className="bg-transparent outline-none w-full text-gray-800 placeholder-gray-600"
             />
@@ -117,8 +124,8 @@ const CriarConta = () => {
             <FaAt className="text-gray-600 mr-3" />
             <input
               type="text"
-              value={username}
-              onChange={e => setUsername(e.target.value)}
+              value={usuario.username}
+              onChange={e => setUsuario({ ...usuario, username: e.target.value })}
               placeholder="Nome de Usuário"
               className="bg-transparent outline-none w-full text-gray-800 placeholder-gray-600"
             />
@@ -128,8 +135,8 @@ const CriarConta = () => {
             <FaEnvelope className="text-gray-600 mr-3" />
             <input
               type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
+              value={usuario.email}
+              onChange={e => setUsuario({ ...usuario, email: e.target.value })}
               placeholder="E-mail"
               className="bg-transparent outline-none w-full text-gray-800 placeholder-gray-600"
             />
@@ -139,8 +146,8 @@ const CriarConta = () => {
             <FaCalendarAlt className="text-gray-600 mr-3" />
             <input
               type="date"
-              value={dtNascimento}
-              onChange={e => setDtNascimento(e.target.value)}
+              value={usuario.dtNascimento}
+              onChange={e => setUsuario({ ...usuario, dtNascimento: e.target.value })}
               className="bg-transparent outline-none w-full text-gray-800 placeholder-gray-600"
             />
           </div>
@@ -149,8 +156,8 @@ const CriarConta = () => {
             <FaLock className="text-gray-600 mr-3" />
             <input
               type="password"
-              value={senha}
-              onChange={e => setSenha(e.target.value)}
+              value={usuario.senha}
+              onChange={e => setUsuario({ ...usuario, senha: e.target.value })}
               placeholder="Senha"
               className="bg-transparent outline-none w-full text-gray-800 placeholder-gray-600"
             />
@@ -160,14 +167,12 @@ const CriarConta = () => {
             <FaLock className="text-gray-600 mr-3" />
             <input
               type="password"
-              value={confirmarSenha}
-              onChange={e => setConfirmarSenha(e.target.value)}
+              value={usuario.confirmarSenha}
+              onChange={e => setUsuario({ ...usuario, confirmarSenha: e.target.value })}
               placeholder="Confirmar Senha"
               className="bg-transparent outline-none w-full text-gray-800 placeholder-gray-600"
             />
           </div>
-
-          {mensagemErro && <p className="text-red-700 text-sm font-medium text-center">{mensagemErro}</p>}
 
           <button
             type="submit"
