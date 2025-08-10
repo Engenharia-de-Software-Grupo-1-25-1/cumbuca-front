@@ -133,7 +133,7 @@ const CriarConta = () => {
               <img
                 src={previewFoto || DEFAULT_AVATAR}
                 alt="Foto de perfil"
-                className="w-full h-full object-cover rounded-full"
+                className="w-full h-full object-cover rounded-full bg-[#f8e8af] [color:transparent] [text-indent:-9999px]"
                 loading="lazy"
                 draggable={false}
                 onError={e => {
@@ -142,6 +142,7 @@ const CriarConta = () => {
                   }
                 }}
               />
+
               {!previewFoto && (
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                   <FaCamera className="text-[#5F584E]" size={24} />
