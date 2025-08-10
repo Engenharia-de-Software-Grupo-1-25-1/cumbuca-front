@@ -1,10 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  FaLock,
-  FaCamera,
-  FaArrowLeft,
-  FaExclamationTriangle
-} from 'react-icons/fa';
+import { FaLock, FaCamera, FaArrowLeft, FaExclamationTriangle } from 'react-icons/fa';
 import Layout2 from '../components/layouts/Layout2';
 import { atualizarPerfil, getPerfil } from '../services/usuarioService';
 
@@ -48,7 +43,7 @@ const EditarPerfil = () => {
     })();
   }, []);
 
-  const handleAlterarFoto = (e) => {
+  const handleAlterarFoto = e => {
     const file = e.target.files?.[0];
     if (file) {
       setFoto(file);
@@ -56,7 +51,7 @@ const EditarPerfil = () => {
     }
   };
 
-  const handleSalvar = async (e) => {
+  const handleSalvar = async e => {
     e.preventDefault();
     setMensagem('');
     setErro('');
@@ -101,7 +96,7 @@ const EditarPerfil = () => {
       <div className="flex flex-col items-center px-4 py-6 font-poppins">
         <h1 className="text-3xl sm:text-4xl font-extrabold text-[#F4E9C3] mb-6">Editar Perfil</h1>
 
-        <div className="w-full max-w-3xl bg-[#B85B07] rounded-xl shadow-md border border-[#7a3b05] p-6 sm:p-8 relative">
+        <div className="w-full max-w-2xl bg-[#B85B07] rounded-xl shadow-md border border-[#7a3b05] p-5 sm:p-6 relative">
           <button
             type="button"
             className="absolute left-4 top-4 text-[#1f1f1f] hover:opacity-80"
@@ -114,16 +109,17 @@ const EditarPerfil = () => {
           {carregando ? (
             <div className="text-[#F4E9C3]">Carregando...</div>
           ) : (
-            <form onSubmit={handleSalvar} className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
-
-              {/* Foto + botão alterar */}
-              <div className="col-span-1 flex flex-col items-center sm:items-start gap-3">
-                <div className="w-40 h-40 bg-[#d4d4d4] rounded-full overflow-hidden border border-[#7a3b05]">
+            <form onSubmit={handleSalvar} className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mt-6">
+              {/* Foto */}
+              <div className="col-span-1 flex flex-col items-center sm:items-center gap-3 self-center">
+                <div className="w-36 h-36 sm:w-40 sm:h-40 bg-[#d4d4d4] rounded-full overflow-hidden border border-[#7a3b05]">
                   <img
                     src={previewFoto || '/imagens/avatar_padrao.png'}
                     alt="Foto de perfil"
                     className="w-full h-full object-cover"
-                    onError={(e) => { e.currentTarget.src = '/imagens/avatar_padrao.png'; }}
+                    onError={e => {
+                      e.currentTarget.src = '/imagens/avatar_padrao.png';
+                    }}
                   />
                 </div>
 
@@ -135,14 +131,14 @@ const EditarPerfil = () => {
               </div>
 
               {/* Campos */}
-              <div className="col-span-1 flex flex-col gap-4">
+              <div className="col-span-1 sm:col-span-2 flex flex-col gap-4 sm:pr-1">
                 <div>
                   <label className="block text-[#1f1f1f] font-semibold mb-1">Nome</label>
                   <input
                     type="text"
                     value={nome}
-                    onChange={(e) => setNome(e.target.value)}
-                    className="w-full bg-[#F4E9C3] rounded-md px-3 py-2 outline-none"
+                    onChange={e => setNome(e.target.value)}
+                    className="w-full h-11 bg-[#F4E9C3] text-[#1f1f1f] rounded-md px-4 outline-none"
                   />
                 </div>
 
@@ -151,8 +147,8 @@ const EditarPerfil = () => {
                   <input
                     type="text"
                     value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    className="w-full bg-[#F4E9C3] rounded-md px-3 py-2 outline-none"
+                    onChange={e => setUsername(e.target.value)}
+                    className="w-full h-11 bg-[#F4E9C3] text-[#1f1f1f] rounded-md px-4 outline-none"
                   />
                 </div>
 
@@ -162,8 +158,8 @@ const EditarPerfil = () => {
                     <input
                       type="email"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="w-full bg-[#F4E9C3] rounded-md px-3 py-2 outline-none"
+                      onChange={e => setEmail(e.target.value)}
+                      className="w-full h-11 bg-[#F4E9C3] text-[#1f1f1f] rounded-md px-4 outline-none"
                     />
                   </div>
                   <div>
@@ -171,38 +167,37 @@ const EditarPerfil = () => {
                     <input
                       type="date"
                       value={dtNascimento}
-                      onChange={(e) => setDtNascimento(e.target.value)}
-                      className="w-full bg-[#F4E9C3] rounded-md px-3 py-2 outline-none"
+                      onChange={e => setDtNascimento(e.target.value)}
+                      className="w-full h-11 bg-[#F4E9C3] text-[#1f1f1f] rounded-md px-4 outline-none"
                     />
                   </div>
                 </div>
 
-                {/* Senhas (opcional) */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[#1f1f1f] font-semibold mb-1">Senha atual</label>
-                    <div className="flex items-center bg-[#F4E9C3] rounded-md px-3">
+                    <div className="flex items-center bg-[#F4E9C3] rounded-md px-3 h-11">
                       <FaLock className="text-[#5F584E] mr-2" />
                       <input
                         type="password"
                         value={senhaAtual}
-                        onChange={(e) => setSenhaAtual(e.target.value)}
+                        onChange={e => setSenhaAtual(e.target.value)}
                         placeholder="Senha atual"
-                        className="w-full bg-transparent py-2 outline-none"
+                        className="w-full bg-transparent text-[#1f1f1f] outline-none"
                       />
                     </div>
                   </div>
 
                   <div>
                     <label className="block text-[#1f1f1f] font-semibold mb-1">Nova senha</label>
-                    <div className="flex items-center bg-[#F4E9C3] rounded-md px-3">
+                    <div className="flex items-center bg-[#F4E9C3] rounded-md px-3 h-11">
                       <FaLock className="text-[#5F584E] mr-2" />
                       <input
                         type="password"
                         value={novaSenha}
-                        onChange={(e) => setNovaSenha(e.target.value)}
+                        onChange={e => setNovaSenha(e.target.value)}
                         placeholder="Nova senha"
-                        className="w-full bg-transparent py-2 outline-none"
+                        className="w-full bg-transparent text-[#1f1f1f] outline-none"
                       />
                     </div>
                   </div>
@@ -210,20 +205,19 @@ const EditarPerfil = () => {
 
                 <div>
                   <label className="block text-[#1f1f1f] font-semibold mb-1">Confirmar nova senha</label>
-                  <div className="flex items-center bg-[#F4E9C3] rounded-md px-3">
+                  <div className="flex items-center bg-[#F4E9C3] rounded-md px-3 h-11">
                     <FaLock className="text-[#5F584E] mr-2" />
                     <input
                       type="password"
                       value={confirmarNovaSenha}
-                      onChange={(e) => setConfirmarNovaSenha(e.target.value)}
+                      onChange={e => setConfirmarNovaSenha(e.target.value)}
                       placeholder="Confirmar nova senha"
-                      className="w-full bg-transparent py-2 outline-none"
+                      className="w-full bg-transparent text-[#1f1f1f] outline-none"
                     />
                   </div>
                 </div>
               </div>
 
-              {/* Mensagens */}
               {erro && (
                 <div className="col-span-full text-red-700 bg-red-50 border border-red-200 rounded-md px-3 py-2 flex items-center gap-2">
                   <FaExclamationTriangle /> <span>{erro}</span>
@@ -235,15 +229,18 @@ const EditarPerfil = () => {
                 </div>
               )}
 
-              {/* Ações */}
-              <div className="col-span-full flex gap-4 justify-center mt-2">
+              <div className="col-span-full flex gap-4 justify-center mt-1">
                 <button
                   type="submit"
                   className="px-8 py-3 bg-[#B62506] text-[#F4E9C3] text-lg font-semibold rounded-full hover:brightness-110"
                 >
                   Salvar
                 </button>
-                <button type="button" disabled className="px-8 py-3 bg-[#f08a0c] text-[#1f1f1f] text-lg font-semibold rounded-full opacity-60 cursor-not-allowed">
+                <button
+                  type="button"
+                  disabled
+                  className="px-8 py-3 bg-[#f08a0c] text-[#1f1f1f] text-lg font-semibold rounded-full opacity-60 cursor-not-allowed"
+                >
                   Excluir
                 </button>
               </div>
@@ -256,4 +253,3 @@ const EditarPerfil = () => {
 };
 
 export default EditarPerfil;
-
