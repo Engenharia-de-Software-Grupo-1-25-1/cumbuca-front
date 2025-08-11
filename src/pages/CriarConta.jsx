@@ -113,16 +113,13 @@ const CriarConta = () => {
               accept="image/*"
               onChange={e => {
                 const file = e.target.files?.[0];
+                if (previewFoto && previewFoto.startsWith('blob:')) {
+                  URL.revokeObjectURL(previewFoto);
+                }
                 if (file) {
-                  if (previewFoto && previewFoto.startsWith('blob:')) {
-                    URL.revokeObjectURL(previewFoto);
-                  }
                   setFoto(file);
                   setPreviewFoto(URL.createObjectURL(file));
                 } else {
-                  if (previewFoto && previewFoto.startsWith('blob:')) {
-                    URL.revokeObjectURL(previewFoto);
-                  }
                   setFoto(null);
                   setPreviewFoto(null);
                 }
