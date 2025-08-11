@@ -494,8 +494,8 @@ export default function ModalAvaliacao({ open, onClose, editar = false, avaliaca
           ambiente: Number(data?.nota_ambiente) || 0,
           atendimento: Number(data?.nota_atendimento) || 0,
         });
-      } catch (e) {
-        message.error('Não foi possível carregar a avaliação para edição.');
+      } catch (err) {
+        message.error(err?.response?.data || 'Não foi possível carregar a avaliação para edição.');
       } finally {
         setCarregandoEdicao(false);
       }
