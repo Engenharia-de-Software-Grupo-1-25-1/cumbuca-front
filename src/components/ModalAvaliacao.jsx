@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import categorias from '../utils/categorias';
 import { FiMapPin, FiCamera, FiArrowLeft, FiX } from 'react-icons/fi';
 import { FaStar, FaRegStar } from 'react-icons/fa';
-import { criarAvaliacao } from '../services/avaliacaoService';
+import { criarAvaliacao, obterAvaliacao, atualizarAvaliacao } from '../services/avaliacaoService';
 import { message } from 'antd';
 
 const j = (...xs) => xs.filter(Boolean).join(' ');
@@ -37,6 +37,116 @@ const formatFromDigits = digits => {
   return `${intFmt},${frac}`;
 };
 const digitsToDotFixed = d => (Number.parseInt(onlyDigits(d) || '0', 10) / 100).toFixed(2);
+const dotFixedToDigits = v => {
+  if (v == null) return '';
+  const s = String(v).replace(',', '.');
+  const n = Number.parseFloat(s);
+  if (Number.isNaN(n)) return '';
+  return Math.round(n * 100).toString();
+};
+
+const tagsToArray = v =>
+  Array.isArray(v)
+    ? v.filter(Boolean).map(x => String(x).replace(/^#/, '').trim())
+    : String(v || '')
+        .split(/[,\s\n]+/)
+        .map(t => t.replace(/^#/, '').trim())
+        .filter(Boolean);
+
+const CHIP_PALETTE = [
+  { bg: 'bg-orange-600', fg: 'text-white', ring: 'ring-orange-700/40' },
+  { bg: 'bg-amber-200', fg: 'text-amber-950', ring: 'ring-amber-400/50' },
+  { bg: 'bg-amber-300', fg: 'text-amber-950', ring: 'ring-amber-500/50' },
+  { bg: 'bg-orange-500', fg: 'text-white', ring: 'ring-orange-700/40' },
+];
+const hash = str => {
+  let h = 0;
+  for (let i = 0; i < str.length; i++) h = (h << 5) - h + str.charCodeAt(i);
+  return Math.abs(h);
+};
+
+function TagInput({ tags, setTags, placeholder = 'Digite e pressione espaço' }) {
+  const [value, setValue] = useState('');
+
+  const addTag = raw => {
+    const t = String(raw || '')
+      .replace(/^#/, '')
+      .trim();
+    if (!t) return;
+    if (tags.includes(t)) {
+      setValue('');
+      return;
+    }
+    setTags(prev => [...prev, t]);
+    setValue('');
+  };
+
+  const removeTag = i => setTags(prev => prev.filter((_, idx) => idx !== i));
+
+  const onKeyDown = e => {
+    if (e.key === ' ' || e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+      addTag(value);
+    } else if (e.key === 'Backspace' && !value) {
+      e.preventDefault();
+      if (tags.length) removeTag(tags.length - 1);
+    }
+  };
+
+  const onPaste = e => {
+    const txt = e.clipboardData.getData('text');
+    if (!txt) return;
+    e.preventDefault();
+    const novos = tagsToArray(txt);
+    if (!novos.length) return;
+    const set = new Set(tags);
+    novos.forEach(t => set.add(t));
+    setTags(Array.from(set));
+  };
+
+  return (
+    <div>
+      <label className="mb-1 block text-sm font-semibold text-[#3D2E1C]">Tags</label>
+      <div
+        className="flex min-h-[42px] w-full flex-wrap items-center gap-1.5 rounded-full
+                   border border-orange-300 bg-[#F2D7A0] px-3 py-2 focus-within:border-emerald-600"
+        onClick={e => {
+          const input = e.currentTarget.querySelector('input');
+          input?.focus();
+        }}
+      >
+        {tags.map((t, i) => {
+          const c = CHIP_PALETTE[hash(t) % CHIP_PALETTE.length];
+          return (
+            <span
+              key={`${t}-${i}`}
+              className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ${c.bg} ${c.fg} ${c.ring}`}
+              title={`#${t}`}
+            >
+              #{t}
+              <button
+                type="button"
+                aria-label={`Remover ${t}`}
+                onClick={() => removeTag(i)}
+                className="ml-0.5 inline-flex h-4 w-4 items-center justify-center rounded-full bg-black/20 text-white hover:bg-black/30"
+              >
+                ×
+              </button>
+            </span>
+          );
+        })}
+        <input
+          value={value}
+          onChange={e => setValue(e.target.value)}
+          onKeyDown={onKeyDown}
+          onPaste={onPaste}
+          placeholder={tags.length ? '' : placeholder}
+          className="flex-1 min-w-[80px] bg-transparent text-sm text-black outline-none placeholder:text-neutral-600"
+        />
+      </div>
+    </div>
+  );
+}
 
 function montaFormData({ item, precoDigits, descricao, tags, notas, lugar, fotos }) {
   const fd = new FormData();
@@ -44,7 +154,7 @@ function montaFormData({ item, precoDigits, descricao, tags, notas, lugar, fotos
   fd.append('item_consumido', item);
   fd.append('preco', digitsToDotFixed(precoDigits));
   fd.append('descricao', descricao || '');
-  fd.append('tags', tags || '');
+  (Array.isArray(tags) ? tags : tagsToArray(tags)).forEach(t => fd.append('tags', t));
   fd.append('nota_geral', String(notas?.geral ?? 0));
   fd.append('nota_comida', String(notas?.comida ?? 0));
   fd.append('nota_ambiente', String(notas?.ambiente ?? 0));
@@ -222,7 +332,7 @@ function AutocompleteNominatim({ id, valor, erro, mostrarErros, onChange, onSele
         setSugs(Array.isArray(d) ? d : []);
         setAtivo(-1);
       } catch (e) {
-        if (e.name !== 'AbortError') message.error(e);
+        if (e.name !== 'AbortError') message.error(e.message || String(e));
       } finally {
         setCarregando(false);
       }
@@ -302,14 +412,14 @@ function AutocompleteNominatim({ id, valor, erro, mostrarErros, onChange, onSele
   );
 }
 
-export default function ModalAvaliacao({ open, onClose }) {
+export default function ModalAvaliacao({ open, onClose, editar = false, avaliacaoId = null }) {
   const [textoLugar, setTextoLugar] = useState('');
   const [lugar, setLugar] = useState(null);
 
   const [item, setItem] = useState('');
   const [precoDigits, setPrecoDigits] = useState('');
   const [descricao, setDescricao] = useState('');
-  const [tags, setTags] = useState('');
+  const [tags, setTags] = useState([]);
 
   const [tipoCategoria, setTipoCategoria] = useState('');
   const [notas, setNotas] = useState({ geral: 0, comida: 0, ambiente: 0, atendimento: 0 });
@@ -317,6 +427,7 @@ export default function ModalAvaliacao({ open, onClose }) {
 
   const [enviando, setEnviando] = useState(false);
   const [tentouEnviar, setTentouEnviar] = useState(false);
+  const [carregandoEdicao, setCarregandoEdicao] = useState(false);
 
   const erros = useMemo(() => {
     const e = {};
@@ -333,14 +444,63 @@ export default function ModalAvaliacao({ open, onClose }) {
       setItem('');
       setPrecoDigits('');
       setDescricao('');
-      setTags('');
+      setTags([]);
       setTipoCategoria('');
       setNotas({ geral: 0, comida: 0, ambiente: 0, atendimento: 0 });
       setFotos([]);
       setEnviando(false);
       setTentouEnviar(false);
+      setCarregandoEdicao(false);
     }
   }, [open]);
+
+  useEffect(() => {
+    if (!open || !editar || !avaliacaoId) return;
+    (async () => {
+      try {
+        setCarregandoEdicao(true);
+        const data = await obterAvaliacao(avaliacaoId);
+
+        setItem(data?.item_consumido || '');
+        setPrecoDigits(dotFixedToDigits(data?.preco));
+        setDescricao(data?.descricao || '');
+        setTags(tagsToArray(data?.tags));
+
+        const est = data?.estabelecimento || {};
+        const lugar = {
+          place_id: est?.id || Date.now(),
+          type: est?.categoria || '',
+          name: est?.nome || '',
+          display_name: [est?.nome, est?.rua && `${est?.rua} ${est?.numero || ''}`, est?.cidade, est?.estado]
+            .filter(Boolean)
+            .join(', '),
+          address: {
+            [est?.categoria || '']: est?.nome || '',
+            road: est?.rua || '',
+            house_number: est?.numero || '',
+            suburb: est?.bairro || '',
+            city: est?.cidade || '',
+            state: est?.estado || '',
+            postcode: est?.cep || '',
+          },
+        };
+        setLugar(lugar);
+        setTextoLugar(lugar.display_name);
+        setTipoCategoria(lugar.type || '');
+
+        setNotas({
+          geral: Number(data?.nota_geral) || 0,
+          comida: Number(data?.nota_comida) || 0,
+          ambiente: Number(data?.nota_ambiente) || 0,
+          atendimento: Number(data?.nota_atendimento) || 0,
+        });
+      } catch (e) {
+        message.error('Não foi possível carregar a avaliação para edição.');
+      } finally {
+        setCarregandoEdicao(false);
+      }
+    })();
+  }, [open, editar, avaliacaoId]);
 
   const selecionarLugar = s => {
     setLugar(s);
@@ -384,13 +544,14 @@ export default function ModalAvaliacao({ open, onClose }) {
       lugar,
       fotos,
     });
-    criarAvaliacao(fd)
+    const acao = editar ? atualizarAvaliacao(avaliacaoId, fd) : criarAvaliacao(fd);
+    acao
       .then(() => {
-        message.success('Avaliação criada com sucesso!');
+        message.success(editar ? 'Avaliação editada com sucesso!' : 'Avaliação criada com sucesso!');
         onClose?.();
       })
       .catch(err => {
-        message.error(err?.response?.data?.message || 'Falha ao salvar. Tente novamente.');
+        message.error(err?.response?.data || 'Falha ao salvar. Tente novamente.');
       })
       .finally(() => {
         setEnviando(false);
@@ -411,153 +572,145 @@ export default function ModalAvaliacao({ open, onClose }) {
           >
             <FiArrowLeft className="h-5 w-5" />
           </button>
-          <h2 className="text-center text-lg font-extrabold text-[#3D2E1C]">Nova Avaliação</h2>
+          <h2 className="text-center text-lg font-extrabold text-[#3D2E1C]">
+            {editar ? 'Editar Avaliação' : 'Nova Avaliação'}
+          </h2>
         </div>
 
         <div className="px-5 pb-4">
-          <form onSubmit={enviar} className="space-y-3">
-            <AutocompleteNominatim
-              id="estabelecimento"
-              valor={textoLugar}
-              erro={erros.estabelecimento}
-              mostrarErros={tentouEnviar}
-              onChange={v => {
-                setTextoLugar(v);
-                if (!v) {
-                  setLugar(null);
-                  setTipoCategoria('');
-                }
-              }}
-              onSelect={selecionarLugar}
-            />
+          {carregandoEdicao ? (
+            <div className="py-10 text-center text-sm text-neutral-700">Carregando dados…</div>
+          ) : (
+            <form onSubmit={enviar} className="space-y-3">
+              <AutocompleteNominatim
+                id="estabelecimento"
+                valor={textoLugar}
+                erro={erros.estabelecimento}
+                mostrarErros={tentouEnviar}
+                onChange={v => {
+                  setTextoLugar(v);
+                  if (!v) {
+                    setLugar(null);
+                    setTipoCategoria('');
+                  }
+                }}
+                onSelect={selecionarLugar}
+              />
 
-            <div>
-              <label htmlFor="categoria" className="mb-1 block text-sm font-semibold text-[#3D2E1C]">
-                Categoria
-              </label>
-              <input
-                id="categoria"
-                type="text"
-                value={categorias(tipoCategoria) || '—'}
-                disabled
-                aria-disabled="true"
-                className="w-full rounded-full border border-neutral-300
+              <div>
+                <label htmlFor="categoria" className="mb-1 block text-sm font-semibold text-[#3D2E1C]">
+                  Categoria
+                </label>
+                <input
+                  id="categoria"
+                  type="text"
+                  value={categorias(tipoCategoria) || '—'}
+                  disabled
+                  aria-disabled="true"
+                  className="w-full rounded-full border border-neutral-300
              bg-[#E9D3AE] text-neutral-800
              cursor-not-allowed px-4 py-2 text-sm disabled:opacity-100"
-              />
+                />
+                <input type="hidden" name="category_type" value={tipoCategoria} readOnly />
+              </div>
 
-              <input type="hidden" name="category_type" value={tipoCategoria} readOnly />
-            </div>
+              <div>
+                <label htmlFor="item" className="mb-1 block text-sm font-semibold text-[#3D2E1C]">
+                  Item Consumido <span className="text-red-600">*</span>
+                </label>
+                <input
+                  id="item"
+                  value={item}
+                  onChange={e => setItem(e.target.value)}
+                  placeholder="Ex.: Cappuccino grande"
+                  className={j(
+                    'w-full rounded-full border px-4 py-2 text-sm text-black leading-tight outline-none focus:border-emerald-600',
+                    'bg-[#F2D7A0] placeholder:text-neutral-600',
+                    tentouEnviar && erros.item ? 'border-red-500' : 'border-neutral-300'
+                  )}
+                />
+                {tentouEnviar && erros.item && <p className="mt-1 text-[11px] text-red-600">{erros.item}</p>}
+              </div>
 
-            <div>
-              <label htmlFor="item" className="mb-1 block text-sm font-semibold text-[#3D2E1C]">
-                Item Consumido <span className="text-red-600">*</span>
-              </label>
-              <input
-                id="item"
-                value={item}
-                onChange={e => setItem(e.target.value)}
-                placeholder="Ex.: Cappuccino grande"
-                className={j(
-                  'w-full rounded-full border px-4 py-2 text-sm text-black leading-tight outline-none focus:border-emerald-600',
-                  'bg-[#F2D7A0] placeholder:text-neutral-600',
-                  tentouEnviar && erros.item ? 'border-red-500' : 'border-neutral-300'
-                )}
-              />
-              {tentouEnviar && erros.item && <p className="mt-1 text-[11px] text-red-600">{erros.item}</p>}
-            </div>
+              <div>
+                <label htmlFor="preco" className="mb-1 block text-sm font-semibold text-[#3D2E1C]">
+                  Preço
+                </label>
+                <input
+                  id="preco"
+                  type="text"
+                  inputMode="numeric"
+                  value={formatFromDigits(precoDigits)}
+                  onKeyDown={onKeyDownPreco}
+                  onPaste={onPastePreco}
+                  className="w-full rounded-full border border-neutral-300 bg-[#F2D7A0] px-4 py-2 text-sm text-black leading-tight outline-none focus:border-emerald-600"
+                />
+              </div>
 
-            <div>
-              <label htmlFor="preco" className="mb-1 block text-sm font-semibold text-[#3D2E1C]">
-                Preço
-              </label>
-              <input
-                id="preco"
-                type="text"
-                inputMode="numeric"
-                value={formatFromDigits(precoDigits)}
-                onKeyDown={onKeyDownPreco}
-                onPaste={onPastePreco}
-                className="w-full rounded-full border border-neutral-300 bg-[#F2D7A0] px-4 py-2 text-sm text-black leading-tight outline-none focus:border-emerald-600"
-              />
-            </div>
+              <div>
+                <label htmlFor="descricao" className="mb-1 block text-sm font-semibold text-[#3D2E1C]">
+                  Descrição <span className="text-red-600">*</span>
+                </label>
+                <textarea
+                  id="descricao"
+                  rows={4}
+                  value={descricao}
+                  onChange={e => setDescricao(e.target.value)}
+                  placeholder="Conte sua experiência..."
+                  className={j(
+                    'w-full rounded-lg border px-4 py-2 text-sm text-black leading-tight outline-none focus:border-emerald-600 resize-none',
+                    'bg-[#F2D7A0] placeholder:text-neutral-600',
+                    tentouEnviar && erros.descricao ? 'border-red-500' : 'border-neutral-300'
+                  )}
+                />
+                {tentouEnviar && erros.descricao && <p className="mt-1 text-[11px] text-red-600">{erros.descricao}</p>}
+              </div>
 
-            <div>
-              <label htmlFor="descricao" className="mb-1 block text-sm font-semibold text-[#3D2E1C]">
-                Descrição <span className="text-red-600">*</span>
-              </label>
-              <textarea
-                id="descricao"
-                rows={4}
-                value={descricao}
-                onChange={e => setDescricao(e.target.value)}
-                placeholder="Conte sua experiência..."
-                className={j(
-                  'w-full rounded-lg border px-4 py-2 text-sm text-black leading-tight outline-none focus:border-emerald-600 resize-none',
-                  'bg-[#F2D7A0] placeholder:text-neutral-600',
-                  tentouEnviar && erros.descricao ? 'border-red-500' : 'border-neutral-300'
-                )}
-              />
-              {tentouEnviar && erros.descricao && <p className="mt-1 text-[11px] text-red-600">{erros.descricao}</p>}
-            </div>
-            <input
-              id="tags"
-              value={tags}
-              onChange={e => setTags(e.target.value)}
-              placeholder="Ex.: doce, barato, romântico"
-              autoComplete="off"
-              spellCheck={false}
-              autoCorrect="off"
-              autoCapitalize="off"
-              name="tags_input_manual"
-              inputMode="text"
-              className="w-full rounded-full border border-neutral-300 bg-[#F2D7A0]
-             px-4 py-2 text-sm text-black leading-tight outline-none
-             focus:border-emerald-600 placeholder:text-neutral-600
-             autofill:shadow-[inset_0_0_0_1000px_#F2D7A0] autofill:text-black"
-            />
+              <TagInput tags={tags} setTags={setTags} />
 
-            <SeletorFotos arquivos={fotos} setArquivos={setFotos} />
+              <SeletorFotos arquivos={fotos} setArquivos={setFotos} />
 
-            <div className="grid grid-cols-2 gap-x-8 gap-y-3 pt-1">
-              <CampoEstrelas
-                rotulo="Nota Geral"
-                valor={notas.geral}
-                onChange={v => setNotas(r => ({ ...r, geral: v }))}
-              />
-              <CampoEstrelas
-                rotulo="Comida"
-                valor={notas.comida}
-                onChange={v => setNotas(r => ({ ...r, comida: v }))}
-              />
-              <CampoEstrelas
-                rotulo="Ambiente"
-                valor={notas.ambiente}
-                onChange={v => setNotas(r => ({ ...r, ambiente: v }))}
-              />
-              <CampoEstrelas
-                rotulo="Atendimento"
-                valor={notas.atendimento}
-                onChange={v => setNotas(r => ({ ...r, atendimento: v }))}
-              />
-            </div>
-            <div className="mt-2 mb-2 flex items-center justify-between gap-3">
-              <button
-                type="button"
-                onClick={onClose}
-                className="rounded-full bg-[#F2D7A0] px-6 py-2.5 text-sm font-semibold text-[#3D2E1C] shadow-inner hover:bg-[#E9CD92] active:scale-[.99] transition"
-              >
-                Cancelar
-              </button>
-              <button
-                type="submit"
-                disabled={enviando}
-                className="rounded-full bg-[#C9342D] px-8 py-2.5 text-sm font-semibold text-white shadow hover:bg-[#B22C24] disabled:opacity-60 disabled:cursor-not-allowed active:scale-[.99] transition"
-              >
-                {enviando ? 'Salvando...' : 'Criar'}
-              </button>
-            </div>
-          </form>
+              <div className="grid grid-cols-2 gap-x-8 gap-y-3 pt-1">
+                <CampoEstrelas
+                  rotulo="Nota Geral"
+                  valor={notas.geral}
+                  onChange={v => setNotas(r => ({ ...r, geral: v }))}
+                />
+                <CampoEstrelas
+                  rotulo="Comida"
+                  valor={notas.comida}
+                  onChange={v => setNotas(r => ({ ...r, comida: v }))}
+                />
+                <CampoEstrelas
+                  rotulo="Ambiente"
+                  valor={notas.ambiente}
+                  onChange={v => setNotas(r => ({ ...r, ambiente: v }))}
+                />
+                <CampoEstrelas
+                  rotulo="Atendimento"
+                  valor={notas.atendimento}
+                  onChange={v => setNotas(r => ({ ...r, atendimento: v }))}
+                />
+              </div>
+
+              <div className="mt-2 mb-2 flex items-center justify-between gap-3">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="rounded-full bg-[#F2D7A0] px-6 py-2.5 text-sm font-semibold text-[#3D2E1C] shadow-inner hover:bg-[#E9CD92] active:scale-[.99] transition"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  disabled={enviando}
+                  className="rounded-full bg-[#C9342D] px-8 py-2.5 text-sm font-semibold text-white shadow hover:bg-[#B22C24] disabled:opacity-60 disabled:cursor-not-allowed active:scale-[.99] transition"
+                >
+                  {enviando ? 'Salvando...' : editar ? 'Editar' : 'Criar'}
+                </button>
+              </div>
+            </form>
+          )}
         </div>
       </div>
     </div>

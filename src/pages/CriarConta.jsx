@@ -91,9 +91,7 @@ const CriarConta = () => {
         navigate('/login');
       })
       .catch(err => {
-        message.error(
-          err?.response?.data?.message || 'Erro ao cadastrar. Verifique se e-mail ou usuário já estão em uso.'
-        );
+        message.error(err?.response?.data || 'Erro ao cadastrar. Verifique se e-mail ou usuário já estão em uso.');
       });
   };
 
