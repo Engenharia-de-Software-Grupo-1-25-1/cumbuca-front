@@ -1,9 +1,10 @@
 import { message } from 'antd';
 import api from './api';
+import ApiEndPoints from '../constants/ApiEndPoints';
 
 export const login = async (username, senha) => {
   return api
-    .post('/login', { username, senha })
+    .post(`/${ApiEndPoints.login}`, { username, senha })
     .then(res => {
       const token = res.data;
       localStorage.setItem('token', token);
@@ -22,7 +23,7 @@ export const logout = () => {
 
 export const getUser = async () => {
   return api
-    .get('/user')
+    .get(`/${ApiEndPoints.usuario}`)
     .then(res => {
       return res.data;
     })
