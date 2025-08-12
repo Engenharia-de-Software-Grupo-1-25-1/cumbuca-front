@@ -1,12 +1,10 @@
 import exemploAvaliacao from '../../assets/exemploAvaliacao.jpeg';
-import fotoDePerfil from '../../assets/fotoDePerfil.jpg';
 import tags from './tags';
+import usuarios from './usuarios';
 
-const avaliacoes = [
+export const avaliacoes = [
   {
-    fotoUsuario: fotoDePerfil,
-    autor: 'Teste',
-    username: '@teste',
+    autor: usuarios[0],
     estabelecimento: 'Teste',
     nota: '4,5',
     descricao: 'Gente, o acarajé da barraca da Dona Rosa no #pp tá uma delícia! Tempero perfeito e preço justo',

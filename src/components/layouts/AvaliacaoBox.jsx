@@ -14,12 +14,12 @@ export default function AvalicaoBox({ avaliacao }) {
     <div className="bg-[#f7d799] rounded-xl flex flex-col p-4 text-[#1E1E1E] text-2xl gap-4">
       <div className="flex gap-8">
         <a href="#">
-          <img src={avaliacao.fotoUsuario} className="h-[65px] rounded-full"></img>
+          <img src={avaliacao.autor.fotoDePerfil} className="h-[65px] rounded-full"></img>
         </a>
         <div>
           <a href="#" className="flex gap-4">
-            <p>{avaliacao.autor}</p>
-            <p className="text-xl text-[#505050]">@username</p>
+            <p>{avaliacao.autor.nome}</p>
+            <p className="text-xl text-[#505050]">@{avaliacao.autor.username}</p>
           </a>
           <a href="#" className="flex text-xl items-center gap-1">
             <Icone url={estabelecimentoIcon} cor="#356B2A" tamanho="24px" />
