@@ -14,16 +14,14 @@ const NovaSenha = () => {
 
   useEffect(() => {
     const url = new URL(window.location.href);
-    if(!token){
+    if (!token) {
       token = url.searchParams.get('token');
     }
-
     if (token) {
       localStorage.setItem('resetToken', token);
       navigate('/alterar-senha', { replace: true });
       return;
     }
-
     const hasStored = localStorage.getItem('resetToken');
     if (!hasStored) navigate('/recuperar-senha', { replace: true });
   }, []);
@@ -34,17 +32,14 @@ const NovaSenha = () => {
       return;
     }
     setError(false);
-
     const token = localStorage.getItem('resetToken');
     if (!token) {
       navigate('/recuperar-senha', { replace: true });
       return;
     }
-
     try {
       setLoading(true);
-      novasSenhas(token,senha1,senha2);
-
+      novasSenhas(token, senha1, senha2);
       localStorage.removeItem('resetToken');
       navigate('/login', { replace: true });
     } finally {
