@@ -21,10 +21,7 @@
     "primeicons": "^7.0.0",
     "primereact": "^10.9.6",
     "react": "18",
-<<<<<<< HEAD
-=======
     "react-datepicker": "^8.4.0",
->>>>>>> 14043ae2ad67f4923340cfb18e2b7b1a4a5bd692
     "react-dom": "18",
     "react-icons": "^5.5.0",
     "react-input-mask": "^2.0.4",
