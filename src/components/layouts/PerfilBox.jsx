@@ -1,3 +1,5 @@
+import AvaliacaoBox from '../layouts/AvaliacaoBox';
+
 //Box que armazena perfil de estabelecimento ou de usuário
 // É possível definir o nome do usuário exibido, seu username e sua foto de perfil através dos parâmetros
 function PerfilBox({ fotoDePerfil, nomeUsuario, usernameUsuario }) {
@@ -9,6 +11,9 @@ function PerfilBox({ fotoDePerfil, nomeUsuario, usernameUsuario }) {
           <h1 className="font-semibold text-[24px] sm:text-[24px] md:text-[36px] lg:text-[48px]">{nomeUsuario}</h1>
           <h2 className="font-normal text-[16px] sm:text-[16px] md:text-[20px] lg:text-[24px]">{usernameUsuario}</h2>
         </div>
+      </div>
+      <div className="my-4">
+        <AvaliacaoBox className="w-full h-full" />
       </div>
     </div>
   );
