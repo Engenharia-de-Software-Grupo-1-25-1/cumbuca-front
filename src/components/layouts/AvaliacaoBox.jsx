@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { OverlayPanel } from 'primereact/overlaypanel';
 import estabelecimentoIcon from '../../assets/estabelecimentos.svg';
 import Icone from '../util/Icone';
 import mais from '../../assets/mais.svg';
@@ -6,10 +7,14 @@ import estrela from '../../assets/estrelaBox.svg';
 import curtir from '../../assets/curtir.svg';
 import curtirVermelho from '../../assets/curtirVermelho.svg';
 import comentar from '../../assets/comentar.svg';
+import excluir from '../../assets/excluirAvaliacao.svg';
+import editar from '../../assets/editarAvaliacao.svg';
+import detalhar from '../../assets/detalhar.svg';
 
 export default function AvalicaoBox({ avaliacao }) {
   const [curtido, setCurtido] = useState(avaliacao.curtido);
-  const [nCurtidas, setNCurtidas] = useState(avaliacao.nCurtidas); // estado para o contador
+  const [nCurtidas, setNCurtidas] = useState(avaliacao.nCurtidas);
+  const op = useRef(null);
 
   const handleCurtida = () => {
     if (curtido) {
@@ -44,9 +49,25 @@ export default function AvalicaoBox({ avaliacao }) {
           <img src={estrela} className="w-[48px] self-baseline" alt="Nota da Avaliação" />
           <p className="text-3xl text-[#FFB115]">{avaliacao.nota}</p>
         </div>
-        <button className="self-start">
+        <button className="self-start" onClick={e => op.current.toggle(e)}>
           <img src={mais} alt="Mais opções" />
         </button>
+        <OverlayPanel className="border-[#1E1E1E] border bg-[#f7d799] text-[#1E1E1E]" ref={op}>
+          <button className="w-full flex items-center gap-2 px-6 py-2">
+            <img src={detalhar} className="w-[32px]"></img>
+            <p>Detalhar</p>
+          </button>
+          <hr className="border-t-1 border-black w-full" />
+          <button className="w-full flex gap-2 items-center px-6 py-2">
+            <img src={editar} className="w-[32px]"></img>
+            <p className="">Editar</p>
+          </button>
+          <hr className="border-t-1 border-black w-full" />
+          <button className="w-full flex gap-2 items-center px-6 py-2">
+            <img src={excluir} className="w-[32px]"></img>
+            <p>Excluir</p>
+          </button>
+        </OverlayPanel>
       </div>
 
       <div>
