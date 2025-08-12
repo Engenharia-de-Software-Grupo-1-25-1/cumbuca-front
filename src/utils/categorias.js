@@ -56,6 +56,7 @@ export default function categorias(type) {
     bench: 'Banco',
     restaurant_bar: 'Restaurante/Bar',
     commercial: 'Comercial',
+    administrative: 'Comercial',
 
     supermarket: 'Supermercado',
     convenience: 'Loja de conveniência',

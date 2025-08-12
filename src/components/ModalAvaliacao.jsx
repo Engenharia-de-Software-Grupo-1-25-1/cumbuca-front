@@ -148,47 +148,51 @@ function TagInput({ tags, setTags, placeholder = 'Digite e pressione espaço' })
   );
 }
 
+function getUF(addr = {}) {
+  if (addr.state_code && /^[A-Z]{2}$/.test(addr.state_code)) return addr.state_code;
+
+  for (const k of Object.keys(addr)) {
+    if (k.startsWith('ISO3166-2-') && typeof addr[k] === 'string') {
+      const m = addr[k].match(/^BR-([A-Z]{2})$/);
+      if (m) return m[1];
+    }
+  }
+
+  if (addr.state && UF_BY_STATE[addr.state]) return UF_BY_STATE[addr.state];
+
+  return '';
+}
+
 function montaFormData({ item, precoDigits, descricao, tags, notas, lugar, fotos }) {
   const fd = new FormData();
 
-  fd.append('item_consumido', item);
+  fd.append('itemConsumido', item ?? '');
   fd.append('preco', digitsToDotFixed(precoDigits));
-  fd.append('descricao', descricao || '');
+  fd.append('descricao', descricao ?? '');
+
   (Array.isArray(tags) ? tags : tagsToArray(tags)).forEach(t => fd.append('tags', t));
-  fd.append('nota_geral', String(notas?.geral ?? 0));
-  fd.append('nota_comida', String(notas?.comida ?? 0));
-  fd.append('nota_ambiente', String(notas?.ambiente ?? 0));
-  fd.append('nota_atendimento', String(notas?.atendimento ?? 0));
+
+  fd.append('notaGeral', String(notas?.geral ?? 0));
+  fd.append('notaAmbiente', String(notas?.ambiente ?? 0));
+  fd.append('notaComida', String(notas?.comida ?? 0));
+  fd.append('notaAtendimento', String(notas?.atendimento ?? 0));
 
   if (lugar) {
     const a = lugar.address || {};
-    const est = {
-      id: Number(lugar.place_id),
-      nome: a[lugar.type] || lugar.name || lugar.display_name || '',
-      categoria: lugar.type || '',
-      rua: a.road || '',
-      numero: a.house_number || '',
-      bairro: a.suburb || a.neighbourhood || '',
-      cidade: a.city || a.town || a.village || '',
-      estado: a.state || '',
-      cep: a.postcode || '',
-      horarios: [],
-    };
-
-    fd.append('estabelecimento.id', String(est.id));
-    fd.append('estabelecimento.nome', est.nome);
-    fd.append('estabelecimento.categoria', est.categoria);
-    fd.append('estabelecimento.rua', est.rua);
-    fd.append('estabelecimento.numero', est.numero);
-    fd.append('estabelecimento.bairro', est.bairro);
-    fd.append('estabelecimento.cidade', est.cidade);
-    fd.append('estabelecimento.estado', est.estado);
-    fd.append('estabelecimento.cep', est.cep);
-    (est.horarios || []).forEach(h => fd.append('estabelecimento.horarios', h));
+    fd.append('estabelecimento.id', String(Number(lugar.place_id)));
+    fd.append('estabelecimento.nome', a?.[lugar.type] || lugar.name || lugar.display_name || '');
+    fd.append('estabelecimento.categoria', lugar.type || '');
+    fd.append('estabelecimento.rua', a.road || '');
+    fd.append('estabelecimento.numero', a.house_number || '');
+    fd.append('estabelecimento.bairro', a.suburb || a.neighbourhood || '');
+    fd.append('estabelecimento.cidade', a.city || a.town || a.village || '');
+    fd.append('estabelecimento.estado', getUF(a));
+    fd.append('estabelecimento.cep', a.postcode || '');
+    fd.append('estabelecimento.horarios', []);
   }
 
   (fotos || []).forEach((f, i) => {
-    fd.append('fotos', f, f.name || `foto-${i}.jpg`);
+    if (f?.type?.startsWith('image/')) fd.append('fotos', f, f.name || `foto-${i}.jpg`);
   });
 
   return fd;
@@ -311,7 +315,7 @@ function SeletorFotos({ arquivos, setArquivos }) {
   );
 }
 
-function AutocompleteNominatim({ id, valor, erro, mostrarErros, onChange, onSelect }) {
+function AutocompleteNominatim({ id, valor, erro, mostrarErros, onChange, onSelect, onEdit }) {
   const [sugs, setSugs] = useState([]);
   const [carregando, setCarregando] = useState(false);
   const [ativo, setAtivo] = useState(-1);
@@ -366,9 +370,11 @@ function AutocompleteNominatim({ id, valor, erro, mostrarErros, onChange, onSele
           onChange={e => onChange(e.target.value)}
           className={j(
             'w-full rounded-full border px-4 py-2 text-sm text-black leading-tight outline-none focus:border-emerald-600 pr-10',
-            'bg-[#F2D7A0] placeholder:text-neutral-600 bg-amarelo-autofill',
-            temErro ? 'border-red-500' : 'border-neutral-300'
+            'placeholder:text-neutral-600 bg-amarelo-autofill',
+            temErro ? 'border-red-500' : 'border-neutral-300',
+            onEdit ? 'bg-[#E9D3AE] cursor-not-allowed' : 'bg-[#F2D7A0] focus:border-emerald-600'
           )}
+          disabled={onEdit}
         />
         <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
           <FiMapPin className="h-4 w-4 text-neutral-700" />
@@ -595,6 +601,7 @@ export default function ModalAvaliacao({ open, onClose, editar = false, avaliaca
                   }
                 }}
                 onSelect={selecionarLugar}
+                onEdit={editar}
               />
 
               <div>
