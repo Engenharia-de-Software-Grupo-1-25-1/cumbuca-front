@@ -15,6 +15,17 @@ export const avaliacoes = [
     tags: tags,
     curtido: true,
   },
+  {
+    autor: usuarios[0],
+    estabelecimento: 'Teste',
+    nota: '4,5',
+    descricao: 'Gente, o acarajé da barraca da Dona Rosa no #pp tá uma delícia! Tempero perfeito e preço justo',
+    nCurtidas: 45,
+    nComentarios: 12,
+    data: '01/04/2025',
+    tags: tags,
+    curtido: false,
+  },
 ];
 
 export default avaliacoes;

@@ -5,7 +5,7 @@ import avaliacoes from '../temporario/avaliacoes';
 // É possível definir o nome do usuário exibido, seu username e sua foto de perfil através dos parâmetros
 export default function PerfilBox({ usuario }) {
   return (
-    <div className="bg-[#bc6302] w-[80%] rounded-[10px] p-8 md:ml-16 lg:ml-16 sm:mx-auto md:mx-4 lg:mx-4">
+    <div className="bg-[#bc6302] w-[80%] rounded-[10px] p-8 md:ml-16 lg:ml-16 sm:mx-auto md:mx-4 lg:mx-4 mb-8">
       <div className="flex flex-start flex-wrap">
         <img src={usuario.fotoDePerfil} className="h-[50px] sm:h-[50px] md:h-[75px] lg:h-[95px] rounded-full" />
         <div className="self-center ml-[1em] sm:ml-[1em] md:ml-[2em] lg:ml-[4em]">
@@ -15,9 +15,7 @@ export default function PerfilBox({ usuario }) {
       </div>
       <div>
         {avaliacoes.length > 0 ? (
-          avaliacoes.map((avaliacao, index) => (
-            <AvaliacaoBox key={index} avaliacao={avaliacao} className="w-full h-full my-4" />
-          ))
+          avaliacoes.map((avaliacao, index) => <AvaliacaoBox key={index} avaliacao={avaliacao} />)
         ) : (
           <h1 className="sm:text-[20px] md:text-[30px] lg:text-[30px] font-semibold text-[#1e1e1e] p-1 px-4 bg-[#f4a831] w-fit rounded-[10px] mx-auto mt-10 sm:mt-10 md:mt-20 lg:mt-20">
             Este usuário ainda não possui avaliações.
