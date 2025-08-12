@@ -7,7 +7,6 @@ import Layout4 from '../components/layouts/Layout4';
 import RecuperarSenha from '../pages/RecuperarSenha';
 import NovaSenha from '../pages/NovaSenha';
 
-
 export default function RoutesApp() {
   return (
     <Routes>
@@ -30,14 +29,7 @@ export default function RoutesApp() {
       />
       <Route path="*" element={<NaoEncontrado />} />
       <Route path="/recuperar-senha" element={<RecuperarSenha />} />
-      <Route
-        path="/nova-senha"
-        element={
-          <PrivateRoute>
-            <NovaSenha />
-          </PrivateRoute>
-        }
-      />
+      <Route path="/alterar-senha" element={<NovaSenha />} />
     </Routes>
   );
 }
