@@ -1,5 +1,8 @@
 import Layout from '../../components/layouts/Layout4';
+import usuarios from '../../components/temporario/usuarios';
 
-export default function Perfil() {
-  return <Layout />;
+const usuarioTeste = usuarios[0];
+
+export default function Perfil({ usuario = usuarioTeste }) {
+  return <Layout usuario={usuario} />;
 }

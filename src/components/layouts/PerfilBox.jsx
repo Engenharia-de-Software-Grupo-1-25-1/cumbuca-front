@@ -1,12 +1,9 @@
 import AvaliacaoBox from '../layouts/AvaliacaoBox';
 import avaliacoes from '../temporario/avaliacoes';
-import usuarios from '../temporario/usuarios';
-
-const usuarioTeste = usuarios[0];
 
 //Box que armazena perfil de estabelecimento ou de usuário
 // É possível definir o nome do usuário exibido, seu username e sua foto de perfil através dos parâmetros
-export default function PerfilBox({ usuario = usuarioTeste }) {
+export default function PerfilBox({ usuario }) {
   return (
     <div className="bg-[#bc6302] w-[80%] rounded-[10px] p-8 md:ml-16 lg:ml-16 sm:mx-auto md:mx-4 lg:mx-4">
       <div className="flex flex-start flex-wrap">
@@ -16,10 +13,16 @@ export default function PerfilBox({ usuario = usuarioTeste }) {
           <h2 className="font-normal text-[16px] sm:text-[16px] md:text-[20px] lg:text-[24px]">@{usuario.username}</h2>
         </div>
       </div>
-      <div className="my-4">
-        {avaliacoes.map((avaliacao, index) => (
-          <AvaliacaoBox key={index} avaliacao={avaliacao} className="w-full h-full" />
-        ))}
+      <div>
+        {avaliacoes.length > 0 ? (
+          avaliacoes.map((avaliacao, index) => (
+            <AvaliacaoBox key={index} avaliacao={avaliacao} className="w-full h-full my-4" />
+          ))
+        ) : (
+          <h1 className="sm:text-[20px] md:text-[30px] lg:text-[30px] font-semibold text-[#1e1e1e] p-1 px-4 bg-[#f4a831] w-fit rounded-[10px] mx-auto mt-10 sm:mt-10 md:mt-20 lg:mt-20">
+            Este usuário ainda não possui avaliações.
+          </h1>
+        )}
       </div>
     </div>
   );
