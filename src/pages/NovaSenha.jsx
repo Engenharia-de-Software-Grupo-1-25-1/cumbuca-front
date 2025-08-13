@@ -31,14 +31,14 @@ const NovaSenha = () => {
       return;
     }
     setError(false);
-    const token = localStorage.getItem('resetToken');
-    if (!token) {
+    const resetToken = localStorage.getItem('resetToken');
+    if (!resetToken) {
       navigate('/recuperar-senha', { replace: true });
       return;
     }
     try {
       setLoading(true);
-      novasSenhas(token, senha, confirmacaoSenha);
+      novasSenhas(resetToken, senha, confirmacaoSenha);
       localStorage.removeItem('resetToken');
       navigate('/login', { replace: true });
     } finally {
