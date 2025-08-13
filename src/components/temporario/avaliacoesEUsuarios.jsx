@@ -1,6 +1,15 @@
 import exemploAvaliacao from '../../assets/exemploAvaliacao.jpeg';
 import tags from './tags';
-import usuarios from './usuarios';
+import fotoDePerfil from '../../assets/fotoDePerfil.jpg';
+
+export const usuarios = [
+  {
+    fotoDePerfil: fotoDePerfil,
+    nome: 'Teste',
+    username: 'teste',
+    avaliacoesUsuario: [],
+  },
+];
 
 export const avaliacoes = [
   {
@@ -28,4 +37,4 @@ export const avaliacoes = [
   },
 ];
 
-export default avaliacoes;
+usuarios[0].avaliacoesUsuario = avaliacoes;

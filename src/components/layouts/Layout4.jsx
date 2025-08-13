@@ -1,6 +1,6 @@
 import LayoutBase from './Layout3';
 import PerfilBox from './PerfilBox';
-import usuarios from '../../components/temporario/usuarios';
+import { usuarios } from '../temporario/avaliacoesEUsuarios';
 
 const usuarioTeste = usuarios[0];
 

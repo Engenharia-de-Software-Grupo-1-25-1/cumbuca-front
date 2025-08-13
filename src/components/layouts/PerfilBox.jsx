@@ -1,6 +1,5 @@
 import { useLocation } from 'react-router-dom';
 import AvaliacaoBox from '../layouts/AvaliacaoBox';
-import avaliacoes from '../temporario/avaliacoes';
 import editar from '../../assets/editarPerfil.svg';
 
 //Box que armazena perfil de estabelecimento ou de usuário
@@ -28,8 +27,8 @@ export default function PerfilBox({ usuario }) {
         )}
       </div>
       <div>
-        {avaliacoes.length > 0 ? (
-          avaliacoes.map((avaliacao, index) => <AvaliacaoBox key={index} avaliacao={avaliacao} />)
+        {usuario.avaliacoesUsuario.length > 0 ? (
+          usuario.avaliacoesUsuario.map((avaliacao, index) => <AvaliacaoBox key={index} avaliacao={avaliacao} />)
         ) : (
           <h1 className="sm:text-[20px] md:text-[30px] lg:text-[30px] font-semibold text-[#1e1e1e] p-1 px-4 bg-[#f4a831] w-fit rounded-[10px] mx-auto mt-10 sm:mt-10 md:mt-20 lg:mt-20">
             Este usuário ainda não possui avaliações.
