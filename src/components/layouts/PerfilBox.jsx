@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router-dom';
 import AvaliacaoBox from '../layouts/AvaliacaoBox';
 import avaliacoes from '../temporario/avaliacoes';
 import editar from '../../assets/editarPerfil.svg';
@@ -5,6 +6,9 @@ import editar from '../../assets/editarPerfil.svg';
 //Box que armazena perfil de estabelecimento ou de usuário
 // É possível definir o nome do usuário exibido, seu username e sua foto de perfil através dos parâmetros
 export default function PerfilBox({ usuario }) {
+  const location = useLocation();
+  const isMeuPerfil = location.pathname === '/meuPerfil';
+
   return (
     <div className="bg-[#bc6302] w-[80%] rounded-[10px] p-8 md:ml-16 lg:ml-16 sm:mx-auto md:mx-4 lg:mx-4 mb-8">
       <div className="flex flex-wrap justify-between">
@@ -17,9 +21,11 @@ export default function PerfilBox({ usuario }) {
           <h1 className="font-semibold text-[24px] sm:text-[24px] md:text-[36px] lg:text-[48px]">{usuario.nome}</h1>
           <h2 className="font-normal text-[16px] sm:text-[16px] md:text-[20px] lg:text-[24px]">@{usuario.username}</h2>
         </div>
-        <button className="self-end mb-auto">
-          <img src={editar} alt="Editar Perfil"></img>
-        </button>
+        {isMeuPerfil && (
+          <button className="self-end mb-auto">
+            <img src={editar} alt="Editar Perfil" />
+          </button>
+        )}
       </div>
       <div>
         {avaliacoes.length > 0 ? (
