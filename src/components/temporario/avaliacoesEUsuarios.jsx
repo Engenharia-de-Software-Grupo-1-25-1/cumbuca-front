@@ -9,6 +9,12 @@ export const usuarios = [
     username: 'teste',
     avaliacoesUsuario: [],
   },
+  {
+    fotoDePerfil: fotoDePerfil,
+    nome: 'Teste',
+    username: 'outro',
+    avaliacoesUsuario: [],
+  },
 ];
 
 export const avaliacoes = [
@@ -25,7 +31,7 @@ export const avaliacoes = [
     curtido: true,
   },
   {
-    autor: usuarios[0],
+    autor: usuarios[1],
     estabelecimento: 'Teste',
     nota: '4,5',
     descricao: 'Gente, o acarajé da barraca da Dona Rosa no #pp tá uma delícia! Tempero perfeito e preço justo',
@@ -38,3 +44,7 @@ export const avaliacoes = [
 ];
 
 usuarios[0].avaliacoesUsuario = avaliacoes;
+
+localStorage.setItem('usuarioLogado', JSON.stringify({
+  username: 'teste',
+}));

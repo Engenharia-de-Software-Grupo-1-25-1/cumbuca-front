@@ -15,6 +15,9 @@ export default function AvalicaoBox({ avaliacao }) {
   const [curtido, setCurtido] = useState(avaliacao.curtido);
   const [nCurtidas, setNCurtidas] = useState(avaliacao.nCurtidas);
   const op = useRef(null);
+  const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+
+  const ehAutor = usuarioLogado?.username === avaliacao.autor.username;
 
   const handleCurtida = () => {
     if (curtido) {
@@ -54,19 +57,23 @@ export default function AvalicaoBox({ avaliacao }) {
         </button>
         <OverlayPanel className="border-[#1E1E1E] border bg-[#f7d799] text-[#1E1E1E]" ref={op}>
           <button className="w-full flex items-center gap-2 px-6 py-2">
-            <img src={detalhar} className="w-[32px]"></img>
+            <img src={detalhar} className="w-[32px]" />
             <p>Detalhar</p>
           </button>
-          <hr className="border-t-1 border-black w-full" />
-          <button className="w-full flex gap-2 items-center px-6 py-2">
-            <img src={editar} className="w-[32px]"></img>
-            <p className="">Editar</p>
-          </button>
-          <hr className="border-t-1 border-black w-full" />
-          <button className="w-full flex gap-2 items-center px-6 py-2">
-            <img src={excluir} className="w-[32px]"></img>
-            <p>Excluir</p>
-          </button>
+          {ehAutor && (
+            <>
+              <hr className="border-t-1 border-black w-full" />
+              <button className="w-full flex gap-2 items-center px-6 py-2">
+                <img src={editar} className="w-[32px]" />
+                <p className="">Editar</p>
+              </button>
+              <hr className="border-t-1 border-black w-full" />
+              <button className="w-full flex gap-2 items-center px-6 py-2">
+                <img src={excluir} className="w-[32px]" />
+                <p>Excluir</p>
+              </button>
+            </>
+          )}
         </OverlayPanel>
       </div>
 
