@@ -45,6 +45,9 @@ export const avaliacoes = [
 
 usuarios[0].avaliacoesUsuario = avaliacoes;
 
-localStorage.setItem('usuarioLogado', JSON.stringify({
-  username: 'teste',
-}));
+localStorage.setItem(
+  'usuarioLogado',
+  JSON.stringify({
+    username: 'teste',
+  })
+);

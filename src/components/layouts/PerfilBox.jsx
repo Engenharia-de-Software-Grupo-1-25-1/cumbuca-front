@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import AvaliacaoBox from '../layouts/AvaliacaoBox';
+import { usuarios } from '../temporario/avaliacoesEUsuarios';
 import editar from '../../assets/editarPerfil.svg';
 
 //Box que armazena perfil de estabelecimento ou de usuário
@@ -7,6 +8,11 @@ import editar from '../../assets/editarPerfil.svg';
 export default function PerfilBox({ usuario }) {
   const location = useLocation();
   const isMeuPerfil = location.pathname === '/meuPerfil';
+  const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+
+  if (isMeuPerfil) {
+    usuario = usuarios.find(u => u.username === usuarioLogado.username);
+  }
 
   return (
     <div className="bg-[#bc6302] w-[80%] rounded-[10px] p-8 md:ml-16 lg:ml-16 sm:mx-auto md:mx-4 lg:mx-4 mb-8">
