@@ -24,7 +24,7 @@ function NavBar() {
             <NavLink
               to={to}
               className={({ isActive }) =>
-                `flex items-center justify-center text-[#1e1e1e] text-[16px] sm:text-[16px] md:text-[20px] lg:text-[25px] p-2 rounded-xl gap-4 ${
+                `flex items-center justify-center text-[#1e1e1e] text-[16px] sm:text-[16px] md:text-[20px] lg:text-[25px] p-2 rounded-xl gap-4 transition duration-300 hover:bg-[#ff8c00] hover:no-underline ${
                   isActive ? 'bg-[#ff8c00]' : ''
                 }`
               }

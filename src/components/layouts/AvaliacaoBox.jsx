@@ -31,13 +31,13 @@ export default function AvalicaoBox({ avaliacao }) {
         <a href="#">
           <img
             src={avaliacao.autor.fotoDePerfil}
-            className="h-[65px] rounded-full"
+            className="h-[65px] rounded-full hover:brightness-95 transition duration-300"
             alt={`Foto de perfil de ${avaliacao.autor.nome}`}
           />
         </a>
         <div>
-          <a href="#" className="flex gap-4">
-            <p>{avaliacao.autor.nome}</p>
+          <a href="#" className="flex gap-4 hover:no-underline">
+            <p className="hover:underline">{avaliacao.autor.nome}</p>
             <p className="text-xl text-[#505050]">@{avaliacao.autor.username}</p>
           </a>
           <a href="#" className="flex text-xl items-center gap-1">
@@ -50,7 +50,7 @@ export default function AvalicaoBox({ avaliacao }) {
           <p className="text-3xl text-[#FFB115]">{avaliacao.nota}</p>
         </div>
         <button className="self-start" onClick={e => op.current.toggle(e)}>
-          <img src={mais} alt="Mais opções" />
+          <img src={mais} alt="Mais opções" className="mt-1" />
         </button>
         <OverlayPanel className="border-[#1E1E1E] border bg-[#f7d799] text-[#1E1E1E]" ref={op}>
           <button className="w-full flex items-center gap-2 px-6 py-2">
