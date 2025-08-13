@@ -5,29 +5,28 @@ import Layout from '../components/layouts/Layout1';
 import { novasSenhas } from '../services/recuperarSenhaService';
 
 const NovaSenha = () => {
-  const [senha1, setSenha1] = useState('');
-  const [senha2, setSenha2] = useState('');
+  const [senha, setSenha] = useState('');
+  const [confirmacaoSenha, setConfirmacaoSenha] = useState('');
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  let token;
 
   useEffect(() => {
     const url = new URL(window.location.href);
-    if (!token) {
-      token = url.searchParams.get('token');
-    }
-    if (token) {
-      localStorage.setItem('resetToken', token);
+    let resetToken;
+    if (!localStorage.getItem('resetToken')) resetToken = url.searchParams.get('token');
+
+    if (resetToken) {
+      localStorage.setItem('resetToken', resetToken);
       navigate('/alterar-senha', { replace: true });
       return;
     }
-    const hasStored = localStorage.getItem('resetToken');
-    if (!hasStored) navigate('/recuperar-senha', { replace: true });
+
+    if (!localStorage.getItem('resetToken')) navigate('/recuperar-senha', { replace: true });
   }, []);
 
   const handleClick = async () => {
-    if (senha1 !== senha2) {
+    if (senha !== confirmacaoSenha) {
       setError(true);
       return;
     }
@@ -39,7 +38,7 @@ const NovaSenha = () => {
     }
     try {
       setLoading(true);
-      novasSenhas(token, senha1, senha2);
+      novasSenhas(token, senha, confirmacaoSenha);
       localStorage.removeItem('resetToken');
       navigate('/login', { replace: true });
     } finally {
@@ -56,8 +55,8 @@ const NovaSenha = () => {
             <FaLock className="text-gray-600 mr-3 mt-[10px]" />
             <input
               type="password"
-              value={senha1}
-              onChange={e => setSenha1(e.target.value)}
+              value={senha}
+              onChange={e => setSenha(e.target.value)}
               placeholder="Nova senha"
               className={`border-0 border-b-2 border-[#555] pb-2 bg-transparent outline-none text-[1rem] text-[#333] w-full placeholder:text-[#777] ${loading ? 'opacity-60 cursor-not-allowed' : ''}`}
               required
@@ -76,8 +75,8 @@ const NovaSenha = () => {
             <FaLock className="text-gray-600 mr-3 mt-[10px]" />
             <input
               type="password"
-              value={senha2}
-              onChange={e => setSenha2(e.target.value)}
+              value={confirmacaoSenha}
+              onChange={e => setConfirmacaoSenha(e.target.value)}
               placeholder="Confirmar senha"
               className={`border-0 border-b-2 border-[#555] pb-2 bg-transparent outline-none text-[1rem] text-[#333] w-full placeholder:text-[#777] ${loading ? 'opacity-60 cursor-not-allowed' : ''}`}
               required

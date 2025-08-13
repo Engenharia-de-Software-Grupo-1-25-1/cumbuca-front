@@ -18,7 +18,6 @@ const RecuperarSenha = () => {
       const ok = await recSenha(email);
       if (ok) {
         setError(false);
-        localStorage.setItem('resetEmail', email);
         navigate('/login');
       } else {
         setEmail('');
