@@ -30,7 +30,7 @@ export default function PerfilBox({ usuario }) {
                 @{usuario.username}
               </h2>
             </div>
-            {(isMeuPerfil || usuarioLogado.username === usuario.username) && (
+            {(usuarioLogado.username === usuario.username) && (
               <button className="self-end mb-auto">
                 <MdOutlineEdit alt="Editar Perfil" size={36} color="#F4E9C3" />
               </button>
