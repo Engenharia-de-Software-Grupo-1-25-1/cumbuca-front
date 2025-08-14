@@ -2,6 +2,8 @@ import { useParams } from 'react-router-dom';
 import Layout from '../../components/layouts/Layout4';
 import { usuarios } from '../../components/temporario/avaliacoesEUsuarios';
 
+//Página de Perfil
+//Consegue encontrar o usuário através do seu username
 export default function Perfil() {
   const { username } = useParams();
 

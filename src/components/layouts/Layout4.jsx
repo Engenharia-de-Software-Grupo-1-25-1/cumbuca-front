@@ -2,7 +2,7 @@ import LayoutBase from './Layout3';
 import PerfilBox from './PerfilBox';
 
 //Layout Padrão com Header completo, Tags Populares e box de Perfil
-// É possível definir o nome do usuário exibido, seu username e sua foto de perfil através dos parâmetros
+// É possível definir o usuário exibido
 function Layout({ usuario }) {
   return (
     <>

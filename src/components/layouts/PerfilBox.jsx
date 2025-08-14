@@ -4,12 +4,13 @@ import { usuarios } from '../temporario/avaliacoesEUsuarios';
 import { MdOutlineEdit } from 'react-icons/md';
 
 //Box que armazena perfil de estabelecimento ou de usuário
-// É possível definir o nome do usuário exibido, seu username e sua foto de perfil através dos parâmetros
+// É possível definir o usuário exibido
 export default function PerfilBox({ usuario }) {
   const location = useLocation();
   const isMeuPerfil = location.pathname === '/meuPerfil';
   const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
+  //Verifica se url é /meuPerfil para carregar o perfil do usuário logado
   if (isMeuPerfil) {
     usuario = usuarios.find(u => u.username === usuarioLogado.username);
   }
@@ -18,6 +19,8 @@ export default function PerfilBox({ usuario }) {
     <div className="bg-[#bc6302] w-[80%] rounded-[10px] p-8 md:ml-16 lg:ml-16 sm:mx-auto md:mx-4 lg:mx-4 mb-8 relative">
       {usuario ? (
         <>
+          {/* Informações do usuário */}
+
           <div className="flex flex-wrap justify-between">
             <img
               src={usuario.fotoDePerfil}
@@ -31,12 +34,15 @@ export default function PerfilBox({ usuario }) {
               </h2>
             </div>
             {usuarioLogado.username === usuario.username && (
+              // Botão de editar
               <button className="self-end mb-auto">
                 <MdOutlineEdit alt="Editar Perfil" size={36} color="#F4E9C3" />
               </button>
             )}
           </div>
           <div>
+            {/* Avaliações do usuário */}
+
             {usuario.avaliacoesUsuario.length > 0 ? (
               usuario.avaliacoesUsuario.map((avaliacao, index) => <AvaliacaoBox key={index} avaliacao={avaliacao} />)
             ) : (
