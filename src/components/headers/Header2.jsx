@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import cumbucaLogo from '../../assets/logo.svg';
-import { MdOutlineLogout } from "react-icons/md";
-import { IoSearch, IoClose } from "react-icons/io5";
-import { FiFilter } from "react-icons/fi";
+import { MdOutlineLogout } from 'react-icons/md';
+import { IoSearch, IoClose } from 'react-icons/io5';
+import { FiFilter } from 'react-icons/fi';
 import BarraDePesquisa from './BarraDePesquisa';
 import { useAuth } from '../../features/auth/useAuth';
 
@@ -55,9 +55,9 @@ function Header({ placeholder }) {
       <div className="flex gap-1 sm:gap-1 md:gap-4 lg:gap-4">
         <button className="flex-shrink-0" onClick={alternarPesquisa}>
           {mostrarPesquisa ? (
-            <IoClose className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] h-auto" alt='Fechar pesquisa'/>
+            <IoClose className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] h-auto" alt="Fechar pesquisa" />
           ) : (
-            <IoSearch className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] h-auto" alt='Pesquisar'/>
+            <IoSearch className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] h-auto" alt="Pesquisar" />
           )}
         </button>
         <button className="flex-shrink-0">

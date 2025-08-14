@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { IoSearch, IoClose } from "react-icons/io5";
+import { IoSearch, IoClose } from 'react-icons/io5';
 
 function BarraDePesquisa({ placeholder = 'Pesquisar...' }) {
   const [searchValue, setSearchValue] = useState('');
