@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useState, useRef } from 'react';
 import { OverlayPanel } from 'primereact/overlaypanel';
 import estabelecimentoIcon from '../../assets/estabelecimentos.svg';
@@ -31,18 +32,18 @@ export default function AvalicaoBox({ avaliacao }) {
   return (
     <div className="bg-[#f7d799] rounded-xl flex flex-col p-4 text-[#1E1E1E] text-2xl gap-4 mt-8">
       <div className="flex gap-8">
-        <a href="#">
+        <Link to={`/perfil/${avaliacao.autor.username}`}>
           <img
             src={avaliacao.autor.fotoDePerfil}
             className="h-[65px] rounded-full hover:brightness-95 transition duration-300"
             alt={`Foto de perfil de ${avaliacao.autor.nome}`}
           />
-        </a>
+        </Link>
         <div>
-          <a href="#" className="flex gap-4 hover:no-underline">
+          <Link to={`/perfil/${avaliacao.autor.username}`} className="flex gap-4 hover:no-underline">
             <p className="hover:underline">{avaliacao.autor.nome}</p>
             <p className="text-xl text-[#505050]">@{avaliacao.autor.username}</p>
-          </a>
+          </Link>
           <a href="#" className="flex text-xl items-center gap-1">
             <Icone url={estabelecimentoIcon} cor="#356B2A" tamanho="24px" />
             <p className="text-xl text-[#356B2A]">{avaliacao.estabelecimento}</p>

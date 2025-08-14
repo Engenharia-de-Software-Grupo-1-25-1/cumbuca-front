@@ -5,11 +5,13 @@ import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
 import Layout4 from '../components/layouts/Layout4';
 import CriarConta from '../pages/CriarConta';
+import Perfil from '../pages/perfil/Perfil';
 
 export default function RoutesApp() {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/login" replace />} />
+
       <Route
         path="/login"
         element={
@@ -18,6 +20,7 @@ export default function RoutesApp() {
           </PublicRoute>
         }
       />
+
       <Route
         path="/feed"
         element={
@@ -26,8 +29,27 @@ export default function RoutesApp() {
           </PrivateRoute>
         }
       />
-      <Route path="*" element={<NaoEncontrado />} />
+
+      <Route
+        path="/meuPerfil"
+        element={
+          <PrivateRoute>
+            <Perfil />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/perfil/:username"
+        element={
+          <PrivateRoute>
+            <Perfil />
+          </PrivateRoute>
+        }
+      />
+
       <Route path="/cadastrar-usuario" element={<CriarConta />} />
+      <Route path="*" element={<NaoEncontrado />} />
     </Routes>
   );
 }
