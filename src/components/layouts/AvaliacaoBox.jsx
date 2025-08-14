@@ -30,7 +30,7 @@ export default function AvalicaoBox({ avaliacao }) {
   return (
     <div className="bg-[#f7d799] rounded-xl flex flex-col p-4 text-[#1E1E1E] text-2xl gap-4 mt-8">
       <div className="flex gap-8">
-        <Link to={`/perfil/${avaliacao.autor.username}`}>
+        <Link to={ehAutor ?  "/meuPerfil" : `/perfil/${avaliacao.autor.username}`}>
           <img
             src={avaliacao.autor.fotoDePerfil}
             className="h-[65px] rounded-full hover:brightness-95 transition duration-300"
@@ -38,7 +38,7 @@ export default function AvalicaoBox({ avaliacao }) {
           />
         </Link>
         <div>
-          <Link to={`/perfil/${avaliacao.autor.username}`} className="flex gap-4 hover:no-underline">
+          <Link to={ehAutor ?  "/meuPerfil" : `/perfil/${avaliacao.autor.username}`} className="flex gap-4 hover:no-underline">
             <p className="hover:underline">{avaliacao.autor.nome}</p>
             <p className="text-xl text-[#505050]">@{avaliacao.autor.username}</p>
           </Link>
