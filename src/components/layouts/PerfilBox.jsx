@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import AvaliacaoBox from '../layouts/AvaliacaoBox';
 import { usuarios } from '../temporario/avaliacoesEUsuarios';
-import editar from '../../assets/editarPerfil.svg';
+import { MdOutlineEdit } from "react-icons/md";
 
 //Box que armazena perfil de estabelecimento ou de usuário
 // É possível definir o nome do usuário exibido, seu username e sua foto de perfil através dos parâmetros
@@ -32,7 +32,7 @@ export default function PerfilBox({ usuario }) {
             </div>
             {(isMeuPerfil || usuarioLogado.username === usuario.username) && (
               <button className="self-end mb-auto">
-                <img src={editar} alt="Editar Perfil" />
+                <MdOutlineEdit alt="Editar Perfil" size={36} color="#F4E9C3" />
               </button>
             )}
           </div>

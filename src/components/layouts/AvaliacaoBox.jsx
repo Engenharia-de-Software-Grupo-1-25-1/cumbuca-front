@@ -4,13 +4,11 @@ import { OverlayPanel } from 'primereact/overlaypanel';
 import estabelecimentoIcon from '../../assets/estabelecimentos.svg';
 import Icone from '../util/Icone';
 import mais from '../../assets/mais.svg';
-import estrela from '../../assets/estrelaBox.svg';
-import curtir from '../../assets/curtir.svg';
-import curtirVermelho from '../../assets/curtirVermelho.svg';
-import comentar from '../../assets/comentar.svg';
-import excluir from '../../assets/excluirAvaliacao.svg';
-import editar from '../../assets/editarAvaliacao.svg';
-import detalhar from '../../assets/detalhar.svg';
+import { FaRegHeart, FaHeart } from "react-icons/fa6";
+import { MdOutlineComment, MdOutlineStarPurple500 } from "react-icons/md";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { BiEditAlt } from "react-icons/bi";
+import { FiEye } from "react-icons/fi";
 
 export default function AvalicaoBox({ avaliacao }) {
   const [curtido, setCurtido] = useState(avaliacao.curtido);
@@ -50,7 +48,7 @@ export default function AvalicaoBox({ avaliacao }) {
           </a>
         </div>
         <div className="flex items-end self-start ml-auto">
-          <img src={estrela} className="w-[48px] self-baseline" alt="Nota da Avaliação" />
+          <MdOutlineStarPurple500 className="w-[48px] h-[48px] self-baseline" color="#FFB115" alt="Nota da Avaliação" />
           <p className="text-3xl text-[#FFB115]">{avaliacao.nota}</p>
         </div>
         <button className="self-start" onClick={e => op.current.toggle(e)}>
@@ -58,19 +56,19 @@ export default function AvalicaoBox({ avaliacao }) {
         </button>
         <OverlayPanel className="border-[#1E1E1E] border bg-[#f7d799] text-[#1E1E1E]" ref={op}>
           <button className="w-full flex items-center gap-2 px-6 py-2">
-            <img src={detalhar} className="w-[32px]" />
+            <FiEye className="w-[32px] h-[32px]" />
             <p>Detalhar</p>
           </button>
           {ehAutor && (
             <>
               <hr className="border-t-1 border-black w-full" />
               <button className="w-full flex gap-2 items-center px-6 py-2">
-                <img src={editar} className="w-[32px]" />
+                <BiEditAlt className="w-[32px] h-[32px]" />
                 <p className="">Editar</p>
               </button>
               <hr className="border-t-1 border-black w-full" />
               <button className="w-full flex gap-2 items-center px-6 py-2">
-                <img src={excluir} className="w-[32px]" />
+                <FaRegTrashAlt className="w-[32px] h-[32px]" />
                 <p>Excluir</p>
               </button>
             </>
@@ -92,11 +90,15 @@ export default function AvalicaoBox({ avaliacao }) {
       <div className="text-xl mx-8">
         <div className="flex gap-2 mb-1">
           <button className="flex gap-2 items-center" onClick={handleCurtida}>
-            <img className="w-[24px]" src={curtido ? curtirVermelho : curtir} alt="Curtir" />
+            {curtido ? (
+              <FaHeart className="w-[24px] h-[24px]" fill="#C92F0D" alt="Curtir" />
+            ) : (
+            <FaRegHeart className="w-[24px] h-[24px]" alt="Curtir" />
+            )}
             <p>{nCurtidas}</p>
           </button>
-          <button className="flex gap-2">
-            <img src={comentar} alt="Comentar" />
+          <button className="flex gap-2 items-center">
+            <MdOutlineComment alt="Comentar" className="h-[24px] w-[24px]" />
             <p>{avaliacao.nComentarios}</p>
           </button>
           <p className="ml-auto text-[#505050]">{avaliacao.data}</p>
