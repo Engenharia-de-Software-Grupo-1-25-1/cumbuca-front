@@ -10,5 +10,5 @@ export const obterAvaliacao = id => {
 };
 
 export const atualizarAvaliacao = (id, formData) => {
-  return api.post(`/${endpoints.avaliacao}/atualizar/${id}`, formData);
+  return api.put(`/${endpoints.avaliacao}/atualizar/${id}`, formData);
 };
