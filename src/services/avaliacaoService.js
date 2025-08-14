@@ -6,7 +6,7 @@ export const criarAvaliacao = formData => {
 };
 
 export const obterAvaliacao = id => {
-  return api.post(`/${endpoints.avaliacao}/buscar/${id}`);
+  return api.get(`/${endpoints.avaliacao}/buscar/${id}`);
 };
 
 export const atualizarAvaliacao = (id, formData) => {
