@@ -1,4 +1,3 @@
-import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import AvaliacaoBox from '../layouts/AvaliacaoBox';
 import { MdOutlineEdit } from 'react-icons/md';
@@ -8,14 +7,9 @@ import { getAvaliacoesUsuario } from '../../services/avaliacoesService';
 //Box que armazena perfil de estabelecimento ou de usuário
 //É possível definir o usuário exibido
 export default function PerfilBox({ usuario }) {
-  const location = useLocation();
-  const isMeuPerfil = location.pathname === '/meuPerfil';
   const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
   const [avaliacoes, setAvaliacoes] = useState([]);
-
-  // Se for /meuPerfil, exibe o logado
-  const usuarioExibido = isMeuPerfil ? usuarioLogado : usuario;
 
   useEffect(() => {
     async function carregarAvaliacoes() {

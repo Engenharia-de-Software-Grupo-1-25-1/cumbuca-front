@@ -31,15 +31,6 @@ export default function RoutesApp() {
       />
 
       <Route
-        path="/meuPerfil"
-        element={
-          <PrivateRoute>
-            <Perfil />
-          </PrivateRoute>
-        }
-      />
-
-      <Route
         path="/:username"
         element={
           <PrivateRoute>
