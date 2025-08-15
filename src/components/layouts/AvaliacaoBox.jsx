@@ -38,7 +38,7 @@ export default function AvalicaoBox({ avaliacao }) {
         {/* Informações do autor */}
 
         <div className="flex gap-4 sm:gap-4 md:gap-8 lg:gap-8 flex-col sm:flex-col md:flex-row lg:flex-row">
-          <Link to={ehAutor ? '/meuPerfil' : `/${avaliacao.autor.username}`} className="flex-shrink-0">
+          <Link to={`/${avaliacao.autor.username}`} className="flex-shrink-0">
             <img
               src={avaliacao.autor.fotoDePerfil}
               className="rounded-full hover:brightness-95 transition duration-300 h-auto w-[48px] sm:w-[48px] md:w-[54px] lg:w-[65px]"
@@ -47,7 +47,7 @@ export default function AvalicaoBox({ avaliacao }) {
           </Link>
           <div>
             <Link
-              to={ehAutor ? '/meuPerfil' : `/${avaliacao.autor.username}`}
+              to={`/${avaliacao.autor.username}`}
               className="flex hover:no-underline flex-wrap"
             >
               <p className="hover:underline mr-4 text-base sm:text-base md:text-xl lg:text-2xl">
