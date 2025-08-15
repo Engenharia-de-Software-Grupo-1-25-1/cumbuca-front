@@ -25,7 +25,6 @@
 
 - Criação da tela de login e estruturação inicial de autenticação
 
-
 ## US5.5 - PR 9
 
 ### Adicionando

@@ -38,7 +38,7 @@ export default function AvalicaoBox({ avaliacao }) {
         {/* Informações do autor */}
 
         <div className="flex gap-4 sm:gap-4 md:gap-8 lg:gap-8 flex-col sm:flex-col md:flex-row lg:flex-row">
-          <Link to={ehAutor ? '/meuPerfil' : `/perfil/${avaliacao.autor.username}`} className="flex-shrink-0">
+          <Link to={ehAutor ? '/meuPerfil' : `/${avaliacao.autor.username}`} className="flex-shrink-0">
             <img
               src={avaliacao.autor.fotoDePerfil}
               className="rounded-full hover:brightness-95 transition duration-300 h-auto w-[48px] sm:w-[48px] md:w-[54px] lg:w-[65px]"
