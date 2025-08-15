@@ -24,3 +24,6 @@ export async function atualizarPerfil(formData) {
   }
 }
 
+export const criarUsuario = formData => {
+  return api.post(`/${endpoints.usuario}/criar`, formData);
+};
