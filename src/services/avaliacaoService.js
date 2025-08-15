@@ -1,0 +1,14 @@
+import api from './api';
+import endpoints from '../constants/ApiEndPoints';
+
+export const criarAvaliacao = formData => {
+  return api.post(`/${endpoints.avaliacao}/criar`, formData);
+};
+
+export const obterAvaliacao = id => {
+  return api.get(`/${endpoints.avaliacao}/buscar/${id}`);
+};
+
+export const atualizarAvaliacao = (id, formData) => {
+  return api.put(`/${endpoints.avaliacao}/atualizar/${id}`, formData);
+};

@@ -91,9 +91,7 @@ const CriarConta = () => {
         navigate('/login');
       })
       .catch(err => {
-        message.error(
-          err?.response?.data?.message || 'Erro ao cadastrar. Verifique se e-mail ou usuário já estão em uso.'
-        );
+        message.error(err?.response?.data || 'Erro ao cadastrar. Verifique se e-mail ou usuário já estão em uso.');
       });
   };
 
@@ -113,16 +111,13 @@ const CriarConta = () => {
               accept="image/*"
               onChange={e => {
                 const file = e.target.files?.[0];
+                if (previewFoto && previewFoto.startsWith('blob:')) {
+                  URL.revokeObjectURL(previewFoto);
+                }
                 if (file) {
-                  if (previewFoto && previewFoto.startsWith('blob:')) {
-                    URL.revokeObjectURL(previewFoto);
-                  }
                   setFoto(file);
                   setPreviewFoto(URL.createObjectURL(file));
                 } else {
-                  if (previewFoto && previewFoto.startsWith('blob:')) {
-                    URL.revokeObjectURL(previewFoto);
-                  }
                   setFoto(null);
                   setPreviewFoto(null);
                 }

@@ -8,6 +8,7 @@ export const login = async (username, senha) => {
     .then(res => {
       const token = res.data;
       localStorage.setItem('token', token);
+      message.success('Login realizado com sucesso!');
       return token;
     })
     .catch(err => {

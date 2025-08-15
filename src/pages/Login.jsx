@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { message } from 'antd';
-import Layout from '../../components/layouts/Layout1';
+import Layout from '../components/layouts/Layout1';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
-import { useAuth } from '../../features/auth/useAuth';
+import { useAuth } from '../features/auth/useAuth';
 
 export default function Login() {
   const [email, setEmail] = useState('');
