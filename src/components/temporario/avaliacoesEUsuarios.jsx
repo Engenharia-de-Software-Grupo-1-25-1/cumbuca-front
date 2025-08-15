@@ -43,7 +43,7 @@ export const avaliacoes = [
   },
 ];
 
-usuarios[0].avaliacoesUsuario[0] = avaliacoes[0];
+usuarios[0].avaliacoesUsuario = avaliacoes;
 usuarios[1].avaliacoesUsuario[0] = avaliacoes[1];
 
 localStorage.setItem(

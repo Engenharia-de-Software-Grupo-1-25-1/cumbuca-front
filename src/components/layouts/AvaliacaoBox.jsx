@@ -31,7 +31,7 @@ export default function AvalicaoBox({ avaliacao }) {
   };
 
   return (
-    <div className="bg-[#f7d799] rounded-xl flex flex-col p-4 text-[#1E1E1E] text-2xl gap-4 mt-8">
+    <div className="bg-[#f7d799] rounded-xl flex flex-col p-4 text-[#1E1E1E] text-2xl gap-4 mb-4">
       {/* Header da Avaliação */}
 
       <div className="flex gap-4 sm:gap-4 md:gap-8 lg:gap-8 w-full">
@@ -47,7 +47,7 @@ export default function AvalicaoBox({ avaliacao }) {
           </Link>
           <div>
             <Link
-              to={ehAutor ? '/meuPerfil' : `/perfil/${avaliacao.autor.username}`}
+              to={ehAutor ? '/meuPerfil' : `/${avaliacao.autor.username}`}
               className="flex hover:no-underline flex-wrap"
             >
               <p className="hover:underline mr-4 text-base sm:text-base md:text-xl lg:text-2xl">
@@ -144,7 +144,7 @@ export default function AvalicaoBox({ avaliacao }) {
 
           {/* Data da avaliação */}
 
-          <p className="text-[#505050] text-base sm:text-base md:text-xl lg:text-xl ml-0 sm:ml-0 md:ml-auto lg:ml-auto">
+          <p className="text-[#505050] text-base ml-0 sm:ml-0 md:ml-auto lg:ml-auto">
             {avaliacao.data}
           </p>
         </div>

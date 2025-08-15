@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom';
 import AvaliacaoBox from '../layouts/AvaliacaoBox';
 import { usuarios } from '../temporario/avaliacoesEUsuarios';
 import { MdOutlineEdit } from 'react-icons/md';
+import { DataView } from 'primereact/dataview';
 
 //Box que armazena perfil de estabelecimento ou de usuário
 // É possível definir o usuário exibido
@@ -16,7 +17,7 @@ export default function PerfilBox({ usuario }) {
   }
 
   return (
-    <div className="bg-[#bc6302] w-[80%] rounded-[10px] p-8 relative max-w-[728px]">
+    <div className="bg-[#bc6302] w-[80%] rounded-[10px] py-4 px-6 relative max-w-[728px]">
       {usuario ? (
         <>
           {/* Informações do usuário */}
@@ -44,12 +45,21 @@ export default function PerfilBox({ usuario }) {
             {/* Avaliações do usuário */}
 
             {usuario.avaliacoesUsuario.length > 0 ? (
-              usuario.avaliacoesUsuario.map((avaliacao, index) => <AvaliacaoBox key={index} avaliacao={avaliacao} />)
+              <DataView
+              value={usuario.avaliacoesUsuario}
+              itemTemplate={(avaliacao, index) => (
+                <AvaliacaoBox key={index} avaliacao={avaliacao} />
+              )}
+              layout="list"
+              style={{ maxHeight: '500px', overflowY: 'auto' }}
+              className="scroll-dark mt-8"
+            />
             ) : (
               <h1 className="sm:text-[20px] md:text-[30px] lg:text-[30px] font-semibold text-[#1e1e1e] p-1 px-4 bg-[#f4a831] w-fit h-fit rounded-[10px] m-auto absolute top-0 left-0 right-0 bottom-0">
                 Este usuário ainda não possui avaliações.
               </h1>
             )}
+
           </div>
         </>
       ) : (

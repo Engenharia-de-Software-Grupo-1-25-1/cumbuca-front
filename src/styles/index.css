@@ -29,3 +29,33 @@ button:hover {
 a:hover {
   text-decoration: underline;
 }
+
+/* Scroll  do DataView */
+.scroll-dark {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.6) transparent;
+  scrollbar-gutter: stable;
+}
+
+.scroll-dark::-webkit-scrollbar {
+  width: 8px;
+  transition: opacity 0.3s ease;
+}
+
+.scroll-dark::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-dark::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 4px;
+}
+
+.scroll-dark::-webkit-scrollbar-thumb {
+  opacity: 0;
+}
+
+.scroll-dark:hover::-webkit-scrollbar-thumb,
+.scroll-dark:active::-webkit-scrollbar-thumb {
+  opacity: 1;
+}
