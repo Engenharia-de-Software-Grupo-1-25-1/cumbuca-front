@@ -69,17 +69,17 @@ export default function AvalicaoBox({ avaliacao }) {
 
         <div className="flex items-end self-start ml-auto">
           <MdOutlineStarPurple500
-            className="h-auto w-[24px] sm:w-[24px] md:w-[36px] lg:w-[48px] self-baseline"
+            className="h-auto w-[24px] sm:w-[24px] md:w-[36px] lg:w-[36px] self-baseline"
             color="#FFB115"
             alt="Nota da Avaliação"
           />
-          <p className="text-xl sm:text-xl md:text-2xl lg:text-3xl text-[#FFB115]">{avaliacao.nota}</p>
+          <p className="text-xl sm:text-base md:text-xl lg:text-2xl text-[#FFB115]">{avaliacao.nota}</p>
         </div>
 
         {/* Botão de mais opções */}
 
         <button
-          className="self-start flex-shrink-0 w-[16px] sm:w-[16px] md:w-[24px] lg:w-[36px]"
+          className="self-start flex-shrink-0 w-[16px] sm:w-[16px] md:w-[24px] lg:w-[30px]"
           onClick={e => op.current.toggle(e)}
         >
           <img src={mais} alt="Mais opções" className="mt-1" />
@@ -112,7 +112,7 @@ export default function AvalicaoBox({ avaliacao }) {
       {/* Conteúdo da avaliação */}
 
       <div>
-        <p className="w-[85%] mx-auto text-base sm:text-base md:text-xl lg:text-2xl">{avaliacao.descricao}</p>
+        <p className="w-[85%] mx-auto text-base sm:text-base md:text-xl lg:text-xl">{avaliacao.descricao}</p>
         {avaliacao.fotoAvaliacao && (
           <img
             src={avaliacao.fotoAvaliacao}
@@ -127,7 +127,7 @@ export default function AvalicaoBox({ avaliacao }) {
       <div className="text-xl mx-8">
         <div className="flex gap-2 mb-2 flex-wrap">
           <button
-            className="flex gap-2 items-center text-base sm:text-base md:text-xl lg:text-2xl"
+            className="flex gap-2 items-center text-base sm:text-base md:text-xl lg:text-xl"
             onClick={handleCurtida}
           >
             {curtido ? (
@@ -137,14 +137,14 @@ export default function AvalicaoBox({ avaliacao }) {
             )}
             <p>{nCurtidas}</p>
           </button>
-          <button className="flex gap-2 items-center text-base sm:text-base md:text-xl lg:text-2xl">
+          <button className="flex gap-2 items-center text-base sm:text-base md:text-xl lg:text-xl">
             <MdOutlineComment alt="Comentar" className="h-[24px] w-[24px]" />
             <p>{avaliacao.nComentarios}</p>
           </button>
 
           {/* Data da avaliação */}
 
-          <p className="text-[#505050] text-base sm:text-base md:text-xl lg:text-2xl ml-0 sm:ml-0 md:ml-auto lg:ml-auto">
+          <p className="text-[#505050] text-base sm:text-base md:text-xl lg:text-xl ml-0 sm:ml-0 md:ml-auto lg:ml-auto">
             {avaliacao.data}
           </p>
         </div>
@@ -155,7 +155,7 @@ export default function AvalicaoBox({ avaliacao }) {
           {avaliacao.tags.map((tag, index) => (
             <button
               key={index}
-              className="px-2 rounded-full text-base sm:text-base md:text-xl lg:text-2xl"
+              className="px-2 rounded-full text-base"
               style={{
                 backgroundColor: tag.corFundo,
                 outlineWidth: '2px',

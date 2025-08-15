@@ -16,7 +16,7 @@ export default function PerfilBox({ usuario }) {
   }
 
   return (
-    <div className="bg-[#bc6302] w-[80%] rounded-[10px] p-8 relative max-w-[850px]">
+    <div className="bg-[#bc6302] w-[80%] rounded-[10px] p-8 relative max-w-[728px]">
       {usuario ? (
         <>
           {/* Informações do usuário */}
@@ -24,12 +24,12 @@ export default function PerfilBox({ usuario }) {
           <div className="flex flex-wrap justify-between">
             <img
               src={usuario.fotoDePerfil}
-              className="h-[50px] sm:h-[50px] md:h-[75px] lg:h-[95px] rounded-full"
+              className="h-[50px] sm:h-[50px] md:h-[75px] lg:h-[75px] rounded-full"
               alt={`Foto de perfil de ${usuario.nome}`}
             />
             <div className="self-center ml-[1em] sm:ml-[1em] md:ml-[2em] lg:ml-[4em] mr-auto">
-              <h1 className="font-semibold text-[24px] sm:text-[24px] md:text-[36px] lg:text-[48px]">{usuario.nome}</h1>
-              <h2 className="font-normal text-[16px] sm:text-[16px] md:text-[20px] lg:text-[24px]">
+              <h1 className="font-semibold text-[24px] sm:text-[24px] md:text-[36px] lg:text-[36px]">{usuario.nome}</h1>
+              <h2 className="font-normal text-[16px] sm:text-[16px] md:text-[20px] lg:text-[20px]">
                 @{usuario.username}
               </h2>
             </div>
