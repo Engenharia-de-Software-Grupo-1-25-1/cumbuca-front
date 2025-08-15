@@ -16,7 +16,7 @@ export default function PerfilBox({ usuario }) {
   }
 
   return (
-    <div className="bg-[#bc6302] w-[80%] rounded-[10px] p-8 md:ml-16 lg:ml-16 sm:mx-auto md:mx-4 lg:mx-4 mb-8 relative">
+    <div className="bg-[#bc6302] w-[80%] rounded-[10px] p-8 relative max-w-[850px]">
       {usuario ? (
         <>
           {/* Informações do usuário */}
