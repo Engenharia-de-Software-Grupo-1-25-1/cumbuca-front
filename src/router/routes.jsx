@@ -40,7 +40,7 @@ export default function RoutesApp() {
           </PrivateRoute>
         }
       />
-          
+
       <Route path="/recuperar-senha" element={<RecuperarSenha />} />
       <Route path="/alterar-senha" element={<NovaSenha />} />
       <Route path="/cadastrar-usuario" element={<CriarConta />} />

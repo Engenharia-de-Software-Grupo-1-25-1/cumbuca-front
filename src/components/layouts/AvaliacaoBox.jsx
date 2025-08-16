@@ -46,10 +46,7 @@ export default function AvalicaoBox({ avaliacao }) {
             />
           </Link>
           <div>
-            <Link
-              to={`/${avaliacao.autor.username}`}
-              className="flex hover:no-underline flex-wrap"
-            >
+            <Link to={`/${avaliacao.autor.username}`} className="flex hover:no-underline flex-wrap">
               <p className="hover:underline mr-4 text-base sm:text-base md:text-xl lg:text-2xl">
                 {avaliacao.autor.nome}
               </p>

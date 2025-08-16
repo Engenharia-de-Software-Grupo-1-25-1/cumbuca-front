@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import AvaliacaoBox from '../layouts/AvaliacaoBox';
 import { MdOutlineEdit } from 'react-icons/md';
 import { DataView } from 'primereact/dataview';
-import { getAvaliacoesUsuario } from '../../services/avaliacoesService';
+import { getAvaliacoesUsuario } from '../../services/avaliacaoService';
 
-//Box que armazena perfil de estabelecimento ou de usuário
-//É possível definir o usuário exibido
+// Box que armazena perfil de estabelecimento ou de usuário
+// É possível definir o usuário exibido
 export default function PerfilBox({ usuario }) {
   const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
@@ -13,40 +13,38 @@ export default function PerfilBox({ usuario }) {
 
   useEffect(() => {
     async function carregarAvaliacoes() {
-      if (!usuarioExibido) return;
+      if (!usuario) return;
 
       try {
-        const { data } = await getAvaliacoesUsuario(usuarioExibido.id);
+        const { data } = await getAvaliacoesUsuario(usuario.id);
         setAvaliacoes(data);
       } catch (error) {
         console.error('Erro ao carregar avaliações', error);
-        setAvaliacoes([]); // fallback
+        setAvaliacoes([]);
       }
     }
 
     carregarAvaliacoes();
-  }, [usuarioExibido]);
+  }, [usuario]);
 
   return (
     <div className="bg-[#bc6302] w-[80%] rounded-[10px] py-4 px-6 relative max-w-[728px]">
-      {usuarioExibido ? (
+      {usuario ? (
         <>
           {/* Informações do usuário */}
           <div className="flex flex-wrap justify-between">
             <img
-              src={usuarioExibido.fotoDePerfil}
+              src={usuario.fotoDePerfil}
               className="h-[50px] sm:h-[50px] md:h-[75px] lg:h-[75px] rounded-full"
-              alt={`Foto de perfil de ${usuarioExibido.nome}`}
+              alt={`Foto de perfil de ${usuario.nome}`}
             />
             <div className="self-center ml-[1em] sm:ml-[1em] md:ml-[2em] lg:ml-[4em] mr-auto">
-              <h1 className="font-semibold text-[24px] sm:text-[24px] md:text-[36px] lg:text-[36px]">
-                {usuarioExibido.nome}
-              </h1>
+              <h1 className="font-semibold text-[24px] sm:text-[24px] md:text-[36px] lg:text-[36px]">{usuario.nome}</h1>
               <h2 className="font-normal text-[16px] sm:text-[16px] md:text-[20px] lg:text-[20px]">
-                @{usuarioExibido.username}
+                @{usuario.username}
               </h2>
             </div>
-            {usuarioLogado.username === usuarioExibido.username && (
+            {usuarioLogado?.username === usuario.username && (
               <button className="self-end mb-auto">
                 <MdOutlineEdit alt="Editar Perfil" size={36} color="#F4E9C3" />
               </button>
