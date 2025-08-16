@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react';
-import pesquisar from '../../assets/pesquisar.svg';
-import limparBusca from '../../assets/limpar_busca.svg';
+import { IoSearch, IoClose } from 'react-icons/io5';
 
 function BarraDePesquisa({ placeholder = 'Pesquisar...' }) {
   const [searchValue, setSearchValue] = useState('');
@@ -17,7 +16,7 @@ function BarraDePesquisa({ placeholder = 'Pesquisar...' }) {
 
   return (
     <div className="flex items-center bg-[#f5dfb6] border border-[#db520a] rounded-full sm:px-0 md:px-4 lg:px-4 py-2 w-[45%] sm:w-[45%] md:w-[80%] lg:w-full max-w-4xl">
-      <img src={pesquisar} alt="Pesquisar" className="w-[30px] hidden sm:block ml-4" />
+      <IoSearch alt="Pesquisar" color="#DB520A" className="w-[40px] h-[40px] hidden sm:block ml-4" />
       <input
         type="search"
         ref={inputRef}
@@ -28,7 +27,7 @@ function BarraDePesquisa({ placeholder = 'Pesquisar...' }) {
       />
       {searchValue && (
         <button className="mr-2" onClick={clearInput}>
-          <img src={limparBusca} alt="Limpar Pesquisa" className="w-[30px]" />
+          <IoClose alt="Limpar Pesquisa" color="#DB520A" className="w-[40px] h-[40px]" />
         </button>
       )}
     </div>
