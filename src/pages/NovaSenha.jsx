@@ -23,7 +23,7 @@ const NovaSenha = () => {
     }
 
     if (!localStorage.getItem('resetToken')) navigate('/recuperar-senha', { replace: true });
-  }, );
+  });
 
   const handleClick = async () => {
     if (senha !== confirmacaoSenha) {
