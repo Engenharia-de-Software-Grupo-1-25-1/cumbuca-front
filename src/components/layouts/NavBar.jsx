@@ -1,11 +1,11 @@
 import { NavLink } from 'react-router-dom';
-
+import { useAuth } from '../../features/auth/useAuth';
 import { MdOutlineStorefront } from 'react-icons/md';
 import { FiHome, FiUser } from 'react-icons/fi';
 
 //NavBar padrão com opções de Feed, Estabelecimentos e Meu Perfil
 function NavBar() {
-  const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+  const { user } = useAuth();
 
   return (
     <nav className="w-[80%] sm:w-[80%] md:w-[85%] lg:w-[65%] bg-[#f4a831] mt-4 mb-4 rounded-xl p-1 max-w-[850px] md:max-h-[50px] lg:max-h-[50px] justify-self-center sm:justify-self-center md:justify-self-auto ld:justify-self-auto ml-0 sm:ml-0 md:ml-4 lg:ml-4">
@@ -40,7 +40,7 @@ function NavBar() {
 
         <li className="w-full">
           <NavLink
-            to={`/${usuarioLogado.username}`}
+            to={`/${user.username}`}
             className={({ isActive }) =>
               `flex items-center justify-center text-[#1e1e1e] sm:text-[16px] md:text-[20px] lg:text-[20px] p-1 rounded-xl gap-4 transition duration-300 hover:bg-[#ff8c00] hover:no-underline ${
                 isActive ? 'bg-[#ff8c00]' : ''

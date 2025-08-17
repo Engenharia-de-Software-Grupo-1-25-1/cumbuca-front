@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useAuth } from '../../features/auth/useAuth';
 import AvaliacaoBox from '../layouts/AvaliacaoBox';
 import { MdOutlineEdit } from 'react-icons/md';
 import { DataView } from 'primereact/dataview';
@@ -7,7 +8,9 @@ import { getAvaliacoesUsuario } from '../../services/avaliacaoService';
 // Box que armazena perfil de estabelecimento ou de usuário
 // É possível definir o usuário exibido
 export default function PerfilBox({ usuario }) {
-  const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+  const { user } = useAuth();
+
+  const ehMeuPerfil = user.id === usuario.id;
 
   const [avaliacoes, setAvaliacoes] = useState([]);
 
@@ -44,7 +47,7 @@ export default function PerfilBox({ usuario }) {
                 @{usuario.username}
               </h2>
             </div>
-            {usuarioLogado?.username === usuario.username && (
+            {ehMeuPerfil && (
               <button className="self-end mb-auto">
                 <MdOutlineEdit alt="Editar Perfil" size={36} color="#F4E9C3" />
               </button>

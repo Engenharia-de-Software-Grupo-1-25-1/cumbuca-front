@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useState, useRef } from 'react';
 import { OverlayPanel } from 'primereact/overlaypanel';
+import { useAuth } from '../../features/auth/useAuth';
 import estabelecimentoIcon from '../../assets/estabelecimentos.svg';
 import Icone from '../util/Icone';
 import mais from '../../assets/mais.svg';
@@ -16,10 +17,10 @@ import { FiEye } from 'react-icons/fi';
 export default function AvalicaoBox({ avaliacao }) {
   const [curtido, setCurtido] = useState(avaliacao.curtido);
   const [nCurtidas, setNCurtidas] = useState(avaliacao.nCurtidas);
+  const { user } = useAuth();
   const op = useRef(null);
-  const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
-  const ehAutor = usuarioLogado?.username === avaliacao.autor.username;
+  const ehAutor = user.id === avaliacao.autor.id;
 
   const handleCurtida = () => {
     if (curtido) {
