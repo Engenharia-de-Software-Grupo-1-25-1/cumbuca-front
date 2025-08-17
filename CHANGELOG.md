@@ -23,4 +23,22 @@
 
 ### Adicionando
 
-- Criação da tela de login e estruturação inicial de autenticação
+- Tela de login e estruturação inicial de autenticação
+
+## US5.2 - PR 6
+
+### Adicionado
+
+- Tela de criar usuário
+
+## US4.4 - PR 8
+
+### Adicionado
+
+- Telas de recuperação de senha e nova senha
+
+## US6.6 - PR 7
+
+### Adicionado
+
+- Modal de Avaliação, criar e editar avaliação

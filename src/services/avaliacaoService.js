@@ -6,9 +6,13 @@ export const criarAvaliacao = formData => {
 };
 
 export const obterAvaliacao = id => {
-  return api.get(`/${endpoints.avaliacao}/buscar/${id}`);
+  return api.get(`/${endpoints.avaliacao}/recuperar/${id}`);
 };
 
 export const atualizarAvaliacao = (id, formData) => {
   return api.put(`/${endpoints.avaliacao}/atualizar/${id}`, formData);
+};
+
+export const removerAvaliacao = id => {
+  return api.delete(`/${endpoints.avaliacao}/remover/${id}`);
 };
