@@ -4,9 +4,11 @@ import NaoEncontrado from '../pages/NaoEncontrado';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
 import Layout4 from '../components/layouts/Layout4';
+import Layout6 from '../components/layouts/Layout6';
 import RecuperarSenha from '../pages/RecuperarSenha';
 import NovaSenha from '../pages/NovaSenha';
 import CriarConta from '../pages/CriarConta';
+import ListaEstabelecimentos from '../pages/Estabelecimentos';
 
 export default function RoutesApp() {
   return (
@@ -25,6 +27,14 @@ export default function RoutesApp() {
         element={
           <PrivateRoute>
             <Layout4 />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path='/estabelecimentos'
+        element= {
+          <PrivateRoute>
+            <Layout6 Conteudo={ListaEstabelecimentos} />
           </PrivateRoute>
         }
       />
