@@ -36,15 +36,23 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
 
   if (!avaliacao) return null;
 
-  console.log(avaliacao);
   const fotos = avaliacao.fotos ?? [];
   const temFotos = fotos.length > 0;
 
-  const srcFoto = (s) =>
-    s?.startsWith("data:") ? s : `data:image/png;base64,${s}`;
+  const likes =
+    avaliacao.likes ??
+    avaliacao.curtidas ??
+    avaliacao.qtdCurtidas ??
+    0;
 
-  const prev = () =>
-    setIdx((i) => (i - 1 + fotos.length) % fotos.length);
+  const commentsCount =
+    avaliacao.qtdComentarios ??
+    avaliacao.comentarios?.length ??
+    avaliacao.commentsCount ??
+    0;
+
+  const srcFoto = (s) => (s?.startsWith("data:") ? s : `data:image/png;base64,${s}`);
+  const prev = () => setIdx((i) => (i - 1 + fotos.length) % fotos.length);
   const next = () => setIdx((i) => (i + 1) % fotos.length);
 
   const corFundo = "#F4E2B8";
@@ -60,7 +68,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
       <div className="absolute inset-0 bg-black/50" />
 
       <div
-        className="relative z-10 w-[360px] max-h-[92vh] overflow-hidden rounded-2xl shadow-2xl"
+        className="relative z-10 w-[500px] max-w-[90vw] max-h-[92vh] overflow-hidden rounded-2xl shadow-2xl"
         style={{ backgroundColor: corFundo }}
         role="dialog"
         aria-modal="true"
@@ -168,53 +176,56 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
             </div>
           </div>
 
-          {/* Notas + Preço/Item */}
-          <div className="px-4 py-3">
+          {/* Notas */}
+          <div className="px-4 pt-3">
             <div className="grid grid-cols-2 gap-y-2 gap-x-4 text-[12px]">
               <Nota label="Nota Geral" valor={avaliacao.notaGeral} />
               <Nota label="Comida" valor={avaliacao.notaComida} />
               <Nota label="Ambiente" valor={avaliacao.notaAmbiente} />
               <Nota label="Atendimento" valor={avaliacao.notaAtendimento} />
-            </div>
-
-            <div
-              className="mt-2 grid grid-cols-2 gap-2 text-[12px]"
-              style={{ color: corTexto2 }}
-            >
-              <div>
-                <span className="font-semibold text-[#5b4320]">Preço: </span>
-                R$ {Number(avaliacao.preco ?? 0).toFixed(2)}
-              </div>
-              <div className="text-right">
-                <span className="font-semibold text-[#5b4320]">
-                  Item consumido:{" "}
-                </span>
-                {avaliacao.itemConsumido}
-              </div>
+              {/* Alinhados com as notas */}
+              <InfoRow
+                label="Preço"
+                value={`R$ ${Number(avaliacao.preco ?? 0).toFixed(2)}`}
+              />
+              <InfoRow
+                label="Item consumido"
+                value={avaliacao.itemConsumido}
+              />
             </div>
           </div>
 
-          {/* Rodapé com tags e data */}
+          {/* Rodapé: likes, comentários, tags e data */}
           <div
-            className="flex items-center justify-between border-y px-4 py-2 text-[12px]"
+            className="mt-3 flex items-center justify-between border-y px-4 py-2 text-[12px]"
             style={{ borderColor: corBorda, color: "#7b6332" }}
           >
-            <div className="flex flex-wrap items-center gap-2">
-              {avaliacao.tags?.map((t) => (
-                <span
-                  key={t}
-                  className="rounded-full bg-[#f0dba9] px-2 py-[2px] text-[#6a5427]"
-                >
-                  #{t}
-                </span>
-              ))}
+            <div className="flex items-center gap-4">
+              <span className="inline-flex items-center gap-1">
+                <IconHeart className="h-4 w-4" /> {likes}
+              </span>
+              <span className="inline-flex items-center gap-1">
+                <IconComment className="h-4 w-4" /> {commentsCount}
+              </span>
+
+              <div className="ml-2 flex flex-wrap items-center gap-2">
+                {avaliacao.tags?.map((t) => (
+                  <span
+                    key={t}
+                    className="rounded-full bg-[#f0dba9] px-2 py-[2px] text-[#6a5427]"
+                  >
+                    #{t}
+                  </span>
+                ))}
+              </div>
             </div>
+
             <span className="text-[#9c844e]">
               {new Date(avaliacao.data).toLocaleDateString("pt-BR")}
             </span>
           </div>
 
-          {/* Seção Comentários (visual) */}
+          {/* Seção Comentários (apenas visual) */}
           <div className="px-4 py-3">
             <h3 className="text-sm font-semibold text-[#5b4320]">Comentários</h3>
             <div
@@ -271,7 +282,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
 function Nota({ label, valor = 0 }) {
   return (
     <div className="flex items-center gap-2 text-[#6a5427]">
-      <span className="w-[95px] shrink-0 font-semibold text-[#5b4320]">
+      <span className="w-[120px] shrink-0 font-semibold text-[#5b4320]">
         {label}
       </span>
       <div className="flex items-center gap-[2px]">
@@ -282,6 +293,18 @@ function Nota({ label, valor = 0 }) {
     </div>
   );
 }
+
+function InfoRow({ label, value }) {
+  return (
+    <div className="flex items-center gap-2 text-[#6a5427]">
+      <span className="w-[120px] shrink-0 font-semibold text-[#5b4320]">
+        {label}
+      </span>
+      <span className="text-[#6a5427]">{value}</span>
+    </div>
+  );
+}
+
 function Star({ filled }) {
   return (
     <svg viewBox="0 0 24 24" className="h-4 w-4">
@@ -361,6 +384,26 @@ function IconChevronRight(props) {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+function IconHeart(props) {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" {...props}>
+      <path
+        d="M12 21s-7.5-4.35-9.5-8.5C1.2 10 2.6 6.9 5.5 6.2c1.9-.45 3.7.3 4.8 1.7 1.1-1.4 2.9-2.15 4.8-1.7 2.9.7 4.3 3.8 3 6.3C19.5 16.65 12 21 12 21Z"
+        fill="#cc6a3b"
+      />
+    </svg>
+  );
+}
+function IconComment(props) {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" {...props}>
+      <path
+        d="M21 6a3 3 0 0 0-3-3H6a3 3 0 0 0-3 3v7a3 3 0 0 0 3 3h2v4l5-4h5a3 3 0 0 0 3-3V6Z"
+        fill="#8a6a30"
       />
     </svg>
   );
