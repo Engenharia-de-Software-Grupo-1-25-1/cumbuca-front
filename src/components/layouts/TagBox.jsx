@@ -1,4 +1,4 @@
-import Icone from '../util/Icone';
+import Icone from '../utils/Icone';
 
 //Box de tag popular, cada tag apresenta um ícone, seu nome e seu número de publicações
 //As cores do componente são definidas pelos parâmetros corFundo e corDestaque

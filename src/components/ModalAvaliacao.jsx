@@ -11,8 +11,8 @@ import {
   tagsToArray,
   montaFormData,
   base64ToFile,
-} from './util/utilsModal.helpers';
-import { TagInput, CampoEstrelas, SeletorFotos, AutocompleteNominatim } from './util/utilsModal';
+} from './utils/utilsModal.helpers';
+import { TagInput, CampoEstrelas, SeletorFotos, AutocompleteNominatim } from './utils/utilsModal';
 
 export default function ModalAvaliacao({ open, onClose, editar = false, avaliacaoId = null }) {
   const [textoLugar, setTextoLugar] = useState('');
@@ -265,6 +265,7 @@ export default function ModalAvaliacao({ open, onClose, editar = false, avaliaca
                   inputMode="numeric"
                   value={formatFromDigits(precoDigits)}
                   onKeyDown={onKeyDownPreco}
+                  onChange={onPastePreco}
                   onPaste={onPastePreco}
                   className="w-full rounded-full border border-neutral-300 bg-[#F2D7A0] px-4 py-2 text-sm text-black leading-tight outline-none focus:border-emerald-600"
                 />
