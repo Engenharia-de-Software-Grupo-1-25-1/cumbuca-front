@@ -4,6 +4,7 @@ import { FaStar, FaMapMarkerAlt } from 'react-icons/fa';
 import "../styles/cardEstab.css";
 import { Link } from 'react-router-dom';
 import { getEstabelecimentos } from "../services/EstabelecimentoService";
+import { getEstabelecimentoImagem } from "../utils/imagensCategoriasMapper";
 
 const formataQtdAval = (n) => {
   const num = Number(n);
@@ -20,15 +21,17 @@ const formataQtdAval = (n) => {
 };
 
 //contrução do card do estabelecimento
-const Card = ({ estabelecimento, corBloco }) => {
+const Card = ({ estabelecimento}) => {
   const { id, nome, categoria, notaGeral, quantidadeAvaliacoes, localizacao } = estabelecimento || {};
+  const estabImagem = getEstabelecimentoImagem(categoria);
 
   return (
     <Link to={`/estabelecimentos/${id}`} className="block w-full no-underline text-inherit">
       <div className="card-container">
-        <div
-          className="w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] md:w-[90px] md:h-[90px] lg:w-[180px] lg:h-[120px] rounded-lg flex-shrink-0"
-          style={{ backgroundColor: corBloco, borderWidth: '2px', borderStyle: 'solid', borderColor: '#bb7e27' }}
+        <img
+          src={estabImagem}
+          className="w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] md:w-[90px] md:h-[90px] lg:w-[120px] lg:h-[120px] rounded-lg flex-shrink-0"
+          style={{ borderWidth: '2px', borderStyle: 'solid', borderColor: '#bb7e27' }}
         />
         <div className="card-margem-conteudo">
           <div className="card-header">
@@ -68,8 +71,6 @@ const ListaEstabelecimentos = () => {
       carregarEstabelecimentos();
     }, []);
 
-    const coresFixas = ['#356b2a', '#c92f0d', '#325460', '#ffb115'];
-
     if (carregando) {
         return <div style={{ textAlign: 'center', marginTop: '50px' }}><Spin size="large" /></div>;
     }
@@ -78,8 +79,8 @@ const ListaEstabelecimentos = () => {
     return (
         <div className="conteudo-principal">
             <div className="cards-lista">
-            {Array.isArray(estabelecimentos) && estabelecimentos.map((est, index) => (
-                <Card key={est.id} estabelecimento={est} corBloco={coresFixas[index % coresFixas.length]}/>
+            {Array.isArray(estabelecimentos) && estabelecimentos.map((est) => (
+                <Card key={est.id} estabelecimento={est}/>
             ))}
             </div>
         </div>

@@ -11,5 +11,6 @@ export const getEstabelecimentos = async () => {
             key: 'estabelecimentos_error',
             duration: 3
         });
+        console.error(err);
     }
 }
