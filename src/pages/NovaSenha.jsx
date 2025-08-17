@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaLock, FaExclamationCircle } from 'react-icons/fa';
 import Layout from '../components/layouts/Layout1';
 import { novasSenhas } from '../services/recuperarSenhaService';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 const NovaSenha = () => {
   const [senha, setSenha] = useState('');
@@ -14,16 +15,22 @@ const NovaSenha = () => {
   useEffect(() => {
     const url = new URL(window.location.href);
     let resetToken;
-    if (!localStorage.getItem('resetToken')) resetToken = url.searchParams.get('token');
+
+    const cookieMatch = document.cookie.match(/(^| )resetToken=([^;]+)/);
+    if (cookieMatch) resetToken = cookieMatch[2];
+
+    if (!resetToken) resetToken = url.searchParams.get('token');
 
     if (resetToken) {
-      localStorage.setItem('resetToken', resetToken);
+      document.cookie = `resetToken=${resetToken}; path=/; max-age=${60 * 30}`;
       navigate('/alterar-senha', { replace: true });
       return;
     }
 
-    if (!localStorage.getItem('resetToken')) navigate('/recuperar-senha', { replace: true });
-  });
+    if (!resetToken) {
+      navigate('/recuperar-senha', { replace: true });
+    }
+  }, [navigate]);
 
   const handleClick = async () => {
     if (senha !== confirmacaoSenha) {
@@ -31,15 +38,18 @@ const NovaSenha = () => {
       return;
     }
     setError(false);
-    const resetToken = localStorage.getItem('resetToken');
+
+    const cookieMatch = document.cookie.match(/(^| )resetToken=([^;]+)/);
+    const resetToken = cookieMatch ? cookieMatch[2] : null;
+
     if (!resetToken) {
       navigate('/recuperar-senha', { replace: true });
       return;
     }
     try {
       setLoading(true);
-      novasSenhas(resetToken, senha, confirmacaoSenha);
-      localStorage.removeItem('resetToken');
+      await novasSenhas(resetToken, senha, confirmacaoSenha);
+      document.cookie = 'resetToken=; path=/; max-age=0';
       navigate('/login', { replace: true });
     } finally {
       setLoading(false);
