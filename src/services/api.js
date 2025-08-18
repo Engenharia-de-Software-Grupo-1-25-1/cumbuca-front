@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { logout } from '../features/auth';
 import { message } from 'antd';
+import { logout } from './authService';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,

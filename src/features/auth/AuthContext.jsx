@@ -1,18 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login as loginRequest, logout as logoutRequest, getUser } from '../../services/authService';
 import { AuthContext } from './AuthContextInstance';
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const fetchUser = async () => {
     try {
       const res = await getUser();
       setUser(res);
+      return res;
     } catch {
       setUser(null);
+      return null;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -30,8 +35,18 @@ export function AuthProvider({ children }) {
   };
 
   useEffect(() => {
-    if (localStorage.getItem('userId')) fetchUser();
+    const hasUserId = !!localStorage.getItem('userId');
+    const hasToken = document.cookie.includes('auth_token=');
+    if (hasUserId && hasToken) {
+      fetchUser();
+    } else {
+      setLoading(false);
+    }
   }, []);
+
+  const value = useMemo(() => ({ user, loading, login, logout }), [user, loading]);
+
+  if (loading) return null;
 
   return <AuthContext.Provider value={{ user, login, logout }}>{children}</AuthContext.Provider>;
 }
