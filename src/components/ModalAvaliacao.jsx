@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { getAvaliacao } from "../services/avaliacaoService";
+import { HiArrowLeft, HiOutlineMapPin } from "react-icons/hi2";
+import { HiDotsHorizontal } from "react-icons/hi";
+import { FiImage, FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { FaHeart, FaRegComment } from "react-icons/fa";
 
 export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
   const [avaliacao, setAvaliacao] = useState(null);
@@ -22,7 +26,6 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
     return () => (mounted = false);
   }, [idAvaliacao]);
 
-  // Atalhos de teclado para o carrossel
   useEffect(() => {
     if (!avaliacao?.fotos?.length) return;
     const onKey = (e) => {
@@ -58,7 +61,6 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
   const corFundo = "#F4E2B8";
   const corBorda = "#e2cfa2";
   const corTexto = "#4a3a1b";
-  const corTexto2 = "#7b6332";
 
   return (
     <div
@@ -73,7 +75,6 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
         role="dialog"
         aria-modal="true"
       >
-        {/* Cabeçalho */}
         <div className="flex items-center justify-between p-3">
           <button
             onClick={onClose}
@@ -81,7 +82,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
             aria-label="Voltar"
             title="Voltar"
           >
-            <IconBack />
+            <HiArrowLeft className="h-5 w-5 text-[#5b4320]" />
           </button>
 
           <div className="text-center">
@@ -93,7 +94,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
             </p>
             <p className="text-[12px]">
               <span className="inline-flex items-center gap-1 rounded-full bg-[#e7d3a6] px-2 py-[2px] text-[#8a6a30]">
-                <IconPin className="h-3 w-3" />
+                <HiOutlineMapPin className="h-3.5 w-3.5" />
                 {avaliacao.estabelecimento?.nome}
               </span>
             </p>
@@ -104,16 +105,13 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
             aria-label="Mais opções"
             title="Mais opções"
           >
-            <IconDots />
+            <HiDotsHorizontal className="h-5 w-5 text-[#8a6a30]" />
           </button>
         </div>
-
-        {/* Corpo */}
         <div
           className="h-[calc(92vh-56px)] overflow-y-auto border-t"
           style={{ borderColor: corBorda }}
         >
-          {/* Texto e Carrossel */}
           <div className="px-4 pt-3">
             <p className="text-[13px]" style={{ color: corTexto }}>
               {avaliacao.descricao}
@@ -133,11 +131,10 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
                   />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center">
-                    <IconImage className="h-10 w-10 text-[#8a6a30]" />
+                    <FiImage className="h-10 w-10 text-[#8a6a30]" />
                   </div>
                 )}
 
-                {/* Controles */}
                 {temFotos && fotos.length > 1 && (
                   <>
                     <button
@@ -145,20 +142,19 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
                       className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/25 p-2 text-white hover:bg-black/35"
                       aria-label="Imagem anterior"
                     >
-                      <IconChevronLeft />
+                      <FiChevronLeft className="h-5 w-5" />
                     </button>
                     <button
                       onClick={next}
                       className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/25 p-2 text-white hover:bg-black/35"
                       aria-label="Próxima imagem"
                     >
-                      <IconChevronRight />
+                      <FiChevronRight className="h-5 w-5" />
                     </button>
                   </>
                 )}
               </div>
 
-              {/* Indicadores */}
               {temFotos && fotos.length > 1 && (
                 <div className="mt-2 flex items-center justify-center gap-2">
                   {fotos.map((_, i) => (
@@ -176,36 +172,27 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
             </div>
           </div>
 
-          {/* Notas */}
           <div className="px-4 pt-3">
             <div className="grid grid-cols-2 gap-y-2 gap-x-4 text-[12px]">
               <Nota label="Nota Geral" valor={avaliacao.notaGeral} />
               <Nota label="Comida" valor={avaliacao.notaComida} />
               <Nota label="Ambiente" valor={avaliacao.notaAmbiente} />
               <Nota label="Atendimento" valor={avaliacao.notaAtendimento} />
-              {/* Alinhados com as notas */}
-              <InfoRow
-                label="Preço"
-                value={`R$ ${Number(avaliacao.preco ?? 0).toFixed(2)}`}
-              />
-              <InfoRow
-                label="Item consumido"
-                value={avaliacao.itemConsumido}
-              />
+              <InfoRow label="Preço" value={`R$ ${Number(avaliacao.preco ?? 0).toFixed(2)}`} />
+              <InfoRow label="Item consumido" value={avaliacao.itemConsumido} />
             </div>
           </div>
 
-          {/* Rodapé: likes, comentários, tags e data */}
           <div
             className="mt-3 flex items-center justify-between border-y px-4 py-2 text-[12px]"
             style={{ borderColor: corBorda, color: "#7b6332" }}
           >
             <div className="flex items-center gap-4">
               <span className="inline-flex items-center gap-1">
-                <IconHeart className="h-4 w-4" /> {likes}
+                <FaHeart className="h-4 w-4 text-[#cc6a3b]" /> {likes}
               </span>
               <span className="inline-flex items-center gap-1">
-                <IconComment className="h-4 w-4" /> {commentsCount}
+                <FaRegComment className="h-4 w-4 text-[#8a6a30]" /> {commentsCount}
               </span>
 
               <div className="ml-2 flex flex-wrap items-center gap-2">
@@ -225,7 +212,6 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
             </span>
           </div>
 
-          {/* Seção Comentários (apenas visual) */}
           <div className="px-4 py-3">
             <h3 className="text-sm font-semibold text-[#5b4320]">Comentários</h3>
             <div
@@ -255,8 +241,6 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
                 </button>
               </div>
             </div>
-
-            {/* Skeleton comentários (apenas visual) */}
             <ul className="mt-3 space-y-3">
               {[1, 2, 3].map((i) => (
                 <li key={i} className="flex gap-3">
@@ -278,7 +262,6 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
   );
 }
 
-/* --- Subcomponentes visuais --- */
 function Nota({ label, valor = 0 }) {
   return (
     <div className="flex items-center gap-2 text-[#6a5427]">
@@ -311,99 +294,6 @@ function Star({ filled }) {
       <path
         d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
         fill={filled ? "#f29b38" : "#e0cf9f"}
-      />
-    </svg>
-  );
-}
-
-/* --- Ícones --- */
-function IconBack(props) {
-  return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5 text-[#5b4320]" {...props}>
-      <path
-        d="M20 12H6m0 0 6-6M6 12l6 6"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-function IconDots(props) {
-  return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5 text-[#8a6a30]" {...props}>
-      <circle cx="5" cy="12" r="1.6" />
-      <circle cx="12" cy="12" r="1.6" />
-      <circle cx="19" cy="12" r="1.6" />
-    </svg>
-  );
-}
-function IconPin(props) {
-  return (
-    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" {...props}>
-      <path
-        d="M12 2C8.7 2 6 4.7 6 8c0 4.3 6 12 6 12s6-7.7 6-12c0-3.3-2.7-6-6-6Zm0 8.2a2.2 2.2 0 1 1 0-4.4 2.2 2.2 0 0 1 0 4.4Z"
-        fill="#8a6a30"
-      />
-    </svg>
-  );
-}
-function IconImage(props) {
-  return (
-    <svg viewBox="0 0 24 24" className="h-8 w-8" {...props}>
-      <path
-        d="M21 19V5a2 2 0 0 0-2-2H5C3.9 3 3 3.9 3 5v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2ZM8.5 11.5 11 14l2.5-3 4.5 6H6l2.5-5.5Z"
-        fill="#8a6a30"
-      />
-    </svg>
-  );
-}
-function IconChevronLeft(props) {
-  return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5" {...props}>
-      <path
-        d="M15 19 8 12l7-7"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-function IconChevronRight(props) {
-  return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5" {...props}>
-      <path
-        d="m9 5 7 7-7 7"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-function IconHeart(props) {
-  return (
-    <svg viewBox="0 0 24 24" className="h-4 w-4" {...props}>
-      <path
-        d="M12 21s-7.5-4.35-9.5-8.5C1.2 10 2.6 6.9 5.5 6.2c1.9-.45 3.7.3 4.8 1.7 1.1-1.4 2.9-2.15 4.8-1.7 2.9.7 4.3 3.8 3 6.3C19.5 16.65 12 21 12 21Z"
-        fill="#cc6a3b"
-      />
-    </svg>
-  );
-}
-function IconComment(props) {
-  return (
-    <svg viewBox="0 0 24 24" className="h-4 w-4" {...props}>
-      <path
-        d="M21 6a3 3 0 0 0-3-3H6a3 3 0 0 0-3 3v7a3 3 0 0 0 3 3h2v4l5-4h5a3 3 0 0 0 3-3V6Z"
-        fill="#8a6a30"
       />
     </svg>
   );
