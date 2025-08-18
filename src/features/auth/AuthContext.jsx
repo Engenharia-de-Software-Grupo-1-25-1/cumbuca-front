@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login as loginRequest, logout as logoutRequest, getUser } from '../../services/authService';
 import { AuthContext } from './AuthContextInstance';
@@ -8,7 +8,7 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const fetchUser = async () => {
+  const fetchUser = useCallback(async () => {
     try {
       const res = await getUser();
       setUser(res);
@@ -19,20 +19,23 @@ export function AuthProvider({ children }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const login = async (email, senha) => {
-    await loginRequest(email, senha);
-    const data = await fetchUser();
-    navigate('/feed');
-    return data;
-  };
+  const login = useCallback(
+    async (email, senha) => {
+      await loginRequest(email, senha);
+      const data = await fetchUser();
+      navigate('/feed');
+      return data;
+    },
+    [fetchUser, navigate]
+  );
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     logoutRequest();
     setUser(null);
     navigate('/login');
-  };
+  }, [navigate]);
 
   useEffect(() => {
     const hasUserId = !!localStorage.getItem('userId');
@@ -42,11 +45,11 @@ export function AuthProvider({ children }) {
     } else {
       setLoading(false);
     }
-  }, []);
+  }, [fetchUser]);
 
-  const value = useMemo(() => ({ user, loading, login, logout }), [user, loading]);
+  const value = useMemo(() => ({ user, loading, login, logout }), [user, loading, login, logout]);
 
   if (loading) return null;
 
-  return <AuthContext.Provider value={{ user, login, logout }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
