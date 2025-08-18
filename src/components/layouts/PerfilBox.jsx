@@ -9,11 +9,7 @@ import { getAvaliacoesUsuario } from '../../services/avaliacaoService';
 // É possível definir o usuário exibido
 export default function PerfilBox({ usuario }) {
   const { user } = useAuth();
-  const ehMeuPerfil = useState(
-    usuario 
-      ? user.id === usuario.id
-      : false
-  );
+  const ehMeuPerfil = useState(usuario ? user.id === usuario.id : false);
 
   const [avaliacoes, setAvaliacoes] = useState([]);
 
@@ -34,13 +30,13 @@ export default function PerfilBox({ usuario }) {
   }, [usuario]);
 
   return (
-    <div className="bg-[#bc6302] w-[80%] rounded-[10px] py-4 px-6 relative max-w-[728px]">
+    <div className="bg-[#bc6302] w-[80%] rounded-[10px] py-4 px-6 max-w-[728px] flex flex-col">
       {usuario ? (
         <>
           {/* Informações do usuário */}
           <div className="flex flex-wrap justify-between">
             <img
-              src={usuario.fotoDePerfil}
+              src={usuario.foto}
               className="h-[50px] sm:h-[50px] md:h-[75px] lg:h-[75px] rounded-full"
               alt={`Foto de perfil de ${usuario.nome}`}
             />
@@ -58,24 +54,22 @@ export default function PerfilBox({ usuario }) {
           </div>
 
           {/* Avaliações do usuário */}
-          <div>
-            {avaliacoes.length > 0 ? (
-              <DataView
-                value={avaliacoes}
-                itemTemplate={(avaliacao, index) => <AvaliacaoBox key={index} avaliacao={avaliacao} />}
-                layout="list"
-                style={{ maxHeight: '500px', overflowY: 'auto' }}
-                className="scroll-dark mt-8"
-              />
-            ) : (
-              <h1 className="sm:text-[20px] md:text-[30px] lg:text-[30px] font-semibold text-[#1e1e1e] p-1 px-4 bg-[#f4a831] w-fit h-fit rounded-[10px] m-auto absolute top-0 left-0 right-0 bottom-0">
-                Este usuário ainda não possui avaliações.
-              </h1>
-            )}
-          </div>
+          {avaliacoes.length > 0 ? (
+            <DataView
+              value={avaliacoes}
+              itemTemplate={(avaliacao, index) => <AvaliacaoBox key={index} avaliacao={avaliacao} />}
+              layout="list"
+              style={{ maxHeight: '500px', overflowY: 'auto' }}
+              className="scroll-dark mt-8"
+            />
+          ) : (
+            <h1 className="sm:text-[20px] md:text-[30px] lg:text-[30px] font-semibold text-[#1e1e1e] p-1 px-4 bg-[#f4a831] w-fit h-fit rounded-[10px] m-auto mt-8 sm:mt-8 md:mt-auto lg:mt-auto">
+              Este usuário ainda não possui avaliações.
+            </h1>
+          )}
         </>
       ) : (
-        <h1 className="sm:text-[20px] md:text-[30px] lg:text-[30px] font-semibold text-[#1e1e1e] p-1 px-4 bg-[#f4a831] w-fit h-fit rounded-[10px] m-auto absolute top-0 left-0 right-0 bottom-0">
+        <h1 className="text-center sm:text-[20px] md:text-[30px] lg:text-[30px] font-semibold text-[#1e1e1e] p-1 px-4 bg-[#f4a831] w-fit h-fit rounded-[10px] m-auto">
           Usuário não encontrado.
         </h1>
       )}
