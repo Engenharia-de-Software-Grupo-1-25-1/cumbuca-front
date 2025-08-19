@@ -33,7 +33,6 @@ export default function PerfilBox({ usuario }) {
     <div className="bg-[#bc6302] w-[80%] rounded-[10px] py-4 px-6 max-w-[728px] flex flex-col">
       {usuario ? (
         <>
-          {/* Informações do usuário */}
           <div className="flex flex-wrap justify-between">
             <img
               src={`data:image/jpeg;base64,${usuario.foto}`}
@@ -53,7 +52,6 @@ export default function PerfilBox({ usuario }) {
             )}
           </div>
 
-          {/* Avaliações do usuário */}
           {avaliacoes.length > 0 ? (
             <DataView
               value={avaliacoes}
