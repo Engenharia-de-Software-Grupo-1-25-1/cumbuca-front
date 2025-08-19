@@ -24,8 +24,7 @@ const CardEstab = ({ estabelecimento }) => {
           <div className="flex items-center p-4 rounded-xl bg-[#f7d799] border-2 border-[#bb7e27] shadow-md overflow-hidden">
             <img
                 src={estabImagem}
-                alt={`${nome} imagem`}
-                className="flex-shrink-0 rounded-lg w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] md:w-[90px] md:h-[90px] lg:w-[120px] lg:h-[120px] border-2 border-[#bb7e27] object-cover"
+                className="flex-shrink-0 rounded-lg w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] md:w-[90px] md:h-[90px] lg:w-[120px] lg:h-[120px] border-2 border-[#bb7e27] object-fill"
             />
             <div className="flex-grow ml-4 min-w-0">
               <div className="flex items-center justify-between">
@@ -34,13 +33,13 @@ const CardEstab = ({ estabelecimento }) => {
             <p className="mt-1 mb-2 text-sm text-black">{categoria}</p>
             <div className="flex items-center gap-5">
               <div className="flex items-center flex-shrink-0">
-                <FaStar size={20} className="text-[#ffb115] -translate-y-1 mr-1" />
+                <FaStar size={23} className="text-[#ffb115] -translate-y-1 mr-1" />
                 <span className="text-[#ffb115] text-lg font-bold ml-1">{notaGeral}</span>
-                <span className="ml-2 text-sm text-black whitespace-nowrap">{formatarNum(quantidadeAvaliacoes)} avaliações</span>
+                <span className="ml-2 text-md text-black whitespace-nowrap">{formatarNum(quantidadeAvaliacoes)} avaliações</span>
             </div>
             <div className="flex items-center text-black min-w-0 overflow-hidden">
-              <FaMapMarkerAlt size={16} className="text-[#ffb115] -translate-y-1 mr-2 flex-shrink-0" />
-              <span className="truncate">{localizacao}</span>
+              <FaMapMarkerAlt size={18} className="text-[#ffb115] -translate-y-1 mr-2 flex-shrink-0" />
+              <span className="truncate text-md">{localizacao}</span>
             </div>
           </div>
         </div>
