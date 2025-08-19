@@ -36,7 +36,7 @@ export default function PerfilBox({ usuario }) {
           {/* Informações do usuário */}
           <div className="flex flex-wrap justify-between">
             <img
-              src={usuario.foto}
+              src={`data:image/jpeg;base64,${usuario.foto}`}
               className="h-[50px] sm:h-[50px] md:h-[75px] lg:h-[75px] rounded-full"
               alt={`Foto de perfil de ${usuario.nome}`}
             />
