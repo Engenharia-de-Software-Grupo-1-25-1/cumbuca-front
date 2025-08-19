@@ -18,5 +18,5 @@ export const removerAvaliacao = id => {
 };
 
 export const getAvaliacoesUsuario = userId => {
-  return api.get(`/${endpoints.avaliacao}/usuario/${userId}`);
+  return api.get(`/${endpoints.avaliacao}/listar`, { params: { idUsuario: userId} });
 };
