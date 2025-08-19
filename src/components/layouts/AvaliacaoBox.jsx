@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import { useRef } from 'react';
 import { OverlayPanel } from 'primereact/overlaypanel';
 import { useAuth } from '../../features/auth/useAuth';
-import estabelecimentoIcon from '../../assets/estabelecimentos.svg';
-import Icone from '../utils/Icone';
+import { MdOutlineStorefront } from 'react-icons/md';
 import mais from '../../assets/mais.svg';
 // import { FaRegHeart, FaHeart } from 'react-icons/fa6';
 import { FaHeart } from 'react-icons/fa6';
@@ -12,6 +11,7 @@ import { MdOutlineComment, MdOutlineStarPurple500 } from 'react-icons/md';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { BiEditAlt } from 'react-icons/bi';
 import { FiEye } from 'react-icons/fi';
+import { coresTags } from '../temporario/tags';
 
 //Box de Avaliação, recebe uma avaliação e a apresenta em um perfil ou no Feed
 //Consegue verificar se o usuário logado é o autor da avaliação para exibir botões de edição e exclusão
@@ -40,7 +40,7 @@ export default function AvalicaoBox({ avaliacao }) {
           <Link to={`/${avaliacao.usuario.username}`} className="flex-shrink-0">
             <img
               src={`data:image/jpeg;base64,${avaliacao.usuario.foto}`}
-              className="rounded-full hover:brightness-95 transition duration-300 h-auto w-[48px] sm:w-[48px] md:w-[54px] lg:w-[65px]"
+              className="rounded-full hover:brightness-90 transition duration-300 h-auto w-[48px] sm:w-[48px] md:w-[54px] lg:w-[65px]"
               alt={`Foto de perfil de ${avaliacao.usuario.nome}`}
             />
           </Link>
@@ -53,7 +53,7 @@ export default function AvalicaoBox({ avaliacao }) {
             </Link>
 
             <a href="#" className="flex text-xl items-center gap-1 w-fit">
-              <Icone url={estabelecimentoIcon} cor="#356B2A" tamanho="24px" />
+              <MdOutlineStorefront color="#356B2A" size="24" />
               <p className="text-sm text-[#356B2A] sm:text-sm md:text-base lg:text-xl">
                 {avaliacao.estabelecimento.nome}
               </p>
@@ -133,20 +133,23 @@ export default function AvalicaoBox({ avaliacao }) {
 
         {avaliacao.tags && (
           <div className="flex flex-wrap gap-4">
-            {avaliacao.tags.map((tag, index) => (
-              <button
-                key={index}
-                className="px-2 rounded-full text-base"
-                style={{
-                  backgroundColor: tag.corFundo,
-                  outlineWidth: '2px',
-                  outlineStyle: 'solid',
-                  outlineColor: tag.corDestaque,
-                }}
-              >
-                <p>#{tag}</p>
-              </button>
-            ))}
+            {avaliacao.tags.map((tag, index) => {
+              const cor = coresTags[index % coresTags.length];
+              return (
+                <button
+                  key={index}
+                  className="px-2 rounded-full text-base"
+                  style={{
+                    backgroundColor: cor.corFundo,
+                    outlineWidth: '2px',
+                    outlineStyle: 'solid',
+                    outlineColor: cor.corDestaque,
+                  }}
+                >
+                  <p>#{tag}</p>
+                </button>
+              );
+            })}
           </div>
         )}
       </div>
