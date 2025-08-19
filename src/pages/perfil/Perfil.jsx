@@ -8,9 +8,11 @@ import { getUsuarioPorUsername } from '../../services/usuarioService';
 export default function Perfil() {
   const { username } = useParams();
   const [usuario, setUsuario] = useState(null);
+  const [loadingUsuario, setLoadingUsuario] = useState(true);
 
   useEffect(() => {
     async function carregarUsuario() {
+      setLoadingUsuario(true);
       try {
         if (username) {
           const { data } = await getUsuarioPorUsername(username);
@@ -18,15 +20,16 @@ export default function Perfil() {
         }
       } catch (error) {
         console.error('Erro ao carregar usuário', error);
+        if (error.response?.status === 404 || error.response?.status === 401) {
+          setUsuario(null);
+        }
+      } finally {
+        setLoadingUsuario(false);
       }
     }
 
     carregarUsuario();
   }, [username]);
 
-  if (!usuario) {
-    return <Layout />;
-  }
-
-  return <Layout usuario={usuario} />;
+  return <Layout usuario={usuario} loadingUsuario={loadingUsuario} />;
 }
