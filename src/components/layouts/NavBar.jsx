@@ -40,7 +40,7 @@ function NavBar() {
 
         <li className="w-full">
           <NavLink
-            to={`/${user.username}`}
+            to={`/perfil/${user.username}`}
             className={({ isActive }) =>
               `flex items-center justify-center text-[#1e1e1e] sm:text-[16px] md:text-[20px] lg:text-[20px] p-1 rounded-xl gap-4 transition duration-300 hover:bg-[#ff8c00] hover:no-underline ${
                 isActive ? 'bg-[#ff8c00]' : ''

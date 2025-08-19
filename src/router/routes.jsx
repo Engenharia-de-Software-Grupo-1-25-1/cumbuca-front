@@ -33,7 +33,7 @@ export default function RoutesApp() {
       />
 
       <Route
-        path="/:username"
+        path="/perfil/:username"
         element={
           <PrivateRoute>
             <Perfil />

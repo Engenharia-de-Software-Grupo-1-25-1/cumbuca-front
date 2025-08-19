@@ -37,7 +37,7 @@ export default function AvalicaoBox({ avaliacao }) {
     <div className="bg-[#f7d799] rounded-xl flex flex-col p-4 text-[#1E1E1E] text-2xl gap-4 mb-4">
       <div className="flex gap-4 sm:gap-4 md:gap-8 lg:gap-8 w-full">
         <div className="flex gap-4 sm:gap-4 md:gap-8 lg:gap-8 flex-col sm:flex-col md:flex-row lg:flex-row">
-          <Link to={`/${avaliacao.usuario.username}`} className="flex-shrink-0">
+          <Link to={`/perfil/${avaliacao.usuario.username}`} className="flex-shrink-0">
             <img
               src={`data:image/jpeg;base64,${avaliacao.usuario.foto}`}
               className="rounded-full hover:brightness-90 transition duration-300 h-auto w-[48px] sm:w-[48px] md:w-[54px] lg:w-[65px]"
