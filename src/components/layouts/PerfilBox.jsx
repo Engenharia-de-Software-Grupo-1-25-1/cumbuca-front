@@ -9,7 +9,7 @@ import { getAvaliacoesUsuario } from '../../services/avaliacaoService';
 // É possível definir o usuário exibido
 export default function PerfilBox({ usuario }) {
   const { user } = useAuth();
-  const ehMeuPerfil = useState(usuario ? user.id === usuario.id : false);
+  const ehMeuPerfil = usuario ? user.id === usuario.id : false;
 
   const [avaliacoes, setAvaliacoes] = useState([]);
 
