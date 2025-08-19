@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Spin } from 'antd';
 import CardEstab from "./cards/cardEstabelecimento";
-import "../styles/cardEstab.css";
 
 const ListaEstabelecimentos = ({arrayEstabelecimentos}) => {
     const [estabelecimentos, setEstabelecimentos] = useState([]);
@@ -25,8 +24,8 @@ const ListaEstabelecimentos = ({arrayEstabelecimentos}) => {
 
 //mapeamento de cada estabelecimento para um card
     return (
-        <div className="conteudo-principal">
-            <div className="cards-lista">
+        <div className="block w-full">
+            <div className="flex flex-col items-start gap-4">
             {Array.isArray(estabelecimentos) && estabelecimentos.map((est) => (
                 <CardEstab key={est.id} estabelecimento={est}/>
             ))}

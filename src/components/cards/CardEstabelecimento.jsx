@@ -1,7 +1,6 @@
 import { FaStar, FaMapMarkerAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { getEstabelecimentoImagem } from "../../utils/imagensCategoriasMapper";
-import "../../styles/cardEstab.css";
 
 const formatar = new Intl.NumberFormat('pt-BR', {
   notation: 'compact',
@@ -16,32 +15,32 @@ const formatarNum = (n) => {
 };
 
 //contrução do card do estabelecimento
-const CardEstab = ({ estabelecimento}) => {
+const CardEstab = ({ estabelecimento }) => {
   const { id, nome, categoria, notaGeral, quantidadeAvaliacoes, localizacao } = estabelecimento || {};
   const estabImagem = getEstabelecimentoImagem(categoria);
 
   return (
-    <Link to={`/estabelecimentos/${id}`} className="block w-full no-underline text-inherit">
-      <div className="card-container">
-        <img
-          src={estabImagem}
-          className="w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] md:w-[90px] md:h-[90px] lg:w-[120px] lg:h-[120px] rounded-lg flex-shrink-0"
-          style={{ borderWidth: '2px', borderStyle: 'solid', borderColor: '#bb7e27' }}
-        />
-        <div className="card-margem-conteudo">
-          <div className="card-header">
-            <h2 className="card-nome-restaurante text-ellipsis-single-line">{nome}</h2>
-          </div>
-          <p className="card-categoria">{categoria}</p>
-          <div className="card-detalhes">
-            <div className="card-nota">
-              <FaStar size={23} className="estrela-icone" />
-              <span className="nota-text" style={{ marginLeft: 6 }}>{notaGeral}</span>
-              <span className="card-avaliacoes">{formatarNum(quantidadeAvaliacoes)} avaliações</span>
+      <Link to={`/estabelecimentos/${id}`} className="block w-full text-current no-underline">
+          <div className="flex items-center p-4 rounded-xl bg-[#f7d799] border-2 border-[#bb7e27] shadow-md overflow-hidden">
+            <img
+                src={estabImagem}
+                alt={`${nome} imagem`}
+                className="flex-shrink-0 rounded-lg w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] md:w-[90px] md:h-[90px] lg:w-[120px] lg:h-[120px] border-2 border-[#bb7e27] object-cover"
+            />
+            <div className="flex-grow ml-4 min-w-0">
+              <div className="flex items-center justify-between">
+                <h2 className="truncate text-2xl font-bold text-[#4b2509]">{nome}</h2>
             </div>
-            <div className="card-endereco">
-              <FaMapMarkerAlt size={18} className="endereco-icone" />
-              <span className="endereco-text">{localizacao}</span>
+            <p className="mt-1 mb-2 text-sm text-black">{categoria}</p>
+            <div className="flex items-center gap-5">
+              <div className="flex items-center flex-shrink-0">
+                <FaStar size={20} className="text-[#ffb115] -translate-y-1 mr-1" />
+                <span className="text-[#ffb115] text-lg font-bold ml-1">{notaGeral}</span>
+                <span className="ml-2 text-sm text-black whitespace-nowrap">{formatarNum(quantidadeAvaliacoes)} avaliações</span>
+            </div>
+            <div className="flex items-center text-black min-w-0 overflow-hidden">
+              <FaMapMarkerAlt size={16} className="text-[#ffb115] -translate-y-1 mr-2 flex-shrink-0" />
+              <span className="truncate">{localizacao}</span>
             </div>
           </div>
         </div>
