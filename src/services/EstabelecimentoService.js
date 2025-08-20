@@ -7,7 +7,7 @@ export const getEstabelecimentos = async () => {
         const res = await api.get(`/${endpoints.estabelecimento}/listar`)
         return res.data;
     } catch (err) {
-        message.error({content: 'Erro ao listar estabelecimentos.'});
+        message.error('Erro ao listar estabelecimentos.');
         console.error(err);
     }
 }
