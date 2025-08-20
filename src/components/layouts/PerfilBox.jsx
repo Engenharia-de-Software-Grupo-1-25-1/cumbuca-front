@@ -4,6 +4,7 @@ import AvaliacaoBox from '../layouts/AvaliacaoBox';
 import { MdOutlineEdit } from 'react-icons/md';
 import { DataView } from 'primereact/dataview';
 import { getAvaliacoesUsuario } from '../../services/avaliacaoService';
+import fotoDePerfilPadrao from '../../assets/fotoDePerfilPadrao.webp';
 
 // Box que armazena perfil de estabelecimento ou de usuário
 // É possível definir o usuário exibido
@@ -64,7 +65,7 @@ export default function PerfilBox({ usuario, loadingUsuario }) {
     <div className="bg-[#bc6302] w-[80%] rounded-[10px] py-4 px-6 max-w-[728px] flex flex-col">
       <div className="flex flex-wrap justify-between">
         <img
-          src={`data:image/jpeg;base64,${usuario.foto}`}
+          src={usuario.foto ? `data:image/jpeg;base64,${usuario.foto}` : fotoDePerfilPadrao}
           className="h-[50px] sm:h-[50px] md:h-[75px] lg:h-[75px] rounded-full"
           alt={`Foto de perfil de ${usuario.nome}`}
         />
