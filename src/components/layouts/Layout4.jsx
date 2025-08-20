@@ -10,7 +10,7 @@ function Layout({ usuario, loadingUsuario }) {
         Conteudo={PerfilBox}
         conteudoProps={{
           usuario,
-          loadingUsuario
+          loadingUsuario,
         }}
       />
     </>
