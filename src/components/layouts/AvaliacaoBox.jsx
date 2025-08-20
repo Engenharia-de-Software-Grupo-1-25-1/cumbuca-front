@@ -46,7 +46,7 @@ export default function AvalicaoBox({ avaliacao }) {
             />
           </Link>
           <div>
-            <Link to={`/${avaliacao.usuario.username}`} className="flex hover:no-underline flex-wrap">
+            <Link to={`/perfil/${avaliacao.usuario.username}`} className="flex hover:no-underline flex-wrap">
               <p className="hover:underline mr-4 text-base sm:text-base md:text-xl lg:text-2xl">
                 {avaliacao.usuario.nome}
               </p>
@@ -129,7 +129,9 @@ export default function AvalicaoBox({ avaliacao }) {
             <p>1</p>
           </button>
 
-          <p className="text-[#505050] text-base ml-0 sm:ml-0 md:ml-auto lg:ml-auto">{avaliacao.data}</p>
+          <p className="text-[#505050] text-base ml-0 sm:ml-0 md:ml-auto lg:ml-auto">
+            {new Date(avaliacao.data).toLocaleDateString('pt-BR')}
+          </p>
         </div>
 
         {avaliacao.tags && (
