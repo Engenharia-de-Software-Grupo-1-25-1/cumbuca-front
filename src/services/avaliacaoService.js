@@ -16,3 +16,7 @@ export const atualizarAvaliacao = (id, formData) => {
 export const removerAvaliacao = id => {
   return api.delete(`/${endpoints.avaliacao}/remover/${id}`);
 };
+
+export const getAvaliacoesUsuario = userId => {
+  return api.get(`/${endpoints.avaliacao}/listar`, { params: { idUsuario: userId } });
+};

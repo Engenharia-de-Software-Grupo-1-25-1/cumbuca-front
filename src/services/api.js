@@ -20,7 +20,8 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   response => response,
   error => {
-    if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+    const skipRedirect = error.config?.skipAuthRedirect;
+    if (!skipRedirect && error.response && (error.response.status === 401 || error.response.status === 403)) {
       message.error('Tempo de sessão encerrado, redirecionando para login!');
       logout();
       window.location.href = '/login';
