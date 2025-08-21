@@ -24,7 +24,8 @@ export default function PerfilBox({ usuario, loadingUsuario }) {
         const { data } = await getAvaliacoesUsuario(usuario.id);
         setAvaliacoes(data);
       } catch (error) {
-        console.error('Erro ao carregar avaliações', error);
+        console.error(error);
+        message.error('Erro ao carregar avaliações!');
         setAvaliacoes([]);
       } finally {
         setLoadingAvaliacoes(false);
