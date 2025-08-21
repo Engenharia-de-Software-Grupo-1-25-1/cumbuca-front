@@ -27,3 +27,9 @@ export async function atualizarPerfil(formData) {
 export const criarUsuario = formData => {
   return api.post(`/${endpoints.usuario}/criar`, formData);
 };
+
+export const getUsuarioPorUsername = username => {
+  return api.get(`/${endpoints.usuario}/recuperar/${username}`, {
+    skipAuthRedirect: true,
+  });
+};

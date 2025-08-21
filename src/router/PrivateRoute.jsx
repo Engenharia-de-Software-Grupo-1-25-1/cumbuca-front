@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
 
 export default function PrivateRoute({ children }) {
-  const token = localStorage.getItem('token');
+  const token = document.cookie.match(/(^| )auth_token=([^;]+)/);
   return token ? children : <Navigate to="/login" />;
 }
