@@ -80,19 +80,22 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
         </button>
 
         <OverlayPanel className="border-[#1E1E1E] border bg-[#f7d799] text-[#1E1E1E]" ref={op}>
-          <button className="w-full flex items-center gap-2 px-6 py-2">
+          <button className="w-full flex items-center gap-2 px-6 py-2 hover:bg-[#e0b874] transition-colors duration-200">
             <FiEye className="w-[32px] h-[32px]" />
             <p>Detalhar</p>
           </button>
           {ehAutor && (
             <>
               <hr className="border-t-1 border-black w-full" />
-              <button className="w-full flex gap-2 items-center px-6 py-2" onClick={() => setModalVisivel(true)}>
+              <button
+                className="w-full flex gap-2 items-center px-6 py-2 hover:bg-[#e0b874] transition-colors duration-200"
+                onClick={() => setModalVisivel(true)}
+              >
                 <BiEditAlt className="w-[32px] h-[32px]" />
                 <p className="">Editar</p>
               </button>
               <hr className="border-t-1 border-black w-full" />
-              <button className="w-full flex gap-2 items-center px-6 py-2">
+              <button className="w-full flex gap-2 items-center px-6 py-2 hover:bg-[#e0b874] transition-colors duration-200">
                 <FaRegTrashAlt className="w-[32px] h-[32px]" />
                 <p>Excluir</p>
               </button>
