@@ -59,3 +59,7 @@ a:hover {
 .scroll-dark:active::-webkit-scrollbar-thumb {
   opacity: 1;
 }
+
+.ant-spin .ant-spin-dot-item {
+  background-color: #d4490c;
+}
