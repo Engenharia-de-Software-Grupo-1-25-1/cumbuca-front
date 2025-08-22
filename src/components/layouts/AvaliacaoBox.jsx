@@ -11,7 +11,7 @@ import { MdOutlineComment, MdOutlineStarPurple500 } from 'react-icons/md';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { BiEditAlt } from 'react-icons/bi';
 import { FiEye } from 'react-icons/fi';
-import { coresTags } from '../temporario/tags';
+import { coresTags } from '../utils/coresTags';
 import fotoDePerfilPadrao from '../../assets/fotoDePerfilPadrao.webp';
 
 //Box de Avaliação, recebe uma avaliação e a apresenta em um perfil ou no Feed

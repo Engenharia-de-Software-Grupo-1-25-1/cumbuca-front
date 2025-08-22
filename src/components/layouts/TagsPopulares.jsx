@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import TagBox from './TagBox';
-import { coresTags } from '../temporario/tags';
+import { coresTags } from '../utils/coresTags';
 import { getTagsPopulares } from '../../services/tagService';
 import { message, Spin } from 'antd';
 
@@ -52,15 +52,14 @@ function TagsPopulares() {
           <Spin size="large" />
         </div>
       ) : (
-        [...tags]
-          .map((tag, index) => {
-            const cor = coresTags[index];
-            return (
-              <li key={index} className="w-full">
-                <TagBox tag={tag} corFundo={cor?.corFundo} corDestaque={cor?.corDestaque} />
-              </li>
-            );
-          })
+        [...tags].map((tag, index) => {
+          const cor = coresTags[index];
+          return (
+            <li key={index} className="w-full">
+              <TagBox tag={tag} corFundo={cor?.corFundo} corDestaque={cor?.corDestaque} />
+            </li>
+          );
+        })
       )}
     </ul>
   );
