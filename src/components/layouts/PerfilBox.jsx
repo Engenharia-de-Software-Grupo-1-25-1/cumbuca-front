@@ -5,10 +5,12 @@ import { MdOutlineEdit } from 'react-icons/md';
 import { DataView } from 'primereact/dataview';
 import { getAvaliacoesUsuario } from '../../services/avaliacaoService';
 import fotoDePerfilPadrao from '../../assets/fotoDePerfilPadrao.webp';
+import { useNavigate } from 'react-router-dom';
 
 // Box que armazena perfil de estabelecimento ou de usuário
 // É possível definir o usuário exibido
 export default function PerfilBox({ usuario, loadingUsuario }) {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const ehMeuPerfil = usuario ? user.id === usuario.id : false;
 
@@ -75,8 +77,13 @@ export default function PerfilBox({ usuario, loadingUsuario }) {
           <h2 className="font-normal text-[16px] sm:text-[16px] md:text-[20px] lg:text-[20px]">@{usuario.username}</h2>
         </div>
         {ehMeuPerfil && (
-          <button className="self-end mb-auto">
-            <MdOutlineEdit alt="Editar Perfil" size={36} color="#F4E9C3" />
+          <button
+            type="button"
+            className="self-end mb-auto hover:opacity-90 focus:outline-none"
+            onClick={() => navigate('/perfil/editar')}
+            aria-label="Editar Perfil"
+          >
+            <MdOutlineEdit size={36} color="#F4E9C3" />
           </button>
         )}
       </div>

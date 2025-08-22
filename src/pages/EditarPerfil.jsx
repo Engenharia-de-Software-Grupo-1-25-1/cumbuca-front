@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import { FaLock, FaCamera, FaArrowLeft, FaExclamationTriangle } from 'react-icons/fa';
 import Layout2 from '../components/layouts/Layout2';
 import { atualizarPerfil, getPerfil } from '../services/usuarioService';
+import { useNavigate } from 'react-router-dom';
 
 const EditarPerfil = () => {
+  const navigate = useNavigate();
   const [nome, setNome] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -100,7 +102,7 @@ const EditarPerfil = () => {
           <button
             type="button"
             className="absolute left-4 top-4 text-[#1f1f1f] hover:opacity-80"
-            onClick={() => window.history.back()}
+            onClick={() => navigate(-1)}
             aria-label="Voltar"
           >
             <FaArrowLeft size={28} />
@@ -110,7 +112,6 @@ const EditarPerfil = () => {
             <div className="text-[#F4E9C3]">Carregando...</div>
           ) : (
             <form onSubmit={handleSalvar} className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mt-6">
-              {/* Foto */}
               <div className="col-span-1 flex flex-col items-center sm:items-center gap-3 self-center">
                 <div className="w-36 h-36 sm:w-40 sm:h-40 bg-[#d4d4d4] rounded-full overflow-hidden border border-[#7a3b05]">
                   <img
@@ -130,7 +131,6 @@ const EditarPerfil = () => {
                 </label>
               </div>
 
-              {/* Campos */}
               <div className="col-span-1 sm:col-span-2 flex flex-col gap-4 sm:pr-1">
                 <div>
                   <label className="block text-[#1f1f1f] font-semibold mb-1">Nome</label>
