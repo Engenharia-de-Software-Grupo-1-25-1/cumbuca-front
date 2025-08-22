@@ -17,7 +17,7 @@ export default function PerfilBox({ usuario, loadingUsuario }) {
 
   const carregarAvaliacoes = useCallback(async () => {
     if (!usuario) return;
-  
+
     setLoadingAvaliacoes(true);
     try {
       const { data } = await getAvaliacoesUsuario(usuario.id);
@@ -30,10 +30,10 @@ export default function PerfilBox({ usuario, loadingUsuario }) {
       setLoadingAvaliacoes(false);
     }
   }, [usuario]);
-  
+
   useEffect(() => {
     carregarAvaliacoes();
-  }, [carregarAvaliacoes]);  
+  }, [carregarAvaliacoes]);
 
   if (loadingUsuario) {
     return (
@@ -88,7 +88,9 @@ export default function PerfilBox({ usuario, loadingUsuario }) {
       ) : avaliacoes.length > 0 ? (
         <DataView
           value={avaliacoes}
-          itemTemplate={(avaliacao, index) => <AvaliacaoBox key={index} avaliacao={avaliacao} onChange={carregarAvaliacoes} />}
+          itemTemplate={(avaliacao, index) => (
+            <AvaliacaoBox key={index} avaliacao={avaliacao} onChange={carregarAvaliacoes} />
+          )}
           layout="list"
           style={{ maxHeight: '500px', overflowY: 'auto' }}
           className="scroll-dark mt-8"

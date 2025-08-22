@@ -22,7 +22,7 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
   // const [qtdCurtidas, setQtdCurtidas] = useState(avaliacao.qtdCurtidas);
   const { user } = useAuth();
   const op = useRef(null);
-    const [modalVisivel, setModalVisivel] = useState(false);
+  const [modalVisivel, setModalVisivel] = useState(false);
 
   const ehAutor = user.id === avaliacao.usuario.id;
 
@@ -157,7 +157,15 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
           </div>
         )}
       </div>
-      {modalVisivel && <ModalAvaliacao open={modalVisivel} onClose={() => setModalVisivel(false)} editar={true} avaliacaoId={avaliacao.id} onEditSuccess={() => onChange && onChange()} />}
+      {modalVisivel && (
+        <ModalAvaliacao
+          open={modalVisivel}
+          onClose={() => setModalVisivel(false)}
+          editar={true}
+          avaliacaoId={avaliacao.id}
+          onEditSuccess={() => onChange && onChange()}
+        />
+      )}
     </div>
   );
 }
