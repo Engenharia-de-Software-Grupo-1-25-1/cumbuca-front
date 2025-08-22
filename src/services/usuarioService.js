@@ -3,7 +3,7 @@ import endpoints from '../constants/ApiEndPoints';
 import { toISODateOnly } from '../utils/date';
 import { normalizeFoto } from '../utils/image';
 
-export const getUsuarioPorUsername = async (username) => {
+export const getUsuarioPorUsername = async username => {
   try {
     const { data } = await api.get(`/${endpoints.usuario}/recuperar/${encodeURIComponent(username)}`, {
       skipAuthRedirect: true,
@@ -30,7 +30,7 @@ export const getUsuarioPorUsername = async (username) => {
 
 export async function atualizarPerfil(id, formData) {
   try {
-    await api.put(`/${endpoints.usuario}/${encodeURIComponent(id)}`, formData);
+    await api.put(`/${endpoints.usuario}/atualizar/${encodeURIComponent(id)}`, formData);
     return { sucesso: true };
   } catch (err) {
     const erro = err?.response?.data?.message || 'Erro ao atualizar o perfil.';
@@ -38,6 +38,6 @@ export async function atualizarPerfil(id, formData) {
   }
 }
 
-export const criarUsuario = (formData) => {
+export const criarUsuario = formData => {
   return api.post(`/${endpoints.usuario}/criar`, formData);
 };

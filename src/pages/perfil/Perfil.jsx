@@ -21,7 +21,7 @@ export default function Perfil() {
         }
       } catch (error) {
         console.error(error);
-        message.error('Erro ao carregar dados do usuário!')
+        message.error('Erro ao carregar dados do usuário!');
         if (error.response?.status === 404 || error.response?.status === 401) {
           setUsuario(null);
         }

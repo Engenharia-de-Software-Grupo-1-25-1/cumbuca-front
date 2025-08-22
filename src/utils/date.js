@@ -1,4 +1,3 @@
-// src/utils/date.js
 /**
  * Normaliza vários formatos de data (string ISO, ISO com T, array [y,m,d], Date, dd/mm/yyyy)
  * para "YYYY-MM-DD" (compatível com <input type="date">).

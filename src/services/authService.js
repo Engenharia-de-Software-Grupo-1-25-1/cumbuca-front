@@ -35,3 +35,12 @@ export const getUser = async () => {
       console.error(err);
     });
 };
+
+export const verificarSenhaAtual = async (username, senha) => {
+  try {
+    await api.post(`/${ApiEndPoints.login}`, { username, senha }, { skipAuthRedirect: true });
+    return true;
+  } catch {
+    return false;
+  }
+};

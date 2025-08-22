@@ -5,6 +5,7 @@ import { atualizarPerfil, getUsuarioPorUsername } from '../services/usuarioServi
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../features/auth/useAuth';
 import avatarPadrao from '../assets/fotoDePerfilPadrao.webp';
+import { verificarSenhaAtual } from '../services/authService';
 
 const EditarPerfil = () => {
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ const EditarPerfil = () => {
           setUsername(username || '');
           setEmail(email || '');
           setDtNascimento(dtNascimento || '');
-          setPreviewFoto(foto || null); 
+          setPreviewFoto(foto || null);
           setFoto(null);
         } else {
           setErro(resp?.erro || 'Não foi possível carregar seu perfil.');
@@ -65,54 +66,61 @@ const EditarPerfil = () => {
     }
   };
 
-  const handleSalvar = async (e) => {
-  e.preventDefault();
-  setMensagem('');
-  setErro('');
+  const handleSalvar = async e => {
+    e.preventDefault();
+    setMensagem('');
+    setErro('');
 
-  if (!id) {
-    setErro('Não foi possível identificar o usuário para atualizar.');
-    return;
-  }
-  if (!nome || !username || !email || !dtNascimento) {
-    setErro('Preencha nome, nome de usuário, e-mail e data de nascimento.');
-    return;
-  }
-
-  const trocandoSenha = !!(novaSenha?.trim() || confirmarNovaSenha?.trim());
-
-  let senhaParaEnviar = null;
-  if (trocandoSenha) {
-    if (!senhaAtual?.trim()) return setErro('Informe a senha atual para alterar a senha.');
-    if (!novaSenha?.trim()) return setErro('Informe a nova senha.');
-    if (novaSenha !== confirmarNovaSenha) return setErro('A confirmação de senha não confere.');
-    senhaParaEnviar = novaSenha.trim();
-  } else {
-    if (!senhaAtual?.trim()) {
-      return setErro('Para salvar alterações sem trocar a senha, informe sua senha atual.');
+    if (!id) {
+      setErro('Não foi possível identificar o usuário para atualizar.');
+      return;
     }
-    senhaParaEnviar = senhaAtual.trim();
-  }
+    if (!nome || !username || !email || !dtNascimento) {
+      setErro('Preencha nome, nome de usuário, e-mail e data de nascimento.');
+      return;
+    }
 
-  const formData = new FormData();
-  formData.append('nome', nome);
-  formData.append('username', username);
-  formData.append('email', email);
-  formData.append('dtNascimento', dtNascimento);
-  if (foto instanceof File) formData.append('foto', foto);
+    const trocandoSenha = !!(novaSenha?.trim() || confirmarNovaSenha?.trim());
 
-  formData.append('senha', senhaParaEnviar);
+    let senhaParaEnviar = null;
+    if (trocandoSenha) {
+      if (!senhaAtual?.trim()) return setErro('Informe a senha atual para alterar a senha.');
+      if (!novaSenha?.trim()) return setErro('Informe a nova senha.');
+      if (novaSenha !== confirmarNovaSenha) return setErro('A confirmação de senha não confere.');
 
-  const resp = await atualizarPerfil(id, formData);
-  if (resp?.sucesso) {
-    setMensagem('Perfil atualizado com sucesso!');
-    setSenhaAtual('');
-    setNovaSenha('');
-    setConfirmarNovaSenha('');
-  } else {
-    setErro(resp?.erro || 'Não foi possível atualizar o perfil.');
-  }
-};
+      const ok = await verificarSenhaAtual(user?.username || username || email, senhaAtual.trim());
+      if (!ok) return setErro('Senha atual incorreta.');
+
+      senhaParaEnviar = novaSenha.trim();
+    } else {
+      if (!senhaAtual?.trim()) {
+        return setErro('Para salvar alterações sem trocar a senha, informe sua senha atual.');
+      }
+      const ok = await verificarSenhaAtual(user?.username || username || email, senhaAtual.trim());
+      if (!ok) return setErro('Senha atual incorreta.');
+
+      senhaParaEnviar = senhaAtual.trim();
+    }
+
+    const formData = new FormData();
+    formData.append('nome', nome);
+    formData.append('username', username);
+    formData.append('email', email);
+    formData.append('dtNascimento', dtNascimento);
+    if (foto instanceof File) formData.append('foto', foto);
+
+    formData.append('senha', senhaParaEnviar);
+
+    const resp = await atualizarPerfil(id, formData);
+    if (resp?.sucesso) {
+      setMensagem('Perfil atualizado com sucesso!');
+      setSenhaAtual('');
+      setNovaSenha('');
+      setConfirmarNovaSenha('');
+    } else {
+      setErro(resp?.erro || 'Não foi possível atualizar o perfil.');
+    }
+  };
 
   return (
     <>
@@ -136,11 +144,7 @@ const EditarPerfil = () => {
             <form onSubmit={handleSalvar} className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mt-6">
               <div className="col-span-1 flex flex-col items-center sm:items-center gap-3 self-center">
                 <div className="w-36 h-36 sm:w-40 sm:h-40 bg-[#d4d4d4] rounded-full overflow-hidden border border-[#7a3b05]">
-                <img
-                  src={previewFoto || avatarPadrao}
-                  alt="Foto de perfil"
-                  className="w-full h-full object-cover"
-                />
+                  <img src={previewFoto || avatarPadrao} alt="Foto de perfil" className="w-full h-full object-cover" />
                 </div>
 
                 <label className="inline-flex items-center gap-2 bg-[#F4E9C3] text-[#1f1f1f] px-4 py-2 rounded-md cursor-pointer hover:brightness-95">

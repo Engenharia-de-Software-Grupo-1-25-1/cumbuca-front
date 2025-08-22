@@ -1,4 +1,3 @@
-// src/utils/image.js
 /**
  * Converte 'foto' em algo exibível no <img src="...">
  * - Se for URL (http/https) ou data URL, mantém como está.
@@ -16,7 +15,7 @@ export function normalizeFoto(foto) {
     const bytes = Array.isArray(foto) ? new Uint8Array(foto) : foto;
 
     let binary = '';
-    const chunkSize = 0x8000; // 32KB
+    const chunkSize = 0x8000;
     for (let i = 0; i < bytes.length; i += chunkSize) {
       const chunk = bytes.subarray(i, i + chunkSize);
       binary += String.fromCharCode.apply(null, chunk);

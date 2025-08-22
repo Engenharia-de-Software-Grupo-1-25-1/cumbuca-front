@@ -42,7 +42,7 @@ export default function RoutesApp() {
         }
       />
 
-            <Route
+      <Route
         path="/perfil/editar"
         element={
           <PrivateRoute>
