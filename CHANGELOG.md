@@ -49,3 +49,11 @@
 
 - Tela de listagem de estabelecimentos
 
+## US5.5 - PR 9
+
+### Adicionando
+
+- Box de avaliação responsivo
+- Interatividade com avaliação (curtir e acessar perfil de autor)
+- Exibição de avaliações de Usuário em seu Perfil
+- Exibição do perfil de outros usuários

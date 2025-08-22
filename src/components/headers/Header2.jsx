@@ -2,10 +2,9 @@ import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { FiPlus } from 'react-icons/fi';
 import cumbucaLogo from '../../assets/logo.svg';
-import sair from '../../assets/sair.svg';
-import pesquisarbtn from '../../assets/pesquisarbtn.svg';
-import filtrar from '../../assets/filtrar.svg';
-import fecharPesquisa from '../../assets/fecharPesquisa.svg';
+import { MdOutlineLogout } from 'react-icons/md';
+import { IoSearch, IoClose } from 'react-icons/io5';
+import { FiFilter } from 'react-icons/fi';
 import BarraDePesquisa from './BarraDePesquisa';
 import { useAuth } from '../../features/auth/useAuth';
 import ModalAvaliacao from '../ModalAvaliacao';
@@ -61,14 +60,14 @@ function Header({ placeholder }) {
 
       <div className="flex gap-1 sm:gap-1 md:gap-4 lg:gap-4">
         <button className="flex-shrink-0" onClick={alternarPesquisa}>
-          <img
-            src={mostrarPesquisa ? fecharPesquisa : pesquisarbtn}
-            className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px]"
-            alt={mostrarPesquisa ? 'Fechar pesquisa' : 'Pesquisar'}
-          />
+          {mostrarPesquisa ? (
+            <IoClose className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] h-auto" alt="Fechar pesquisa" />
+          ) : (
+            <IoSearch className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] h-auto" alt="Pesquisar" />
+          )}
         </button>
         <button className="flex-shrink-0">
-          <img src={filtrar} className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px]" alt="Filtrar" />
+          <FiFilter className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] h-auto" alt="Filtrar" />
         </button>
 
         {mostrarBotaoNovaAvaliacao && (
@@ -82,7 +81,7 @@ function Header({ placeholder }) {
         )}
 
         <button className="flex-shrink-0" onClick={logout}>
-          <img src={sair} className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px]" alt="Sair" />
+          <MdOutlineLogout className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] h-auto" alt="Sair" />
         </button>
       </div>
       {modalVisivel && <ModalAvaliacao open={modalVisivel} onClose={() => setModalVisivel(false)} />}
