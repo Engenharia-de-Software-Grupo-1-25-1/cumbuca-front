@@ -5,6 +5,7 @@ import { MdOutlineEdit } from 'react-icons/md';
 import { DataView } from 'primereact/dataview';
 import { getAvaliacoesUsuario } from '../../services/avaliacaoService';
 import fotoDePerfilPadrao from '../../assets/fotoDePerfilPadrao.webp';
+import { message } from 'antd';
 
 // Box que armazena perfil de estabelecimento ou de usuário
 // É possível definir o usuário exibido
