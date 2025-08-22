@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
-// import { useState, useRef } from 'react';
-import { useRef } from 'react';
+import { useState, useRef } from 'react';
 import { OverlayPanel } from 'primereact/overlaypanel';
 import { useAuth } from '../../features/auth/useAuth';
 import { MdOutlineStorefront } from 'react-icons/md';
@@ -12,16 +11,18 @@ import { FaRegTrashAlt } from 'react-icons/fa';
 import { BiEditAlt } from 'react-icons/bi';
 import { FiEye } from 'react-icons/fi';
 import { coresTags } from '../temporario/tags';
+import ModalAvaliacao from '../ModalAvaliacao';
 import fotoDePerfilPadrao from '../../assets/fotoDePerfilPadrao.webp';
 
 //Box de Avaliação, recebe uma avaliação e a apresenta em um perfil ou no Feed
 //Consegue verificar se o usuário logado é o autor da avaliação para exibir botões de edição e exclusão
 //Lida com curtidas
-export default function AvalicaoBox({ avaliacao }) {
+export default function AvalicaoBox({ avaliacao, onChange }) {
   // const [curtido, setCurtido] = useState(avaliacao.curtido);
   // const [qtdCurtidas, setQtdCurtidas] = useState(avaliacao.qtdCurtidas);
   const { user } = useAuth();
   const op = useRef(null);
+    const [modalVisivel, setModalVisivel] = useState(false);
 
   const ehAutor = user.id === avaliacao.usuario.id;
 
@@ -86,7 +87,7 @@ export default function AvalicaoBox({ avaliacao }) {
           {ehAutor && (
             <>
               <hr className="border-t-1 border-black w-full" />
-              <button className="w-full flex gap-2 items-center px-6 py-2">
+              <button className="w-full flex gap-2 items-center px-6 py-2" onClick={() => setModalVisivel(true)}>
                 <BiEditAlt className="w-[32px] h-[32px]" />
                 <p className="">Editar</p>
               </button>
@@ -156,6 +157,7 @@ export default function AvalicaoBox({ avaliacao }) {
           </div>
         )}
       </div>
+      {modalVisivel && <ModalAvaliacao open={modalVisivel} onClose={() => setModalVisivel(false)} editar={true} avaliacaoId={avaliacao.id} onEditSuccess={() => onChange && onChange()} />}
     </div>
   );
 }
