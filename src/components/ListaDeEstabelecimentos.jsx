@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Spin } from 'antd';
-import CardEstab from "./cards/cardEstabelecimento";
+import CardEstab from "./cards/CardEstabelecimento";
 
 const ListaEstabelecimentos = ({arrayEstabelecimentos}) => {
     const [estabelecimentos, setEstabelecimentos] = useState([]);

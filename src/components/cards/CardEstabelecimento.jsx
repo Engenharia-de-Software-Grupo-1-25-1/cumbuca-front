@@ -1,6 +1,8 @@
-import { FaStar, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaStar } from 'react-icons/fa';
+import { MdOutlineLocationOn } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import { getEstabelecimentoImagem } from "../../utils/imagensCategoriasMapper";
+import { formataInfosEstabelecimento } from '../../utils/formataInfosEstabelecimento';
 
 const formatar = new Intl.NumberFormat('pt-BR', {
   notation: 'compact',
@@ -16,8 +18,10 @@ const formatarNum = (n) => {
 
 //contrução do card do estabelecimento
 const CardEstab = ({ estabelecimento }) => {
-  const { id, nome, categoria, notaGeral, quantidadeAvaliacoes, localizacao } = estabelecimento || {};
-  const estabImagem = getEstabelecimentoImagem(categoria);
+  const { id, nome, categoria, notaGeral, quantidadeAvaliacoes, rua, numero, bairro, cidade, estado, cep } = estabelecimento || {};
+
+  const {categoriaMapeada, notaFormatada, localizacao} = formataInfosEstabelecimento(categoria, notaGeral, rua, numero, bairro, cidade, estado, cep);
+  const estabImagem = getEstabelecimentoImagem(categoriaMapeada);
 
   return (
       <Link to={`/estabelecimentos/${id}`} className="block w-full text-current no-underline">
@@ -30,15 +34,15 @@ const CardEstab = ({ estabelecimento }) => {
               <div className="flex items-center justify-between">
                 <h2 className="truncate text-2xl font-bold text-[#4b2509]">{nome}</h2>
             </div>
-            <p className="mt-1 mb-2 text-sm text-black">{categoria}</p>
+            <p className="mt-1 mb-2 text-sm text-black">{categoriaMapeada}</p>
             <div className="flex items-center gap-5">
               <div className="flex items-center flex-shrink-0">
-                <FaStar size={23} className="text-[#ffb115] -translate-y-1 mr-1" />
-                <span className="text-[#ffb115] text-lg font-bold ml-1">{notaGeral}</span>
+                <FaStar size={23} className="text-[#ffb115] mr-1" />
+                <span className="text-[#ffb115] text-2xl ml-1">{notaFormatada}</span>
                 <span className="ml-2 text-md text-black whitespace-nowrap">{formatarNum(quantidadeAvaliacoes)} avaliações</span>
             </div>
             <div className="flex items-center text-black min-w-0 overflow-hidden">
-              <FaMapMarkerAlt size={18} className="text-[#ffb115] -translate-y-1 mr-2 flex-shrink-0" />
+              <MdOutlineLocationOn size={20} className="mr-2 flex-shrink-0" />
               <span className="truncate text-md">{localizacao}</span>
             </div>
           </div>
