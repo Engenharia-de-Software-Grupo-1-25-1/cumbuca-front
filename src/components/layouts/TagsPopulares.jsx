@@ -53,7 +53,6 @@ function TagsPopulares() {
         </div>
       ) : (
         [...tags]
-          .sort((a, b) => b.nPublicacoes - a.nPublicacoes)
           .map((tag, index) => {
             const cor = coresTags[index];
             return (
