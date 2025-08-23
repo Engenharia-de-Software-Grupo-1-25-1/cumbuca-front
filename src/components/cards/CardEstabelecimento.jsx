@@ -18,7 +18,7 @@ const formatarNum = (n) => {
 
 //contrução do card do estabelecimento
 const CardEstab = ({ estabelecimento }) => {
-  const { id, nome, categoria, notaGeral, quantidadeAvaliacoes, rua, numero, bairro, cidade, estado, cep } = estabelecimento || {};
+  const { id, nome, categoria, notaGeral, qtdAvaliacoes, rua, numero, bairro, cidade, estado, cep } = estabelecimento || {};
 
   const {categoriaMapeada, notaFormatada, localizacao} = formataInfosEstabelecimento(categoria, notaGeral, rua, numero, bairro, cidade, estado, cep);
   const estabImagem = getEstabelecimentoImagem(categoriaMapeada);
@@ -39,7 +39,7 @@ const CardEstab = ({ estabelecimento }) => {
               <div className="flex items-center flex-shrink-0">
                 <FaStar size={23} className="text-[#ffb115] mr-1" />
                 <span className="text-[#ffb115] text-2xl ml-1">{notaFormatada}</span>
-                <span className="ml-2 text-md text-black whitespace-nowrap">{formatarNum(quantidadeAvaliacoes)} avaliações</span>
+                <span className="ml-2 text-md text-black whitespace-nowrap">{formatarNum(qtdAvaliacoes)} avaliações</span>
             </div>
             <div className="flex items-center text-black min-w-0 overflow-hidden">
               <MdOutlineLocationOn size={20} className="mr-2 flex-shrink-0" />
