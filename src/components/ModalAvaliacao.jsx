@@ -281,9 +281,10 @@ export default function ModalAvaliacao({ open, onClose, editar = false, avaliaca
                     id="estabelecimento"
                     type="text"
                     value={textoLugar}
-                    readOnly
+                    disabled
+                    aria-disabled="true"
                     className="w-full rounded-full border border-neutral-300
-                               bg-[#E9D3AE] text-neutral-800 px-4 py-2 text-sm"
+                               cursor-not-allowed bg-[#E9D3AE] text-neutral-800 px-4 py-2 text-sm"
                   />
                 </div>
               ) : (
