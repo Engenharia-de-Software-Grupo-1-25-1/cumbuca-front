@@ -59,3 +59,7 @@ a:hover {
 .scroll-dark:active::-webkit-scrollbar-thumb {
   opacity: 1;
 }
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

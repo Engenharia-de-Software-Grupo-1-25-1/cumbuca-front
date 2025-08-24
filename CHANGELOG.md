@@ -43,6 +43,12 @@
 
 - Modal de Avaliação, criar e editar avaliação
 
+## US7.2 - PR 10
+
+### Adicionado
+
+- Tela de listagem de estabelecimentos
+
 ## US5.5 - PR 9
 
 ### Adicionando
