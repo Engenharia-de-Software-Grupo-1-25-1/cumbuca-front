@@ -63,3 +63,7 @@ a:hover {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+.ant-spin .ant-spin-dot-item {
+  background-color: #d4490c;
+}
