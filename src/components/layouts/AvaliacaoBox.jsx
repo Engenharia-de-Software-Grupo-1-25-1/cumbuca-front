@@ -134,7 +134,9 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
           </button>
 
           <p className="text-[#505050] text-base ml-0 sm:ml-0 md:ml-auto lg:ml-auto">
-            {new Date(avaliacao.data).toLocaleDateString('pt-BR')}
+            {new Date(avaliacao.data).toLocaleDateString('pt-BR', {
+              timeZone: 'UTC',
+            })}
           </p>
         </div>
 
