@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useAuth } from '../../features/auth/useAuth';
 import AvaliacaoBox from '../layouts/AvaliacaoBox';
 import { MdOutlineEdit } from 'react-icons/md';
 import { DataView } from 'primereact/dataview';
 import { getAvaliacoesUsuario } from '../../services/avaliacaoService';
 import fotoDePerfilPadrao from '../../assets/fotoDePerfilPadrao.webp';
+import { message } from 'antd';
 
 // Box que armazena perfil de estabelecimento ou de usuário
 // É possível definir o usuário exibido
@@ -15,25 +16,25 @@ export default function PerfilBox({ usuario, loadingUsuario }) {
   const [avaliacoes, setAvaliacoes] = useState([]);
   const [loadingAvaliacoes, setLoadingAvaliacoes] = useState(false);
 
-  useEffect(() => {
-    async function carregarAvaliacoes() {
-      if (!usuario) return;
+  const carregarAvaliacoes = useCallback(async () => {
+    if (!usuario) return;
 
-      setLoadingAvaliacoes(true);
-      try {
-        const { data } = await getAvaliacoesUsuario(usuario.id);
-        setAvaliacoes(data);
-      } catch (error) {
-        console.error(error);
-        message.error('Erro ao carregar avaliações!');
-        setAvaliacoes([]);
-      } finally {
-        setLoadingAvaliacoes(false);
-      }
+    setLoadingAvaliacoes(true);
+    try {
+      const { data } = await getAvaliacoesUsuario(usuario.id);
+      setAvaliacoes(data);
+    } catch (error) {
+      console.error(error);
+      message.error('Erro ao carregar avaliações!');
+      setAvaliacoes([]);
+    } finally {
+      setLoadingAvaliacoes(false);
     }
-
-    carregarAvaliacoes();
   }, [usuario]);
+
+  useEffect(() => {
+    carregarAvaliacoes();
+  }, [carregarAvaliacoes]);
 
   if (loadingUsuario) {
     return (
@@ -88,7 +89,9 @@ export default function PerfilBox({ usuario, loadingUsuario }) {
       ) : avaliacoes.length > 0 ? (
         <DataView
           value={avaliacoes}
-          itemTemplate={(avaliacao, index) => <AvaliacaoBox key={index} avaliacao={avaliacao} />}
+          itemTemplate={(avaliacao, index) => (
+            <AvaliacaoBox key={index} avaliacao={avaliacao} onChange={carregarAvaliacoes} />
+          )}
           layout="list"
           style={{ maxHeight: '500px', overflowY: 'auto' }}
           className="scroll-dark mt-8"

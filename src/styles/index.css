@@ -60,6 +60,10 @@ a:hover {
   opacity: 1;
 }
 
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 .ant-spin .ant-spin-dot-item {
   background-color: #d4490c;
 }

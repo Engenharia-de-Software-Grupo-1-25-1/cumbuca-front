@@ -3,4 +3,5 @@ export default {
   usuario: 'usuario',
   avaliacao: 'avaliacao',
   tag: 'tag',
+  estabelecimento: 'estabelecimento',
 };
