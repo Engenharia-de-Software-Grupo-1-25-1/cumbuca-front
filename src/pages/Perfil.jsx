@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Layout from '../../components/layouts/Layout4';
-import { getUsuarioPorUsername } from '../../services/usuarioService';
+import Layout from '../components/layouts/Layout4';
+import { getUsuarioPorUsername } from '../services/usuarioService';
 import { message } from 'antd';
 
 //Página de Perfil

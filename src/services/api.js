@@ -21,7 +21,14 @@ api.interceptors.response.use(
   response => response,
   error => {
     const skipRedirect = error.config?.skipAuthRedirect;
-    if (!skipRedirect && error.response && (error.response.status === 401 || error.response.status === 403)) {
+    if (
+      !skipRedirect &&
+      error.response &&
+      (error.response.status === 401 ||
+        error.response.status === 403 ||
+        error.response.data.includes('token JWT') ||
+        error.response.data.message.includes('token JWT'))
+    ) {
       message.error('Tempo de sessão encerrado, redirecionando para login!');
       logout();
       window.location.href = '/login';

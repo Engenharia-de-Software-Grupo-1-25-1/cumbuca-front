@@ -8,7 +8,7 @@ import FeedEstabelecimentos from '../pages/FeedEstabelecimentos';
 import RecuperarSenha from '../pages/RecuperarSenha';
 import NovaSenha from '../pages/NovaSenha';
 import CriarConta from '../pages/CriarConta';
-import Perfil from '../pages/perfil/Perfil';
+import Perfil from '../pages/Perfil';
 
 export default function RoutesApp() {
   return (
@@ -34,8 +34,8 @@ export default function RoutesApp() {
       />
 
       <Route
-        path='/estabelecimentos'
-        element= {
+        path="/estabelecimento"
+        element={
           <PrivateRoute>
             <FeedEstabelecimentos />
           </PrivateRoute>
