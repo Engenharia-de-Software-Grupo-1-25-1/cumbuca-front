@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Layout from '../../components/layouts/Layout4';
-import { getUsuarioPorUsername } from '../../services/usuarioService';
+import Layout from '../components/layouts/Layout4';
+import { getUsuarioPorUsername } from '../services/usuarioService';
 import { message } from 'antd';
 
 //Página de Perfil
@@ -21,9 +21,10 @@ export default function Perfil() {
         }
       } catch (error) {
         console.error(error);
-        message.error('Erro ao carregar dados do usuário!')
         if (error.response?.status === 404 || error.response?.status === 401) {
           setUsuario(null);
+        } else {
+          message.error('Erro ao carregar dados do usuário!');
         }
       } finally {
         setLoadingUsuario(false);

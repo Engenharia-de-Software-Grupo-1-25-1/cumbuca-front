@@ -4,10 +4,11 @@ import NaoEncontrado from '../pages/NaoEncontrado';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
 import Layout4 from '../components/layouts/Layout4';
+import FeedEstabelecimentos from '../pages/FeedEstabelecimentos';
 import RecuperarSenha from '../pages/RecuperarSenha';
 import NovaSenha from '../pages/NovaSenha';
 import CriarConta from '../pages/CriarConta';
-import Perfil from '../pages/perfil/Perfil';
+import Perfil from '../pages/Perfil';
 
 export default function RoutesApp() {
   return (
@@ -28,6 +29,15 @@ export default function RoutesApp() {
         element={
           <PrivateRoute>
             <Layout4 />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/estabelecimento"
+        element={
+          <PrivateRoute>
+            <FeedEstabelecimentos />
           </PrivateRoute>
         }
       />

@@ -43,11 +43,23 @@
 
 - Modal de Avaliação, criar e editar avaliação
 
+## US7.2 - PR 10
+
+### Adicionado
+
+- Tela de listagem de estabelecimentos
+
 ## US5.5 - PR 9
 
-### Adicionando
+### Adicionado
 
 - Box de avaliação responsivo
 - Interatividade com avaliação (curtir e acessar perfil de autor)
 - Exibição de avaliações de Usuário em seu Perfil
 - Exibição do perfil de outros usuários
+
+## US6.8 - PR 12
+
+### Adicionando
+
+- Conexão de botão de editar avaliação com modal de edição
