@@ -73,13 +73,42 @@ export function getUF(addr = {}) {
   return '';
 }
 
+export async function getCityViewbox({ city, state, country = 'BR', signal }) {
+  const u = new URL('https://nominatim.openstreetmap.org/search');
+  u.searchParams.set('format', 'jsonv2');
+  u.searchParams.set('limit', '1');
+  u.searchParams.set('city', city);
+  if (state) u.searchParams.set('state', state);
+  u.searchParams.set('country', country);
+
+  const r = await fetch(u, { signal, headers: { Referer: window.location.origin } });
+  if (!r.ok) throw new Error('Falha ao buscar bounding box da cidade');
+
+  const [place] = await r.json();
+  if (!place) throw new Error('Cidade não encontrada');
+
+  const [south, north, west, east] = place.boundingbox.map(Number);
+  return { left: west, top: north, right: east, bottom: south };
+}
+
 export async function buscarNominatim(q, signal) {
+  const { left, top, right, bottom } = await getCityViewbox({
+    city: 'Campina Grande',
+    state: 'Paraíba',
+    country: 'BR',
+    signal,
+  });
+
   const url = new URL('https://nominatim.openstreetmap.org/search');
   url.searchParams.set('q', q);
   url.searchParams.set('format', 'jsonv2');
   url.searchParams.set('addressdetails', '1');
   url.searchParams.set('limit', '8');
   url.searchParams.set('accept-language', 'pt-BR');
+  url.searchParams.set('countrycodes', 'BR');
+  url.searchParams.set('bounded', '1');
+  url.searchParams.set('viewbox', `${left},${top},${right},${bottom}`);
+
   const r = await fetch(url, { signal, headers: { Referer: window.location.origin } });
   if (!r.ok) throw new Error('Falha ao buscar no Nominatim');
   return r.json();

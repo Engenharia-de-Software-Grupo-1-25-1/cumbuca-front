@@ -13,23 +13,22 @@ import japones from '../assets/estabImagens/japones.png';
 import mercado from '../assets/estabImagens/mercado.png';
 import posto from '../assets/estabImagens/posto.png';
 
-
 const imagemCategoria = {
-  'Padaria': padaria,
-  'Restaurante': restaurante,
-  'Café': cafe,
-  'Bar': bar,
-  'Pizzaria': pizzaria,
-  'Sorveteria': sorveteria,
-  'Açougue': acougue,
-  'Churrascaria': churrascaria,
-  'Confeitaria': confeitaria,
-  'Hamburgueria': hamburgueria,
-  'Sushi': japones,
-  'Mercado': mercado,
+  Padaria: padaria,
+  Restaurante: restaurante,
+  Café: cafe,
+  Bar: bar,
+  Pizzaria: pizzaria,
+  Sorveteria: sorveteria,
+  Açougue: acougue,
+  Churrascaria: churrascaria,
+  Confeitaria: confeitaria,
+  Hamburgueria: hamburgueria,
+  Sushi: japones,
+  Mercado: mercado,
   'Posto de Combustível': posto,
 };
 
-export const getEstabelecimentoImagem = (categoria) => {
+export const getEstabelecimentoImagem = categoria => {
   return imagemCategoria[categoria] || cumbuca;
 };

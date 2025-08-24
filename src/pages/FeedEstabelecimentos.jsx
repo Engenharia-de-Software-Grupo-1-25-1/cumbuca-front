@@ -7,14 +7,12 @@ import '../styles/index.css';
 function Layout() {
   return (
     <>
-      <div className="sticky top-0 z-50">
-        <Header />
+      <Header />
+      <div className="max-w-6xl mx-auto px-0 sm:px-0 md:px-4 lg:px-4">
         <NavBar />
-      </div>
-      <div
-        style={{ height: 'calc(100vh - 12rem)' }}
-        className="w-[80%] sm:w-[80%] md:w-[85%] lg:w-[65%] justify-self-center sm:justify-self-center md:justify-self-auto ld:justify-self-auto ml-0 sm:ml-0 md:ml-4 lg:ml-4 overflow-y-scroll no-scrollbar">
-        <ListaEstabelecimentos arrayEstabelecimentos={getEstabelecimentos} />
+        <div className="flex gap-4 justify-center ml-0 sm:ml-0 md:ml-4 lg:ml-4 mb-8 no-scrollbar overflow-y-scroll max-h-[calc(100vh-250px)]">
+          <ListaEstabelecimentos arrayEstabelecimentos={getEstabelecimentos} />
+        </div>
       </div>
     </>
   );
