@@ -230,9 +230,11 @@ export function AutocompleteNominatim({ id, valor, erro, mostrarErros, onChange,
   const [ativo, setAtivo] = useState(-1);
   const deb = useDebounce(valor, 400);
   const abortRef = useRef(null);
+  const suprimirBuscaRef = useRef(false);
 
   useEffect(() => {
-    if (!deb) {
+    if (!deb || onEdit || suprimirBuscaRef.current) {
+      suprimirBuscaRef.current = false;
       setSugs([]);
       return;
     }
@@ -251,7 +253,7 @@ export function AutocompleteNominatim({ id, valor, erro, mostrarErros, onChange,
       }
     })();
     return () => abortRef.current?.abort();
-  }, [deb]);
+  }, [deb, onEdit]);
 
   const temErro = mostrarErros && !!erro;
 
@@ -290,7 +292,7 @@ export function AutocompleteNominatim({ id, valor, erro, mostrarErros, onChange,
         </span>
       </div>
 
-      {((sugs.length && valor) || carregando) && (
+      {!onEdit && ((sugs.length && valor) || carregando) && (
         <div
           role="listbox"
           className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-xl border border-neutral-200 bg-white shadow"
@@ -306,6 +308,7 @@ export function AutocompleteNominatim({ id, valor, erro, mostrarErros, onChange,
                   role="option"
                   aria-selected={i === ativo}
                   onClick={() => {
+                    suprimirBuscaRef.current = true;
                     onSelect(s);
                     setSugs([]);
                   }}
