@@ -30,6 +30,73 @@ export default function ModalAvaliacao({ open, onClose, editar = false, avaliaca
   const [enviando, setEnviando] = useState(false);
   const [tentouEnviar, setTentouEnviar] = useState(false);
   const [carregandoEdicao, setCarregandoEdicao] = useState(false);
+  const [originalAvaliacao, setOriginalAvaliacao] = useState(null);
+
+  useEffect(() => {
+    if (!open || !editar || !avaliacaoId) return;
+
+    (async () => {
+      try {
+        setCarregandoEdicao(true);
+
+        const resp = await obterAvaliacao(avaliacaoId);
+        const data = resp && resp.data ? resp.data : resp;
+        if (!data || typeof data !== 'object') throw new Error('Resposta inválida');
+
+        // Campos
+        setItem(data.itemConsumido || '');
+        setDescricao(data.descricao || '');
+        setPrecoDigits(dotFixedToDigits(data.preco));
+
+        const tagsNormalizadas = Array.isArray(data.tags)
+          ? data.tags.filter(Boolean).map(t => String(t).replace(/^#/, '').trim())
+          : tagsToArray(data.tags);
+        setTags(tagsNormalizadas);
+
+        const toNum = v => (v === undefined || v === null || v === '' ? 0 : Number(v));
+        setNotas({
+          geral: toNum(data.notaGeral),
+          comida: toNum(data.notaComida),
+          ambiente: toNum(data.notaAmbiente),
+          atendimento: toNum(data.notaAtendimento),
+        });
+
+        const fotosDaApi = Array.isArray(data.fotos) ? data.fotos : [];
+        const arquivos = fotosDaApi.map(b64 => base64ToFile(b64, undefined)).filter(Boolean);
+        setFotos(arquivos);
+
+        setOriginalAvaliacao({
+          item: data.itemConsumido || '',
+          descricao: data.descricao || '',
+          precoDigits: dotFixedToDigits(data.preco),
+          tags: tagsNormalizadas,
+          notas: {
+            geral: toNum(data.notaGeral),
+            comida: toNum(data.notaComida),
+            ambiente: toNum(data.notaAmbiente),
+            atendimento: toNum(data.notaAtendimento),
+          },
+          fotos: arquivos,
+        });
+      } catch (err) {
+        message.error(err.response?.data || err.message || 'Não foi possível carregar a avaliação.');
+      } finally {
+        setCarregandoEdicao(false);
+      }
+    })();
+  }, [open, editar, avaliacaoId]);
+
+  const podeEditar = useMemo(() => {
+    if (!editar || !originalAvaliacao) return true;
+    return (
+      item !== originalAvaliacao.item ||
+      descricao !== originalAvaliacao.descricao ||
+      precoDigits !== originalAvaliacao.precoDigits ||
+      JSON.stringify(tags) !== JSON.stringify(originalAvaliacao.tags) ||
+      JSON.stringify(notas) !== JSON.stringify(originalAvaliacao.notas) ||
+      JSON.stringify(fotos) !== JSON.stringify(originalAvaliacao.fotos)
+    );
+  }, [editar, originalAvaliacao, item, descricao, precoDigits, tags, notas, fotos]);
 
   const erros = useMemo(() => {
     const e = {};
@@ -205,7 +272,7 @@ export default function ModalAvaliacao({ open, onClose, editar = false, avaliaca
             <div className="py-10 text-center text-sm text-neutral-700">Carregando dados…</div>
           ) : (
             <form onSubmit={enviar} className="space-y-3">
-                            {editar ? (
+              {editar ? (
                 <div>
                   <label htmlFor="estabelecimento" className="mb-1 block text-sm font-semibold text-[#3D2E1C]">
                     Estabelecimento
@@ -235,7 +302,7 @@ export default function ModalAvaliacao({ open, onClose, editar = false, avaliaca
                   onSelect={selecionarLugar}
                 />
               )}
-              
+
               <div>
                 <label htmlFor="categoria" className="mb-1 block text-sm font-semibold text-[#3D2E1C]">
                   Categoria
@@ -343,7 +410,7 @@ export default function ModalAvaliacao({ open, onClose, editar = false, avaliaca
                 </button>
                 <button
                   type="submit"
-                  disabled={enviando}
+                  disabled={enviando || (editar && !podeEditar)}
                   className="rounded-full bg-[#C9342D] px-8 py-2.5 text-sm font-semibold text-white shadow hover:bg-[#B22C24] disabled:opacity-60 disabled:cursor-not-allowed active:scale-[.99] transition"
                 >
                   {enviando ? 'Salvando...' : editar ? 'Editar' : 'Criar'}
