@@ -9,8 +9,7 @@ import { useEffect, useState, useRef } from 'react';
 import { message } from 'antd';
 import { DataView } from 'primereact/dataview';
 import { getAvaliacoesEstabelecimento } from '../../services/avaliacaoService';
-import ModalHorarioEstabelecimentos from '../ModalHorarioEstabelecimentos';
-import { OverlayPanel } from 'primereact/overlaypanel';
+
 
 export default function EstabelecimentoBox({ estabelecimentoId }) {    
     const [estabelecimento, setEstabelecimento] = useState(null);
@@ -78,7 +77,6 @@ export default function EstabelecimentoBox({ estabelecimentoId }) {
             <div className="h-6 w-40 bg-[#f4a831] rounded mb-2" />
             <div className="h-4 w-28 bg-[#f4a831] rounded" />
           </div>
-          <div className="h-9 w-9 bg-[#f4a831] rounded-full" />
         </div>
         <div className="mt-8 h-6 w-full bg-[#f4a831] rounded" />
         <div className="mt-2 h-6 w-full bg-[#f4a831] rounded" />
@@ -109,18 +107,11 @@ export default function EstabelecimentoBox({ estabelecimentoId }) {
                         <h1 className="font-bold flex-grow truncate min-w-0 text-[20px] sm:text-[20px] md:text-[25px] lg:text-[30px] text-black">
                             {nome} 
                         </h1>
+                        {/* Implementar funcionalidade de curtida depois */}
                         <button className="flex items-center flex-shrink-0 ml-2" onClick={() => setCurtido(!curtido)}> 
                             {curtido ? (<FaHeart size={20} fill='red' />) : (<FaHeart size={20} fill='grey' />)}
                         </button>
                     </div>
-                    <button className="bg-[#d34f07] rounded-full py-2 px-2 sm:rounded-[30px] sm:py-1 sm:px-3 flex items-center flex-shrink-0" onClick={e => op.current.toggle(e)}>
-                        <FaRegClock size={15} className="text-[#f7d799] mr-0 sm:mr-2" />
-                        <span className="hidden sm:inline-block text-[#f7d799] sm:text-[14px] md:text-[14px] lg:text-[18px] whitespace-nowrap">Horários de Atendimento</span>
-                    </button>
-
-                    <OverlayPanel className="border-[#1E1E1E] rounded-[10px] border bg-[#f7d799] max-w-lg " ref={op}>
-                        <ModalHorarioEstabelecimentos horarios={horarios} />
-                    </OverlayPanel>
                 </div>
                 <div className="flex items-center justify-between gap-4 mt-2 w-full">
                     <div className="flex items-center gap-4 min-w-0">
