@@ -1,11 +1,11 @@
 import AvaliacaoBox from '../layouts/AvaliacaoBox';
 import { getEstabelecimentoById } from '../../services/EstabelecimentoService';
-import { FaRegClock, FaHeart } from 'react-icons/fa';
+import { FaHeart } from 'react-icons/fa';
 import { MdOutlineStarPurple500 } from 'react-icons/md';
 import { MdOutlineLocationOn } from "react-icons/md";
 import { getEstabelecimentoImagem } from '../../utils/imagensCategoriasMapper';
 import { formataInfosEstabelecimento } from '../../utils/formataInfosEstabelecimento';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { message } from 'antd';
 import { DataView } from 'primereact/dataview';
 import { getAvaliacoesEstabelecimento } from '../../services/avaliacaoService';
@@ -18,7 +18,6 @@ export default function EstabelecimentoBox({ estabelecimentoId }) {
     const [avaliacoes, setAvaliacoes] = useState([]);
     const [loadingAvaliacoes, setLoadingAvaliacoes] = useState(false);
 
-    const op = useRef(null);
     const [curtido, setCurtido] = useState(false);
     
     useEffect(() => {
@@ -44,7 +43,7 @@ export default function EstabelecimentoBox({ estabelecimentoId }) {
         carregarEstabelecimento();
     }, [estabelecimentoId]);
 
-    const { id, nome, categoria, notaGeral, horarios, rua, numero, bairro, cidade, estado, cep } = estabelecimento || {};
+    const { id, nome, categoria, notaGeral, rua, numero, bairro, cidade, estado, cep } = estabelecimento || {};
     const { categoriaMapeada, notaFormatada, localizacao } = estabelecimento ? formataInfosEstabelecimento(categoria, notaGeral, rua, numero, bairro, cidade, estado, cep) : {};
     const estabImagem = estabelecimento ? getEstabelecimentoImagem(categoriaMapeada) : null;
     
