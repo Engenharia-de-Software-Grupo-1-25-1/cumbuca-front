@@ -14,6 +14,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
     async function fetchData() {
       try {
         const resp = await getAvaliacao(idAvaliacao);
+        console.log(getAvaliacao);
         if (mounted) {
           setAvaliacao(resp);
           setIdx(0);
@@ -42,25 +43,13 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
   const fotos = avaliacao.fotos ?? [];
   const temFotos = fotos.length > 0;
 
-  const likes =
-    avaliacao.likes ??
-    avaliacao.curtidas ??
-    avaliacao.qtdCurtidas ??
-    0;
+  const likes = avaliacao.qtdCurtidas ?? 0
 
-  const commentsCount =
-    avaliacao.qtdComentarios ??
-    avaliacao.comentarios?.length ??
-    avaliacao.commentsCount ??
-    0;
+  const commentsCount = avaliacao.qtdComentarios ?? 0;
 
   const srcFoto = (s) => (s?.startsWith("data:") ? s : `data:image/png;base64,${s}`);
   const prev = () => setIdx((i) => (i - 1 + fotos.length) % fotos.length);
   const next = () => setIdx((i) => (i + 1) % fotos.length);
-
-  const corFundo = "#F4E2B8";
-  const corBorda = "#e2cfa2";
-  const corTexto = "#4a3a1b";
 
   return (
     <div
@@ -70,8 +59,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
       <div className="absolute inset-0 bg-black/50" />
 
       <div
-        className="relative z-10 w-[500px] max-w-[90vw] max-h-[92vh] overflow-hidden rounded-2xl shadow-2xl"
-        style={{ backgroundColor: corFundo }}
+        className="relative z-10 w-[500px] max-w-[90vw] max-h-[92vh] overflow-hidden rounded-2xl shadow-2xl bg-[#F4E2B8]"
         role="dialog"
         aria-modal="true"
       >
@@ -109,17 +97,15 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
           </button>
         </div>
         <div
-          className="h-[calc(92vh-56px)] overflow-y-auto border-t"
-          style={{ borderColor: corBorda }}
+          className="h-[calc(92vh-56px)] overflow-y-auto border-t border-[#e2cfa2]"
         >
           <div className="px-4 pt-3">
-            <p className="text-[13px]" style={{ color: corTexto }}>
+            <p className="text-[13px] text-[#4a3a1b]">
               {avaliacao.descricao}
             </p>
 
             <div
-              className="mt-3 rounded-xl border p-3"
-              style={{ borderColor: corBorda, backgroundColor: "#f7e7c3" }}
+              className="mt-3 rounded-xl border-[] p-3 border-[#e2cfa2] bg-[#f7e7c3]"
             >
               <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg bg-[#ead7aa]">
                 {temFotos ? (
@@ -184,8 +170,8 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
           </div>
 
           <div
-            className="mt-3 flex items-center justify-between border-y px-4 py-2 text-[12px]"
-            style={{ borderColor: corBorda, color: "#7b6332" }}
+            className="mt-3 flex items-center justify-between border-y px-4 py-2 text-[12px] border-[#e2cfa2]"
+            style={{ color: "#7b6332" }}
           >
             <div className="flex items-center gap-4">
               <span className="inline-flex items-center gap-1">
@@ -215,27 +201,18 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
           <div className="px-4 py-3">
             <h3 className="text-sm font-semibold text-[#5b4320]">Comentários</h3>
             <div
-              className="mt-2 rounded-xl border p-2"
-              style={{ borderColor: corBorda, backgroundColor: "#f7e7c3" }}
+              className="mt-2 rounded-xl border p-2 border-[#e2cfa2] bg-[#f7e7c3]"
             >
               <label className="block text-[11px] text-[#7b6332]">
                 Adicionar comentário
               </label>
               <textarea
-                disabled
                 placeholder="Escreva um comentário para esta avaliação..."
-                className="mt-1 min-h-[42px] w-full resize-none rounded-lg border px-3 py-2 text-[13px] placeholder:text-[#a48e5b]"
-                style={{
-                  borderColor: corBorda,
-                  backgroundColor: "#f3e2bd",
-                  color: corTexto,
-                  cursor: "not-allowed",
-                }}
+                className="mt-1 min-h-[42px] w-full resize-none rounded-lg border px-3 py-2 text-[13px] placeholder:text-[#a48e5b] border-[#e2cfa2] text-[#4a3a1b] bg-[#f3e2bd]"
               />
               <div className="mt-2 flex justify-end">
                 <button
-                  disabled
-                  className="rounded-full bg-[#cc6a3b] px-4 py-2 text-sm font-semibold text-white opacity-70"
+                  className="rounded-full bg-[#cc6a3b] px-4 py-2 text-sm font-semibold text-white "
                 >
                   Comentar
                 </button>
@@ -246,8 +223,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
                 <li key={i} className="flex gap-3">
                   <div className="mt-1 h-8 w-8 rounded-full bg-[#e7d3a6]" />
                   <div
-                    className="flex-1 rounded-xl p-3 ring-1"
-                    style={{ backgroundColor: "#f6e6c1", borderColor: "#ead7aa" }}
+                    className="flex-1 rounded-xl p-3 ring-1 bg-[#f6e6c1] border-[#ead7aa]"
                   >
                     <div className="mb-1 h-3 w-40 rounded bg-[#ead7aa]" />
                     <div className="h-3 w-64 rounded bg-[#ead7aa]" />
