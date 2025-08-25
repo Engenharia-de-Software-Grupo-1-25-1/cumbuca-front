@@ -7,6 +7,7 @@ import ptBR from 'date-fns/locale/pt-BR';
 import 'react-datepicker/dist/react-datepicker.css';
 import { criarUsuario } from '../services/usuarioService';
 import Layout from '../components/layouts/Layout1';
+import InputComIcone from '../components/InputComIcone';
 
 registerLocale('pt-BR', ptBR);
 
@@ -146,38 +147,29 @@ const CriarConta = () => {
             </div>
           </label>
 
-          <div className="flex items-center border-b border-gray-400 py-2">
-            <FaUser className="text-gray-600 mr-3" />
-            <input
-              type="text"
-              value={usuario.nome}
-              onChange={e => setUsuario({ ...usuario, nome: e.target.value })}
-              placeholder="Nome"
-              className="bg-transparent outline-none w-full text-gray-800 placeholder-gray-600"
-            />
-          </div>
+          <InputComIcone
+            icone={FaUser}
+            type="text"
+            value={usuario.nome}
+            onChange={e => setUsuario({ ...usuario, nome: e.target.value })}
+            placeholder="Nome"
+          />
 
-          <div className="flex items-center border-b border-gray-400 py-2">
-            <FaAt className="text-gray-600 mr-3" />
-            <input
-              type="text"
-              value={usuario.username}
-              onChange={e => setUsuario({ ...usuario, username: e.target.value })}
-              placeholder="Nome de Usuário"
-              className="bg-transparent outline-none w-full text-gray-800 placeholder-gray-600"
-            />
-          </div>
+          <InputComIcone
+            icone={FaAt}
+            type="text"
+            value={usuario.username}
+            onChange={e => setUsuario({ ...usuario, username: e.target.value })}
+            placeholder="Nome de Usuário"
+          />
 
-          <div className="flex items-center border-b border-gray-400 py-2">
-            <FaEnvelope className="text-gray-600 mr-3" />
-            <input
-              type="email"
-              value={usuario.email}
-              onChange={e => setUsuario({ ...usuario, email: e.target.value })}
-              placeholder="E-mail"
-              className="bg-transparent outline-none w-full text-gray-800 placeholder-gray-600"
-            />
-          </div>
+          <InputComIcone
+            icone={FaEnvelope}
+            type="email"
+            value={usuario.email}
+            onChange={e => setUsuario({ ...usuario, email: e.target.value })}
+            placeholder="E-mail"
+          />
 
           <div className="flex items-center border-b border-gray-400 py-2">
             <FaCalendarAlt className="text-gray-600 mr-3" />
@@ -195,27 +187,21 @@ const CriarConta = () => {
             />
           </div>
 
-          <div className="flex items-center border-b border-gray-400 py-2">
-            <FaLock className="text-gray-600 mr-3" />
-            <input
-              type="password"
-              value={usuario.senha}
-              onChange={e => setUsuario({ ...usuario, senha: e.target.value })}
-              placeholder="Senha"
-              className="bg-transparent outline-none w-full text-gray-800 placeholder-gray-600"
-            />
-          </div>
+          <InputComIcone
+            icone={FaLock}
+            type="password"
+            value={usuario.senha}
+            onChange={e => setUsuario({ ...usuario, senha: e.target.value })}
+            placeholder="Senha"
+          />
 
-          <div className="flex items-center border-b border-gray-400 py-2">
-            <FaLock className="text-gray-600 mr-3" />
-            <input
-              type="password"
-              value={usuario.confirmarSenha}
-              onChange={e => setUsuario({ ...usuario, confirmarSenha: e.target.value })}
-              placeholder="Confirmar Senha"
-              className="bg-transparent outline-none w-full text-gray-800 placeholder-gray-600"
-            />
-          </div>
+          <InputComIcone
+            icone={FaLock}
+            type="password"
+            value={usuario.confirmarSenha}
+            onChange={e => setUsuario({ ...usuario, confirmarSenha: e.target.value })}
+            placeholder="Confirmar Senha"
+          />
 
           <button
             type="submit"

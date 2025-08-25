@@ -3,6 +3,7 @@ import { message } from 'antd';
 import Layout from '../components/layouts/Layout1';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { useAuth } from '../features/auth/useAuth';
+import InputComIcone from '../components/InputComIcone';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -28,29 +29,23 @@ export default function Login() {
           onSubmit={handleSubmit}
           className="bg-[#f5dfb6] rounded-xl p-4 sm:p-6 w-full max-w-sm shadow-md space-y-4"
         >
-          <div className="flex items-center border-b border-gray-400 py-2">
-            <FaEnvelope className="text-gray-600 mr-3" />
-            <input
-              type="text"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              placeholder="E-mail ou Nome de Usuário"
-              className="bg-transparent outline-none w-full text-gray-800 placeholder-gray-600"
-              required
-            />
-          </div>
+          <InputComIcone
+            icone={FaEnvelope}
+            type="text"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            placeholder="E-mail ou Nome de Usuário"
+            required
+          />
 
-          <div className="flex items-center border-b border-gray-400 py-2">
-            <FaLock className="text-gray-600 mr-3" />
-            <input
-              type="password"
-              value={senha}
-              onChange={e => setSenha(e.target.value)}
-              placeholder="Senha"
-              className="bg-transparent outline-none w-full text-gray-800 placeholder-gray-600"
-              required
-            />
-          </div>
+          <InputComIcone
+            icone={FaLock}
+            type="password"
+            value={senha}
+            onChange={e => setSenha(e.target.value)}
+            placeholder="Senha"
+            required
+          />
 
           <div className="text-right text-xs text-gray-600 hover:underline cursor-pointer">
             <a href="./recuperar-senha"> Esqueceu a senha?</a>
