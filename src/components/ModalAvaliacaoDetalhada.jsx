@@ -45,7 +45,27 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
     adicionarComentario(idAvaliacao,comment);
   }
 
-  if (!avaliacao) return null;
+  if (!avaliacao) {
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center"
+      onClick={(e) => e.target === e.currentTarget && onClose?.()}
+    >
+      <div className="absolute inset-0 bg-black/50" />
+      <div
+        className="relative z-10 w-[500px] max-w-[90vw] max-h-[92vh] overflow-hidden 
+                   rounded-2xl shadow-2xl bg-[#F4E2B8] flex items-center justify-center"
+        role="dialog"
+        aria-modal="true"
+      >
+        <p className="text-[#5b4320] font-semibold text-sm m-4">
+          Carregando Detalhes da Avaliação...
+        </p>
+      </div>
+    </div>
+  );
+}
+
 
   const fotos = avaliacao.fotos ?? [];
   const temFotos = fotos.length > 0;
