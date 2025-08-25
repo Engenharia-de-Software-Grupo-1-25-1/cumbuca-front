@@ -11,3 +11,13 @@ export const getEstabelecimentos = async () => {
     console.error(err);
   }
 };
+
+export const getEstabelecimentoById = async (id) => {
+    try {
+        const res = await api.get(`/${endpoints.estabelecimento}/recuperar/${id}`);
+        return res.data;
+    } catch (err) {
+        message.error('Erro ao buscar estabelecimento.');
+        console.error(err);
+    }
+}
