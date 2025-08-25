@@ -3,7 +3,7 @@ import api from './api';
 
 export const recSenha = async email => {
   try {
-    const res = await api.post('/recuperarSenha', { email });
+    const res = await api.post('/recuperar-senha', { email });
     message.success(res.data);
     return true;
   } catch (err) {
@@ -15,7 +15,7 @@ export const recSenha = async email => {
 
 export const novasSenhas = async (token, novaSenha, confirmarNovaSenha) => {
   try {
-    const res = await api.post('/alterarSenha', { token, novaSenha, confirmarNovaSenha });
+    const res = await api.post('/alterar-senha', { token, novaSenha, confirmarNovaSenha });
     message.success(res.data);
   } catch (err) {
     message.error(err.response?.data || 'Erro ao definir nova senha');

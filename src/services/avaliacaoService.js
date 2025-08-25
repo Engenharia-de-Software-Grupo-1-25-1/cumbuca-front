@@ -1,13 +1,22 @@
-import { message } from 'antd';
 import api from './api';
+import endpoints from '../constants/ApiEndPoints';
 
-export const getAvaliacao = async id => {
-  try {
-    const res = await api.get(`/avaliacao/recuperar/${id}`);
-    return res.data;
-  } catch (err) {
-    message.error(err.response?.data || 'Erro ao recuperar avaliacao');
-    console.error(err);
-    return false;
-  }
+export const criarAvaliacao = formData => {
+  return api.post(`/${endpoints.avaliacao}/criar`, formData);
+};
+
+export const obterAvaliacao = id => {
+  return api.get(`/${endpoints.avaliacao}/recuperar/${id}`);
+};
+
+export const atualizarAvaliacao = (id, formData) => {
+  return api.put(`/${endpoints.avaliacao}/atualizar/${id}`, formData);
+};
+
+export const removerAvaliacao = id => {
+  return api.delete(`/${endpoints.avaliacao}/remover/${id}`);
+};
+
+export const getAvaliacoesUsuario = userId => {
+  return api.get(`/${endpoints.avaliacao}/listar`, { params: { idUsuario: userId } });
 };

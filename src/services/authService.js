@@ -6,29 +6,33 @@ export const login = async (username, senha) => {
   return api
     .post(`/${ApiEndPoints.login}`, { username, senha })
     .then(res => {
-      const token = res.data;
-      localStorage.setItem('token', token);
-      return token;
+      document.cookie = `auth_token=${res.data.token}; path=/; max-age=${60 * 60 * 24}`;
+      const userId = res.data.id;
+      localStorage.setItem('userId', userId);
+      message.success('Login realizado com sucesso!');
+      return userId;
     })
     .catch(err => {
-      message.error('Erro ao realizar login');
+      message.error(err.response.data || 'Erro ao realizar login');
       console.error(err);
     });
 };
 
 export const logout = () => {
-  localStorage.removeItem('token');
+  document.cookie = 'auth_token=; path=/; max-age=0';
+  localStorage.removeItem('userId');
+  sessionStorage.removeItem('tagsPopulares');
   message.success('Logout realizado com sucesso!');
 };
 
 export const getUser = async () => {
   return api
-    .get(`/${ApiEndPoints.usuario}`)
+    .get(`/${ApiEndPoints.usuario}/recuperar/${localStorage.getItem('userId')}`)
     .then(res => {
       return res.data;
     })
     .catch(err => {
-      message.error('Erro ao buscar dados do usuário!');
+      message.error(err.response.data || 'Erro ao buscar dados do usuário!');
       console.error(err);
     });
 };
