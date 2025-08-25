@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { obterAvaliacao } from "../services/avaliacaoService";
+import { adicionarComentario, obterAvaliacao } from "../services/avaliacaoService";
 import { HiArrowLeft, HiOutlineMapPin } from "react-icons/hi2";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { FiImage, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { FaHeart, FaRegComment } from "react-icons/fa";
-import { base64ToFile } from "./utils/utilsModal.helpers";
 import { Nota, InfoRow } from "./utils/utilsModal.jsx"
 
 export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
@@ -43,6 +42,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
 
   const handleComment = () => {
     console.log(comment);
+    adicionarComentario(idAvaliacao,comment);
   }
 
   if (!avaliacao) return null;
