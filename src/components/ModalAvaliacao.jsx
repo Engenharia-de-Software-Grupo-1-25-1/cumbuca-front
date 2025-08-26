@@ -219,9 +219,9 @@ export default function ModalAvaliacao({ open, onClose, editar = false, avaliaca
                 }}
                 onSelect={selecionarLugar}
                 onEdit={editar}
-                isabled
-                  aria-disabled="true"
-                  className="w-full rounded-full border border-neutral-300
+                disabled
+                aria-disabled="true"
+                className="w-full rounded-full border border-neutral-300
              bg-[#E9D3AE] text-neutral-800
              cursor-not-allowed px-4 py-2 text-sm disabled:opacity-100"
               />
