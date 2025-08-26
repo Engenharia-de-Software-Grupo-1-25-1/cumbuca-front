@@ -205,36 +205,26 @@ export default function ModalAvaliacao({ open, onClose, editar = false, avaliaca
             <div className="py-10 text-center text-sm text-neutral-700">Carregando dados…</div>
           ) : (
             <form onSubmit={enviar} className="space-y-3">
-              {editar ? (
-                <div>
-                  <label htmlFor="estabelecimento" className="mb-1 block text-sm font-semibold text-[#3D2E1C]">
-                    Estabelecimento
-                  </label>
-                  <input
-                    id="estabelecimento"
-                    type="text"
-                    value={textoLugar}
-                    readOnly
-                    className="w-full rounded-full border border-neutral-300
-                               bg-[#E9D3AE] text-neutral-800 px-4 py-2 text-sm"
-                  />
-                </div>
-              ) : (
-                <AutocompleteNominatim
-                  id="estabelecimento"
-                  valor={textoLugar}
-                  erro={erros.estabelecimento}
-                  mostrarErros={tentouEnviar}
-                  onChange={v => {
-                    setTextoLugar(v);
-                    if (!v) {
-                      setLugar(null);
-                      setTipoCategoria('');
-                    }
-                  }}
-                  onSelect={selecionarLugar}
-                />
-              )}
+              <AutocompleteNominatim
+                id="estabelecimento"
+                valor={textoLugar}
+                erro={erros.estabelecimento}
+                mostrarErros={tentouEnviar}
+                onChange={v => {
+                  setTextoLugar(v);
+                  if (!v) {
+                    setLugar(null);
+                    setTipoCategoria('');
+                  }
+                }}
+                onSelect={selecionarLugar}
+                onEdit={editar}
+                isabled
+                  aria-disabled="true"
+                  className="w-full rounded-full border border-neutral-300
+             bg-[#E9D3AE] text-neutral-800
+             cursor-not-allowed px-4 py-2 text-sm disabled:opacity-100"
+              />
 
               <div>
                 <label htmlFor="categoria" className="mb-1 block text-sm font-semibold text-[#3D2E1C]">
