@@ -21,6 +21,7 @@ export const login = async (username, senha) => {
 export const logout = () => {
   document.cookie = 'auth_token=; path=/; max-age=0';
   localStorage.removeItem('userId');
+  sessionStorage.removeItem('tagsPopulares');
   message.success('Logout realizado com sucesso!');
 };
 
