@@ -2,7 +2,7 @@ import { message } from 'antd';
 import api from './api';
 import endpoints from '../constants/ApiEndPoints';
 
-export const getEstabelecimentos = async (filtros = {}, ordenar = null) => {
+export const getEstabelecimentos = async (filtros = {}, ordenador = null) => {
   try {
     const params = {};
     Object.entries(filtros || {}).forEach(([filtro, valor]) => {
@@ -10,8 +10,8 @@ export const getEstabelecimentos = async (filtros = {}, ordenar = null) => {
       console.log('filtro:', filtro, 'valor:', valor, 'tipo:', typeof valor);
     });
 
-    if (ordenar !== null && ordenar !== undefined) {
-      params.ordenar = ordenar;
+    if (ordenador !== null && ordenador !== undefined) {
+      params.ordenador = ordenador;
     }
 
     const res = await api.get(`${endpoints.estabelecimento}/listar`, {
