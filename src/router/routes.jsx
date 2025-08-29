@@ -9,6 +9,8 @@ import RecuperarSenha from '../pages/RecuperarSenha';
 import NovaSenha from '../pages/NovaSenha';
 import CriarConta from '../pages/CriarConta';
 import Perfil from '../pages/Perfil';
+import EstabelecimentosFiltrados from '../pages/EstabelecimentosFiltrados';
+import UsuariosFiltrados from '../pages/UsuarioFiltrados';
 
 export default function RoutesApp() {
   return (
@@ -47,6 +49,26 @@ export default function RoutesApp() {
         element={
           <PrivateRoute>
             <Perfil />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="filtra-estabelecimento"
+        element={
+          <PrivateRoute>
+            {' '}
+            <EstabelecimentosFiltrados />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="filtra-usuario"
+        element={
+          <PrivateRoute>
+            {' '}
+            <UsuariosFiltrados />
           </PrivateRoute>
         }
       />

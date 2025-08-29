@@ -10,3 +10,7 @@ export const getUsuarioPorUsername = username => {
     skipAuthRedirect: true,
   });
 };
+
+export const getUsuariosContainingNome = nome => {
+  return api.get(`/${endpoints.usuario}/pesquisar`, nome);
+};

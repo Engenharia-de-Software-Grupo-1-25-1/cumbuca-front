@@ -11,3 +11,7 @@ export const getEstabelecimentos = async () => {
     console.error(err);
   }
 };
+
+export const getEstabelecimentosContainingNome = nome => {
+  return api.get(`/${endpoints.estabelecimento}/pesquisar`, nome);
+};
