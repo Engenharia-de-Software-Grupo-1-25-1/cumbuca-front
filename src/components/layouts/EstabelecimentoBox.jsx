@@ -31,6 +31,10 @@ export default function EstabelecimentoBox({ estabelecimentoId }) {
             try {
                 const data = await getEstabelecimentoById(estabelecimentoId);
                 setEstabelecimento(data);
+
+                if (data && data.favoritado !== undefined) {
+                    setCurtido(data.favoritado);
+                }
             } catch (error) {
                 console.error(error);
                 message.error('Erro ao carregar estabelecimento!');
