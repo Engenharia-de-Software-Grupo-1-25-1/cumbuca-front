@@ -48,7 +48,6 @@ export default function FeedConteudo() {
 
   return (
     <div className="bg-[#bc6302] w-[80%] rounded-[10px] py-4 px-6 max-w-[728px] flex flex-col">
-
       {loading && (
         <h2 className="text-center sm:text-[18px] md:text-[20px] lg:text-[20px] font-medium text-[#1e1e1e] p-2 px-4 bg-[#f4a831] w-fit h-fit rounded-[10px] m-auto mt-4 animate-pulse">
           Carregando avaliações...
