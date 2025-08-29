@@ -54,7 +54,7 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
               <p className="text-sm text-[#505050] sm:text-sm md:text-base lg:text-xl">@{avaliacao.usuario.username}</p>
             </Link>
 
-            <a href="#" className="flex text-xl items-center gap-1 w-fit">
+            <a href={`/estabelecimento/${avaliacao.estabelecimento.id}`} className="flex text-xl items-center gap-1 w-fit">
               <MdOutlineStorefront color="#356B2A" size="24" />
               <p className="text-sm text-[#356B2A] sm:text-sm md:text-base lg:text-xl">
                 {avaliacao.estabelecimento.nome}
