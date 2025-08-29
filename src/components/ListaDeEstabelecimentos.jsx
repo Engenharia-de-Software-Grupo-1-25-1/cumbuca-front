@@ -3,17 +3,14 @@ import { Spin } from 'antd';
 import CardEstab from './cards/CardEstabelecimento';
 
 const ListaEstabelecimentos = ({ arrayEstabelecimentos }) => {
-  const [estabelecimentos, setEstabelecimentos] = useState([]);
   const [carregando, setLoading] = useState(true);
 
   useEffect(() => {
     const carregarEstabelecimentos = async () => {
       setLoading(true);
-      const dados = await arrayEstabelecimentos();
-      if (dados) {
-        setEstabelecimentos(dados);
+      if (arrayEstabelecimentos.length > 0) {
+        setLoading(false);
       }
-      setLoading(false);
     };
     carregarEstabelecimentos();
   }, [arrayEstabelecimentos]);
@@ -29,8 +26,8 @@ const ListaEstabelecimentos = ({ arrayEstabelecimentos }) => {
   return (
     <div className="block w-full">
       <div className="flex flex-col items-start gap-4">
-        {Array.isArray(estabelecimentos) &&
-          estabelecimentos.map(est => <CardEstab key={est.id} estabelecimento={est} />)}
+        {Array.isArray(arrayEstabelecimentos) &&
+          arrayEstabelecimentos.map(est => <CardEstab key={est.id} estabelecimento={est} />)}
       </div>
     </div>
   );

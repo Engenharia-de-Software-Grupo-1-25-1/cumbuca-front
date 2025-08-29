@@ -21,10 +21,9 @@ function BarraDePesquisa({ placeholder = 'Pesquisar...' }) {
     if (searchValue == '') return;
     const pathname = location.pathname;
     if (pathname == '/estabelecimento') {
-      console.log('bateu');
-      navigate('/filtra-estabelecimento');
+      navigate('/filtra-estabelecimento', { state: searchValue });
     } else if (pathname == '/feed') {
-      navigate('/filtra-usuario');
+      navigate('/filtra-usuario', { state: searchValue });
     }
   };
 

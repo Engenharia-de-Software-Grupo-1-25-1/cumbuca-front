@@ -1,12 +1,12 @@
+import { useLocation } from 'react-router-dom';
 import Header from '../components/headers/Header2';
-import NavBar from '../components/layouts/NavBar';
 import ListaEstabelecimentos from '../components/ListaDeEstabelecimentos';
-import { getEstabelecimentos } from '../services/EstabelecimentoService';
-import { getUsuarioPorUsername } from '../services/usuarioService';
+import { getEstabelecimentosContainingNome } from '../services/EstabelecimentoService';
 
 function EstabelecimentosFiltrados() {
+  const location = useLocation();
   //esperando requisição certa
-  const estabelecimentosFiltados = getEstabelecimentos;
+  const estabelecimentosFiltados = getEstabelecimentosContainingNome(location.state);
 
   return (
     <div>
