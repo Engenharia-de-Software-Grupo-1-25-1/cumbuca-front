@@ -1,5 +1,5 @@
 import AvaliacaoBox from '../layouts/AvaliacaoBox';
-import { getEstabelecimentoById } from '../../services/EstabelecimentoService';
+import { getEstabelecimentoById, favoritarEstabelecimento } from '../../services/EstabelecimentoService';
 import { FaHeart } from 'react-icons/fa';
 import { MdOutlineStarPurple500 } from 'react-icons/md';
 import { MdOutlineLocationOn } from "react-icons/md";
@@ -67,6 +67,16 @@ export default function EstabelecimentoBox({ estabelecimentoId }) {
         carregarAvaliacoes();
     }, [estabelecimento, id]);
 
+    const handleFavoritar = async () => {
+        try {
+          favoritarEstabelecimento(id);
+          setCurtido(!curtido);
+        } catch (error) {
+          console.error(error);
+          message.error('Erro ao favoritar estabelecimento!');
+        }
+    };
+
     if (loadingEstabelecimento) {
     return (
       <div className="bg-[#bc6302] w-[80%] rounded-[10px] py-4 px-6 max-w-[728px] flex flex-col animate-pulse">
@@ -106,8 +116,7 @@ export default function EstabelecimentoBox({ estabelecimentoId }) {
                         <h1 className="font-bold flex-grow truncate min-w-0 text-[20px] sm:text-[20px] md:text-[25px] lg:text-[30px] text-black">
                             {nome} 
                         </h1>
-                        {/* Implementar funcionalidade de curtida depois */}
-                        <button className="flex items-center flex-shrink-0 ml-2" onClick={() => setCurtido(!curtido)}> 
+                        <button className="flex items-center flex-shrink-0 ml-2" onClick={handleFavoritar}> 
                             {curtido ? (<FaHeart size={20} fill='red' />) : (<FaHeart size={20} fill='grey' />)}
                         </button>
                     </div>

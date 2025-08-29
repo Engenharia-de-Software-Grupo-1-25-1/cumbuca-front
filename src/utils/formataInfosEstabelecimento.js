@@ -1,6 +1,10 @@
 import categorias from './categorias';
 
 export const formataInfosEstabelecimento = (categoria, notaGeral, rua, numero, bairro, cidade, estado, cep) => {
+  if (notaGeral === null || notaGeral === undefined || isNaN(notaGeral)) {
+    notaGeral = 0;
+  }
+  
   const localizacao = formataEndereco(rua, numero, bairro, cidade, estado, cep);
   const notaGeralTruncada = notaGeral.toFixed(1);
   const notaFormatada = notaGeralTruncada.replace('.', ',');
