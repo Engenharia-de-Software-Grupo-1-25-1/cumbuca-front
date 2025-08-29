@@ -82,11 +82,13 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
         </button>
 
         <OverlayPanel className="border-[#1E1E1E] border bg-[#f7d799] text-[#1E1E1E]" ref={op}>
-          <button className="w-full flex items-center gap-2 px-6 py-2 hover:bg-[#e0b874] transition-colors duration-200"
-          onClick={(e) => {
-            showModalDetalhar(true);
-            op.current.hide(e);
-          }}>
+          <button
+            className="w-full flex items-center gap-2 px-6 py-2 hover:bg-[#e0b874] transition-colors duration-200"
+            onClick={e => {
+              showModalDetalhar(true);
+              op.current.hide(e);
+            }}
+          >
             <FiEye className="w-[32px] h-[32px]" />
             <p>Detalhar</p>
           </button>
@@ -177,14 +179,9 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
           onEditSuccess={() => onChange && onChange()}
         />
       )}
-      {
-        modalAvaliacaoDetalhada && (
-          <ModalAvaliacaoDetalhada
-            idAvaliacao={avaliacao.id}
-            onClose={() => showModalDetalhar(false)}
-          />
-        )
-      }
+      {modalAvaliacaoDetalhada && (
+        <ModalAvaliacaoDetalhada idAvaliacao={avaliacao.id} onClose={() => showModalDetalhar(false)} />
+      )}
     </div>
   );
 }

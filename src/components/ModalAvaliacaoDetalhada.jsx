@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { adicionarComentario, obterAvaliacao } from "../services/avaliacaoService";
-import { HiArrowLeft, HiOutlineMapPin } from "react-icons/hi2";
-import { HiDotsHorizontal } from "react-icons/hi";
-import { FiImage, FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import { FaHeart, FaRegComment } from "react-icons/fa";
-import { Nota, InfoRow } from "./utils/utilsModal.jsx"
+import React, { useEffect, useState } from 'react';
+import { adicionarComentario, obterAvaliacao } from '../services/avaliacaoService';
+import { HiArrowLeft, HiOutlineMapPin } from 'react-icons/hi2';
+import { HiDotsHorizontal } from 'react-icons/hi';
+import { FiImage, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { FaHeart, FaRegComment } from 'react-icons/fa';
+import { Nota, InfoRow } from './utils/utilsModal.jsx';
+import user from '../assets/fotoDePerfilPadrao.webp';
 
 export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
   const [avaliacao, setAvaliacao] = useState(null);
   const [idx, setIdx] = useState(0);
-  const [comment,setComment] = useState("");
+  const [comment, setComment] = useState('');
 
   useEffect(() => {
     let mounted = true;
@@ -31,57 +32,55 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
 
   useEffect(() => {
     if (!avaliacao?.fotos?.length) return;
-    const onKey = (e) => {
-      if (e.key === "ArrowLeft") prev();
-      if (e.key === "ArrowRight") next();
-      if (e.key === "Escape") onClose?.();
+    const onKey = e => {
+      if (e.key === 'ArrowLeft') prev();
+      if (e.key === 'ArrowRight') next();
+      if (e.key === 'Escape') onClose?.();
     };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
   }, [avaliacao, idx]);
 
   const handleComment = () => {
-    console.log(comment);
-    adicionarComentario(idAvaliacao,comment);
-  }
+    adicionarComentario(idAvaliacao, comment);
+    setComment("");
+  };
 
   if (!avaliacao) {
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center"
-      onClick={(e) => e.target === e.currentTarget && onClose?.()}
-    >
-      <div className="absolute inset-0 bg-black/50" />
+    return (
       <div
-        className="relative z-10 w-[500px] max-w-[90vw] max-h-[92vh] overflow-hidden 
-                   rounded-2xl shadow-2xl bg-[#F4E2B8] flex items-center justify-center"
-        role="dialog"
-        aria-modal="true"
+        className="fixed inset-0 z-50 flex items-center justify-center"
+        onClick={e => e.target === e.currentTarget && onClose?.()}
       >
-        <p className="text-[#5b4320] font-semibold text-sm m-4">
-          Carregando Detalhes da Avaliação...
-        </p>
+        <div className="absolute inset-0 bg-black/50" />
+        <div
+          className="relative z-10 w-[500px] max-w-[90vw] max-h-[92vh] overflow-hidden 
+                   rounded-2xl shadow-2xl bg-[#F4E2B8] flex items-center justify-center"
+          role="dialog"
+          aria-modal="true"
+        >
+          <p className="text-[#5b4320] font-semibold text-sm m-4">Carregando Detalhes da Avaliação...</p>
+        </div>
       </div>
-    </div>
-  );
-}
-
+    );
+  }
 
   const fotos = avaliacao.fotos ?? [];
   const temFotos = fotos.length > 0;
 
-  const likes = avaliacao.qtdCurtidas ?? 0
+  const likes = avaliacao.qtdCurtidas ?? 0;
 
   const commentsCount = avaliacao.qtdComentarios ?? 0;
+  const comentarios = avaliacao.comentarios ?? [];
 
-  const srcFoto = (s) => (s?.startsWith("data:") ? s : `data:image/png;base64,${s}`);
-  const prev = () => setIdx((i) => (i - 1 + fotos.length) % fotos.length);
-  const next = () => setIdx((i) => (i + 1) % fotos.length);
+  const srcFoto = s => (s?.startsWith('data:') ? s : `data:image/png;base64,${s}`);
+  const prev = () => setIdx(i => (i - 1 + fotos.length) % fotos.length);
+  const next = () => setIdx(i => (i + 1) % fotos.length);
 
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center"
-      onClick={(e) => e.target === e.currentTarget && onClose?.()}
+      onClick={e => e.target === e.currentTarget && onClose?.()}
     >
       <div className="absolute inset-0 bg-black/50" />
 
@@ -101,10 +100,8 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
           </button>
 
           <div className="text-center">
-            <p className="text-[13px]" style={{ color: "#8a6a30" }}>
-              <span className="font-semibold text-[#5b4320]">
-                {avaliacao.usuario?.nome}
-              </span>{" "}
+            <p className="text-[13px]" style={{ color: '#8a6a30' }}>
+              <span className="font-semibold text-[#5b4320]">{avaliacao.usuario?.nome}</span>{' '}
               <span className="text-[#a0844f]">@{avaliacao.usuario?.username}</span>
             </p>
             <p className="text-[12px]">
@@ -117,23 +114,15 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
 
           <button
             className="grid h-9 w-9 place-items-center rounded-full hover:bg-black/5"
-            aria-label="Mais opções"
-            title="Mais opções"
           >
             <HiDotsHorizontal className="h-5 w-5 text-[#8a6a30]" />
           </button>
         </div>
-        <div
-          className="h-[calc(92vh-56px)] overflow-y-auto border-t border-[#e2cfa2]"
-        >
+        <div className="h-[calc(92vh-56px)] overflow-y-auto border-t border-[#e2cfa2]">
           <div className="px-4 pt-3">
-            <p className="text-[13px] text-[#4a3a1b]">
-              {avaliacao.descricao}
-            </p>
+            <p className="text-[13px] text-[#4a3a1b]">{avaliacao.descricao}</p>
 
-            <div
-              className="mt-3 rounded-xl border-[] p-3 border-[#e2cfa2] bg-[#f7e7c3]"
-            >
+            <div className="mt-3 rounded-xl border-[] p-3 border-[#e2cfa2] bg-[#f7e7c3]">
               <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg bg-[#ead7aa]">
                 {temFotos ? (
                   <img
@@ -176,7 +165,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
                       onClick={() => setIdx(i)}
                       aria-label={`Ir para imagem ${i + 1}`}
                       className={`h-[3px] rounded-full transition-all ${
-                        idx === i ? "w-8 bg-[#cc6a3b]" : "w-4 bg-[#d9c59a]"
+                        idx === i ? 'w-8 bg-[#cc6a3b]' : 'w-4 bg-[#d9c59a]'
                       }`}
                     />
                   ))}
@@ -198,7 +187,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
 
           <div
             className="mt-3 flex items-center justify-between border-y px-4 py-2 text-[12px] border-[#e2cfa2]"
-            style={{ color: "#7b6332" }}
+            style={{ color: '#7b6332' }}
           >
             <div className="flex items-center gap-4">
               <span className="inline-flex items-center gap-1">
@@ -209,33 +198,27 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
               </span>
 
               <div className="ml-2 flex flex-wrap items-center gap-2">
-                {avaliacao.tags?.map((t) => (
-                  <span
-                    key={t}
-                    className="rounded-full bg-[#f0dba9] px-2 py-[2px] text-[#6a5427]"
-                  >
+                {avaliacao.tags?.map(t => (
+                  <span key={t} className="rounded-full bg-[#f0dba9] px-2 py-[2px] text-[#6a5427]">
                     #{t}
                   </span>
                 ))}
               </div>
             </div>
 
-            <span className="text-[#9c844e]">
-              {new Date(avaliacao.data).toLocaleDateString("pt-BR")}
-            </span>
+            <span className="text-[#9c844e]">{new Date(avaliacao.data).toLocaleDateString('pt-BR')}</span>
           </div>
 
-          <div className="px-4 py-3">
+          <div className="px-4 py-6">
             <h3 className="text-sm font-semibold text-[#5b4320]">Comentários</h3>
-            <div
-              className="mt-2 rounded-xl border p-2 border-[#e2cfa2] bg-[#f7e7c3]"
-            >
-              <label className="block text-[11px] text-[#7b6332]">
-                Adicionar comentário
-              </label>
+            <div className="mt-2 rounded-xl border p-2 border-[#e2cfa2] bg-[#f7e7c3]">
+              <label className="block text-[11px] text-[#7b6332]">Adicionar comentário</label>
               <textarea
                 placeholder="Escreva um comentário para esta avaliação..."
-                onChange={ (e) => {setComment(e.target.value)}}
+                value={comment}
+                onChange={e => {
+                  setComment(e.target.value);
+                }}
                 className="mt-1 min-h-[42px] w-full resize-none rounded-lg border px-3 py-2 text-[13px] placeholder:text-[#a48e5b] border-[#e2cfa2] text-[#4a3a1b] bg-[#f3e2bd]"
               />
               <div className="mt-2 flex justify-end">
@@ -247,15 +230,19 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
                 </button>
               </div>
             </div>
-            <ul className="mt-3 space-y-3">
-              {[1, 2, 3].map((i) => (
-                <li key={i} className="flex gap-3">
-                  <div className="mt-1 h-8 w-8 rounded-full bg-[#e7d3a6]" />
-                  <div
-                    className="flex-1 rounded-xl p-3 ring-1 bg-[#f6e6c1] border-[#ead7aa]"
-                  >
-                    <div className="mb-1 h-3 w-40 rounded bg-[#ead7aa]" />
-                    <div className="h-3 w-64 rounded bg-[#ead7aa]" />
+            <ul className="mt-3 space-y-3 mb-6">
+              {comentarios.map(c => (
+                <li key={c.id} className="flex gap-3 items-start">
+                  <img
+                    src={c.usuario.foto ? srcFoto(c.usuario.foto) : user}
+                    alt={c.usuario.username}
+                    className="mt-1 h-8 w-8 rounded-full object-cover bg-[#e7d3a6]"
+                  />
+
+                  <div className="flex-1 min-w-0 rounded-xl p-3 ring-1 bg-[#f6e6c1] border border-[#ead7aa] ">
+                    <div className="font-semibold text-sm text-gray-800 mb-1 truncate">{c.usuario.username}</div>
+
+                    <div className="text-gray-700 text-sm whitespace-pre-wrap break-words">{c.comentario}</div>
                   </div>
                 </li>
               ))}
