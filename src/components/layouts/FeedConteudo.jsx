@@ -73,10 +73,6 @@ export default function FeedConteudo() {
           />
 
           <div ref={sentinelaRef} style={{ height: 1 }} />
-
-          {visiveis >= todas.length && (
-            <p className="text-center text-sm text-[#1e1e1e] mt-3 opacity-80">Você chegou ao fim ✨</p>
-          )}
         </>
       )}
     </div>
