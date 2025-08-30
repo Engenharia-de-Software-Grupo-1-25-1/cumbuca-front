@@ -1,20 +1,8 @@
 import { Link } from 'react-router-dom';
-import japones from '../assets/estabImagens/japones.png';
+import japones from '../../assets/estabImagens/japones.png';
 
-const formatar = new Intl.NumberFormat('pt-BR', {
-  notation: 'compact',
-  compactDisplay: 'short',
-  maximumFractionDigits: 1,
-});
-
-const formatarNum = n => {
-  const num = Number(n) || 0;
-  if (num >= 999_000_000) return '999M+';
-  return formatar.format(num);
-};
 
 const CardUsuario = ({}) => {
-  //esperando a requisiçao certa
   const user = {
     foto: japones,
     nome: 'Arthur',
