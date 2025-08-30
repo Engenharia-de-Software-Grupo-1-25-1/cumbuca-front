@@ -66,6 +66,6 @@
 
 ## US7.4 - PR 16
 
-### Adicionando 
+### Adicionando
 
 - Tela de exibir estabelecimento

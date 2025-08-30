@@ -24,4 +24,3 @@ export const getAvaliacoesUsuario = userId => {
 export const getAvaliacoesEstabelecimento = estabelecimentoId => {
   return api.get(`/${endpoints.avaliacao}/listar`, { params: { idEstabelecimento: estabelecimentoId } });
 };
-

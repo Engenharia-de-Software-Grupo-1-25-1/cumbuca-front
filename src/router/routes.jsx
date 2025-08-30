@@ -44,8 +44,8 @@ export default function RoutesApp() {
       />
 
       <Route
-        path='/estabelecimento/:id'
-        element= {
+        path="/estabelecimento/:id"
+        element={
           <PrivateRoute>
             <Estabelecimento />
           </PrivateRoute>
