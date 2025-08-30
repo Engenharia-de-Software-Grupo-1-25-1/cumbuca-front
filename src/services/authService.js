@@ -18,11 +18,13 @@ export const login = async (username, senha) => {
     });
 };
 
-export const logout = () => {
+export const logout = (silent = false) => {
   document.cookie = 'auth_token=; path=/; max-age=0';
   localStorage.removeItem('userId');
   sessionStorage.removeItem('tagsPopulares');
-  message.success('Logout realizado com sucesso!');
+  if (!silent) {
+    message.success('Logout realizado com sucesso!');
+  }
 };
 
 export const getUser = async () => {

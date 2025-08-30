@@ -14,6 +14,7 @@ function Header({ placeholder }) {
   const [mostrarPesquisa, setMostrarPesquisa] = useState(false);
   const [modalVisivel, setModalVisivel] = useState(false);
   const { logout } = useAuth();
+  const { user } = useAuth();
   const location = useLocation();
 
   const alternarPesquisa = () => {
@@ -21,6 +22,7 @@ function Header({ placeholder }) {
   };
 
   const mostrarBotaoNovaAvaliacao = location.pathname === '/feed';
+  const mostrarBotoesPesquisaEFiltro = !location.pathname.startsWith(`/perfil/${user.username}`);
 
   return (
     <header
@@ -59,16 +61,20 @@ function Header({ placeholder }) {
       {mostrarPesquisa && <BarraDePesquisa placeholder={placeholder} />}
 
       <div className="flex gap-1 sm:gap-1 md:gap-4 lg:gap-4">
-        <button className="flex-shrink-0" onClick={alternarPesquisa}>
-          {mostrarPesquisa ? (
-            <IoClose className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] h-auto" alt="Fechar pesquisa" />
-          ) : (
-            <IoSearch className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] h-auto" alt="Pesquisar" />
-          )}
-        </button>
-        <button className="flex-shrink-0">
-          <FiFilter className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] h-auto" alt="Filtrar" />
-        </button>
+        {mostrarBotoesPesquisaEFiltro && (
+          <>
+            <button className="flex-shrink-0" onClick={alternarPesquisa}>
+              {mostrarPesquisa ? (
+                <IoClose className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] h-auto" alt="Fechar pesquisa" />
+              ) : (
+                <IoSearch className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] h-auto" alt="Pesquisar" />
+              )}
+            </button>
+            <button className="flex-shrink-0">
+              <FiFilter className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] h-auto" alt="Filtrar" />
+            </button>
+          </>
+        )}
 
         {mostrarBotaoNovaAvaliacao && (
           <button
