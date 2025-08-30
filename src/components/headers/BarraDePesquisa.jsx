@@ -20,7 +20,7 @@ function BarraDePesquisa({ placeholder = 'Pesquisar...' }) {
   const handleSearch = () => {
     if (searchValue == '') return;
     const pathname = location.pathname;
-    if (pathname == '/estabelecimento') {
+    if (pathname == '/estabelecimento' || pathname == '/filtra-estabelecimento') {
       navigate('/filtra-estabelecimento', { state: searchValue });
     } else if (pathname == '/feed') {
       navigate('/filtra-usuario', { state: searchValue });

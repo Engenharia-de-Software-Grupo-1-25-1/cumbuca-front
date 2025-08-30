@@ -3,17 +3,8 @@ import { Spin } from 'antd';
 import CardEstab from './cards/CardEstabelecimento';
 
 const ListaEstabelecimentos = ({ arrayEstabelecimentos }) => {
-  const [carregando, setLoading] = useState(true);
+  const [carregando, setLoading] = useState(false);
 
-  useEffect(() => {
-    const carregarEstabelecimentos = async () => {
-      setLoading(true);
-      if (arrayEstabelecimentos.length > 0) {
-        setLoading(false);
-      }
-    };
-    carregarEstabelecimentos();
-  }, [arrayEstabelecimentos]);
 
   if (carregando) {
     return (
