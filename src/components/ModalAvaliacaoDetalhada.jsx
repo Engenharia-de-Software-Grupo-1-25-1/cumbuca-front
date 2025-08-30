@@ -1,37 +1,43 @@
-import React, { useEffect, useState } from 'react';
-import { adicionarComentario, obterAvaliacao } from '../services/avaliacaoService';
-import { HiArrowLeft, HiOutlineMapPin } from 'react-icons/hi2';
-import { HiDotsHorizontal } from 'react-icons/hi';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { obterAvaliacao, adicionarComentario } from '../services/avaliacaoService';
+import { removerComentario } from '../services/comentarioService.js';
+import { HiArrowLeft } from 'react-icons/hi2';
+import { formatFromDigits } from './utils/utilsModal.helpers';
+import { MdOutlineStorefront } from 'react-icons/md';
 import { FiImage, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
-import { FaHeart, FaRegComment } from 'react-icons/fa';
+import { FaRegHeart, FaRegComment, FaRegTrashAlt } from 'react-icons/fa';
 import { Nota, InfoRow } from './utils/utilsModal.jsx';
-import user from '../assets/fotoDePerfilPadrao.webp';
+import { useAuth } from '../features/auth/useAuth';
+import { message } from 'antd';
+import { coresTags } from './utils/coresTags';
+import fotoDePerfilPadrao from '../assets/fotoDePerfilPadrao.webp';
 
 export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
+  const { user } = useAuth();
   const [avaliacao, setAvaliacao] = useState(null);
   const [idx, setIdx] = useState(0);
   const [comment, setComment] = useState('');
+  const [posting, setPosting] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
+
+  const fetchData = async () => {
+    try {
+      const req = await obterAvaliacao(idAvaliacao);
+      const comentarios = req.data.comentarios;
+      setAvaliacao({ ...req.data, comentarios });
+      setIdx(0);
+    } catch (e) {
+      console.error(e);
+      message.error('Não foi possível carregar os detalhes.');
+    }
+  };
 
   useEffect(() => {
-    let mounted = true;
-    async function fetchData() {
-      try {
-        const req = await obterAvaliacao(idAvaliacao);
-        const data = req.data;
-        if (mounted) {
-          setAvaliacao(data);
-          setIdx(0);
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    }
     if (idAvaliacao) fetchData();
-    return () => (mounted = false);
   }, [idAvaliacao]);
 
   useEffect(() => {
-    if (!avaliacao?.fotos?.length) return;
     const onKey = e => {
       if (e.key === 'ArrowLeft') prev();
       if (e.key === 'ArrowRight') next();
@@ -39,11 +45,68 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [avaliacao, idx]);
+  }, [idx, avaliacao?.fotos?.length]);
 
-  const handleComment = () => {
-    adicionarComentario(idAvaliacao, comment);
-    setComment("");
+  const fotos = avaliacao?.fotos ?? [];
+  const temFotos = fotos.length > 0;
+  const likes = avaliacao?.qtdCurtidas ?? 0;
+  const commentsCount = useMemo(() => avaliacao?.qtdComentarios, [avaliacao]);
+
+  const srcFoto = s => (s?.startsWith('data:') ? s : `data:image/png;base64,${s}`);
+  const prev = () => setIdx(i => (temFotos ? (i - 1 + fotos.length) % fotos.length : 0));
+  const next = () => setIdx(i => (temFotos ? (i + 1) % fotos.length : 0));
+
+  const handleComment = async () => {
+    const texto = comment.trim();
+    if (!texto) return;
+    setPosting(true);
+    try {
+      const response = await adicionarComentario(idAvaliacao, texto);
+      setComment('');
+      setAvaliacao(old => ({
+        ...old,
+        comentarios: [
+          ...(old?.comentarios ?? []),
+          {
+            id: response.data.id,
+            comentario: texto,
+            usuario: {
+              id: user?.id,
+              nome: user?.nome,
+              username: user?.username,
+              foto: user?.foto ?? null,
+            },
+          },
+        ],
+        qtdComentarios: old?.qtdComentarios + 1,
+      }));
+    } catch (e) {
+      console.error(e);
+      message.error('Falha ao comentar. Tente novamente.');
+    } finally {
+      setPosting(false);
+    }
+  };
+
+  const handleDelete = async idComentario => {
+    setDeletingId(idComentario);
+    try {
+      await removerComentario(idComentario);
+      setAvaliacao(old => {
+        const filtrados = (old?.comentarios ?? []).filter(c => c.id !== idComentario);
+        return {
+          ...old,
+          comentarios: filtrados,
+          qtdComentarios: Math.max(0, old?.qtdComentarios - 1),
+        };
+      });
+      message.success('Comentário excluído.');
+    } catch (e) {
+      console.error(e);
+      message.error('Não foi possível excluir o comentário.');
+    } finally {
+      setDeletingId(null);
+    }
   };
 
   if (!avaliacao) {
@@ -54,28 +117,15 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
       >
         <div className="absolute inset-0 bg-black/50" />
         <div
-          className="relative z-10 w-[500px] max-w-[90vw] max-h-[92vh] overflow-hidden 
-                   rounded-2xl shadow-2xl bg-[#F4E2B8] flex items-center justify-center"
+          className="relative z-10 w-[500px] max-w-[90vw] max-h-[92vh] overflow-hidden rounded-2xl shadow-xl bg-[#F4E1C1] flex items-center justify-center"
           role="dialog"
           aria-modal="true"
         >
-          <p className="text-[#5b4320] font-semibold text-sm m-4">Carregando Detalhes da Avaliação...</p>
+          <p className="text-[#3D2E1C] font-semibold text-sm m-4">Carregando Detalhes da Avaliação...</p>
         </div>
       </div>
     );
   }
-
-  const fotos = avaliacao.fotos ?? [];
-  const temFotos = fotos.length > 0;
-
-  const likes = avaliacao.qtdCurtidas ?? 0;
-
-  const commentsCount = avaliacao.qtdComentarios ?? 0;
-  const comentarios = avaliacao.comentarios ?? [];
-
-  const srcFoto = s => (s?.startsWith('data:') ? s : `data:image/png;base64,${s}`);
-  const prev = () => setIdx(i => (i - 1 + fotos.length) % fotos.length);
-  const next = () => setIdx(i => (i + 1) % fotos.length);
 
   return (
     <div
@@ -85,45 +135,58 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
       <div className="absolute inset-0 bg-black/50" />
 
       <div
-        className="relative z-10 w-[500px] max-w-[90vw] max-h-[92vh] overflow-hidden rounded-2xl shadow-2xl bg-[#F4E2B8]"
+        className="relative z-10 w-[500px] max-w-[90vw] max-h-[92vh] overflow-hidden rounded-2xl shadow-xl bg-[#F4E1C1]"
         role="dialog"
         aria-modal="true"
       >
-        <div className="flex items-center justify-between p-3">
-          <button
-            onClick={onClose}
-            className="grid h-9 w-9 place-items-center rounded-full hover:bg-black/5"
-            aria-label="Voltar"
-            title="Voltar"
-          >
-            <HiArrowLeft className="h-5 w-5 text-[#5b4320]" />
-          </button>
+        <div className="px-3 py-2">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={onClose}
+              className="grid h-9 w-9 place-items-center rounded-full hover:bg-black/5"
+              aria-label="Voltar"
+              title="Voltar"
+            >
+              <HiArrowLeft className="h-5 w-5 text-[#3D2E1C]" />
+            </button>
 
-          <div className="text-center">
-            <p className="text-[13px]" style={{ color: '#8a6a30' }}>
-              <span className="font-semibold text-[#5b4320]">{avaliacao.usuario?.nome}</span>{' '}
-              <span className="text-[#a0844f]">@{avaliacao.usuario?.username}</span>
-            </p>
-            <p className="text-[12px]">
-              <span className="inline-flex items-center gap-1 rounded-full bg-[#e7d3a6] px-2 py-[2px] text-[#8a6a30]">
-                <HiOutlineMapPin className="h-3.5 w-3.5" />
-                {avaliacao.estabelecimento?.nome}
-              </span>
-            </p>
+            <Link to={`/perfil/${avaliacao.usuario.username}`} className="flex-shrink-0">
+              <img
+                src={avaliacao.usuario?.foto ? `data:image/jpeg;base64,${avaliacao.usuario.foto}` : fotoDePerfilPadrao}
+                className="rounded-full hover:brightness-90 transition duration-300 h-[40px] w-[40px] ring-1 ring-[#E9CD92] bg-[#E9D3AE]"
+                alt={`Foto de perfil de ${avaliacao.usuario?.nome}`}
+              />
+            </Link>
+
+            <div className="min-w-0">
+              <Link
+                to={`/perfil/${avaliacao.usuario.username}`}
+                className="flex items-baseline gap-x-2 hover:no-underline translate-y-[6px]"
+              >
+                <p className="hover:underline text-[15px] font-semibold text-[#1E1E1E] truncate">
+                  {avaliacao.usuario?.nome}
+                </p>
+                <p className="text-[13px] text-[#505050]">@{avaliacao.usuario?.username}</p>
+              </Link>
+
+              <div className="flex items-center gap-1 w-fit -translate-y-[8px]">
+                <Link
+                  to={`/estabelecimento/${avaliacao.estabelecimento.id}`}
+                  className="flex items-center gap-1 text-current no-underline"
+                >
+                  <MdOutlineStorefront color="#356B2A" size={16} />
+                  <p className="text-[13px] text-[#356B2A]">{avaliacao.estabelecimento?.nome}</p>
+                </Link>
+              </div>
+            </div>
           </div>
-
-          <button
-            className="grid h-9 w-9 place-items-center rounded-full hover:bg-black/5"
-          >
-            <HiDotsHorizontal className="h-5 w-5 text-[#8a6a30]" />
-          </button>
         </div>
-        <div className="h-[calc(92vh-56px)] overflow-y-auto border-t border-[#e2cfa2]">
+
+        <div className="h-[calc(92vh-72px)] overflow-y-auto border-t border-neutral-300">
           <div className="px-4 pt-3">
             <p className="text-[13px] text-[#4a3a1b]">{avaliacao.descricao}</p>
-
-            <div className="mt-3 rounded-xl border-[] p-3 border-[#e2cfa2] bg-[#f7e7c3]">
-              <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg bg-[#ead7aa]">
+            <div className="mt-3 rounded-xl p-3 border border-neutral-300 bg-[#F6E4B8]">
+              <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg bg-[#E9D3AE]">
                 {temFotos ? (
                   <img
                     src={srcFoto(fotos[idx])}
@@ -133,7 +196,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
                   />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center">
-                    <FiImage className="h-10 w-10 text-[#8a6a30]" />
+                    <FiImage className="h-10 w-10 text-[#6C5A3E]" />
                   </div>
                 )}
 
@@ -164,9 +227,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
                       key={i}
                       onClick={() => setIdx(i)}
                       aria-label={`Ir para imagem ${i + 1}`}
-                      className={`h-[3px] rounded-full transition-all ${
-                        idx === i ? 'w-8 bg-[#cc6a3b]' : 'w-4 bg-[#d9c59a]'
-                      }`}
+                      className={`h-[3px] rounded-full transition-all ${idx === i ? 'w-10 bg-[#C84F2E]' : 'w-5 bg-[#E9D3AE]'}`}
                     />
                   ))}
                 </div>
@@ -180,72 +241,113 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
               <Nota label="Comida" valor={avaliacao.notaComida} />
               <Nota label="Ambiente" valor={avaliacao.notaAmbiente} />
               <Nota label="Atendimento" valor={avaliacao.notaAtendimento} />
-              <InfoRow label="Preço" value={`R$ ${Number(avaliacao.preco ?? 0).toFixed(2)}`} />
+              <InfoRow label="Preço" value={`R$ ${formatFromDigits(Number(avaliacao.preco ?? 0).toFixed(2))}`} />
               <InfoRow label="Item consumido" value={avaliacao.itemConsumido} />
             </div>
           </div>
 
           <div
-            className="mt-3 flex items-center justify-between border-y px-4 py-2 text-[12px] border-[#e2cfa2]"
+            className="mt-3 flex items-center justify-between border-y px-4 py-2 text-[12px] border-neutral-300"
             style={{ color: '#7b6332' }}
           >
             <div className="flex items-center gap-4">
               <span className="inline-flex items-center gap-1">
-                <FaHeart className="h-4 w-4 text-[#cc6a3b]" /> {likes}
+                <FaRegHeart className="h-4 w-4" style={{ color: '#C92F0D' }} /> {likes}
               </span>
               <span className="inline-flex items-center gap-1">
-                <FaRegComment className="h-4 w-4 text-[#8a6a30]" /> {commentsCount}
+                <FaRegComment className="h-4 w-4" style={{ color: '#356B2A' }} /> {commentsCount}
               </span>
 
               <div className="ml-2 flex flex-wrap items-center gap-2">
-                {avaliacao.tags?.map(t => (
-                  <span key={t} className="rounded-full bg-[#f0dba9] px-2 py-[2px] text-[#6a5427]">
-                    #{t}
-                  </span>
-                ))}
+                {avaliacao.tags?.map((tag, index) => {
+                  const cor = coresTags[index % coresTags.length];
+                  return (
+                    <span
+                      key={tag}
+                      className="px-2 rounded-full text-[12px] leading-5"
+                      style={{
+                        backgroundColor: cor.corFundo,
+                        outlineWidth: '2px',
+                        outlineStyle: 'solid',
+                        outlineColor: cor.corDestaque,
+                        color: '#3D2E1C',
+                      }}
+                    >
+                      #{tag}
+                    </span>
+                  );
+                })}
               </div>
             </div>
 
-            <span className="text-[#9c844e]">{new Date(avaliacao.data).toLocaleDateString('pt-BR')}</span>
+            <span className="text-[#7A6A4C]">
+              {new Date(avaliacao.data).toLocaleDateString('pt-BR', { timeZone: 'UTC' })}
+            </span>
           </div>
 
           <div className="px-4 py-6">
-            <h3 className="text-sm font-semibold text-[#5b4320]">Comentários</h3>
-            <div className="mt-2 rounded-xl border p-2 border-[#e2cfa2] bg-[#f7e7c3]">
-              <label className="block text-[11px] text-[#7b6332]">Adicionar comentário</label>
+            <h3 className="text-sm font-semibold text-[#3D2E1C]">Comentários</h3>
+
+            <div className="mt-2 rounded-xl border p-3 border-neutral-300 bg-[#F4E1C1]">
+              <label className="block text-[11px] text-[#6C5A3E] mb-1">Adicionar comentário</label>
               <textarea
                 placeholder="Escreva um comentário para esta avaliação..."
                 value={comment}
-                onChange={e => {
-                  setComment(e.target.value);
-                }}
-                className="mt-1 min-h-[42px] w-full resize-none rounded-lg border px-3 py-2 text-[13px] placeholder:text-[#a48e5b] border-[#e2cfa2] text-[#4a3a1b] bg-[#f3e2bd]"
+                onChange={e => setComment(e.target.value)}
+                className="w-full min-h-[44px] resize-none rounded-lg border px-3 py-2 text-[13px]
+                           border-neutral-300 bg-[#F6E4B8] text-[#3D2E1C] placeholder:text-neutral-700
+                           outline-none focus:border-emerald-600"
               />
-              <div className="mt-2 flex justify-end">
+              <div className="mt-3 flex justify-end">
                 <button
                   onClick={handleComment}
-                  className="rounded-full bg-[#cc6a3b] px-4 py-2 text-sm font-semibold text-white "
+                  disabled={posting || !comment.trim()}
+                  className="rounded-full bg-[#C9342D] px-5 py-2 text-sm font-semibold text-white shadow
+                             hover:bg-[#B22C24] active:scale-[.99]
+                             disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  Comentar
+                  {posting ? 'Enviando…' : 'Comentar'}
                 </button>
               </div>
             </div>
-            <ul className="mt-3 space-y-3 mb-6">
-              {comentarios.map(c => (
-                <li key={c.id} className="flex gap-3 items-start">
-                  <img
-                    src={c.usuario.foto ? srcFoto(c.usuario.foto) : user}
-                    alt={c.usuario.username}
-                    className="mt-1 h-8 w-8 rounded-full object-cover bg-[#e7d3a6]"
-                  />
 
-                  <div className="flex-1 min-w-0 rounded-xl p-3 ring-1 bg-[#f6e6c1] border border-[#ead7aa] ">
-                    <div className="font-semibold text-sm text-gray-800 mb-1 truncate">{c.usuario.username}</div>
+            <ul className="mt-4 space-y-3 mb-6">
+              {(avaliacao.comentarios ?? []).map(c => {
+                const meuComentario = user.id && c?.usuario?.id === user.id;
+                const nome = c?.usuario?.nome;
+                const username = c?.usuario?.username;
+                return (
+                  <li key={c.id} className="flex gap-3 items-start">
+                    <img
+                      src={c?.usuario?.foto ? srcFoto(c.usuario.foto) : fotoDePerfilPadrao}
+                      alt={username}
+                      className="mt-1 h-8 w-8 rounded-full object-cover bg-[#E9D3AE] ring-1 ring-[#E9CD92]"
+                    />
 
-                    <div className="text-gray-700 text-sm whitespace-pre-wrap break-words">{c.comentario}</div>
-                  </div>
-                </li>
-              ))}
+                    <div className="flex-1 min-w-0 rounded-xl p-3 bg-[#F4E1C1] border border-neutral-300">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="mb-1 text-sm text-[#3D2E1C] truncate">
+                          <span className="font-semibold">{nome}</span>{' '}
+                          <span className="text-[#7A6A4C]">@{username}</span>
+                        </div>
+
+                        {meuComentario && (
+                          <button
+                            title="Excluir comentário"
+                            className="shrink-0 rounded-full p-1 hover:bg-black/5"
+                            onClick={() => handleDelete(c.id)}
+                            disabled={deletingId === c.id}
+                          >
+                            <FaRegTrashAlt className="w-4 h-4" style={{ color: '#7B6132' }} />
+                          </button>
+                        )}
+                      </div>
+
+                      <div className="text-[#3D2E1C] text-sm whitespace-pre-wrap break-words">{c.comentario}</div>
+                    </div>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>

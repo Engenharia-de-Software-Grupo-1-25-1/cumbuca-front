@@ -112,7 +112,9 @@ export function CampoEstrelas({ rotulo, valor, onChange }) {
   const atual = hover || valor;
   return (
     <div className="flex flex-col gap-1">
-      <span className="text-sm font-semibold text-[#3D2E1C]">{rotulo}</span>
+      <span className="text-sm font-semibold text-[#3D2E1C]">
+        {rotulo} <span className="text-red-600">*</span>
+      </span>
       <div className="flex items-center gap-1">
         {[1, 2, 3, 4, 5].map(n => (
           <button

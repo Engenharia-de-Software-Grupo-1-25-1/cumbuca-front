@@ -24,8 +24,9 @@ api.interceptors.response.use(
   error => {
     const status = error.response?.status;
     const skipRedirect = error.config?.skipAuthRedirect;
+    const hasToken = document.cookie.includes('auth_token=');
 
-    if (!skipRedirect && (status === 401 || status === 403) && !isRedirecting) {
+    if (!skipRedirect && (status === 401 || status === 403) && !isRedirecting && hasToken) {
       isRedirecting = true;
 
       message.error('Tempo de sessão encerrado, redirecionando para login!');
