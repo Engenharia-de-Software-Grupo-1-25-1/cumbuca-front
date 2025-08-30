@@ -20,3 +20,7 @@ export const removerAvaliacao = id => {
 export const getAvaliacoesUsuario = userId => {
   return api.get(`/${endpoints.avaliacao}/listar`, { params: { idUsuario: userId } });
 };
+
+export const getAvaliacoesEstabelecimento = estabelecimentoId => {
+  return api.get(`/${endpoints.avaliacao}/listar`, { params: { idEstabelecimento: estabelecimentoId } });
+};
