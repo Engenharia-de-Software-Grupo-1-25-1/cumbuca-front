@@ -21,6 +21,10 @@ export const getAvaliacoesUsuario = userId => {
   return api.get(`/${endpoints.avaliacao}/listar`, { params: { idUsuario: userId } });
 };
 
+export const getAvaliacoes = () => {
+  return api.get(`/${endpoints.avaliacao}/listar`);
+};
+
 export const adicionarComentario = (idAvaliacao, texto) => {
   return api.post(`/${endpoints.avaliacao}/comentar/${idAvaliacao}`, texto, {
     headers: { 'Content-Type': 'text/plain; charset=utf-8' },

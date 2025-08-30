@@ -75,3 +75,15 @@
 ### Adicionando
 
 - Modal de detalhar avaliações
+
+## US5.4 - PR 17
+
+### Adicionando
+
+- Tela de edição/exclusão de perfil
+
+## US6.2 - PR 18
+
+### Adicionando
+
+- Tela do feed

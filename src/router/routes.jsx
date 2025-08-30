@@ -3,7 +3,7 @@ import Login from '../pages/Login';
 import NaoEncontrado from '../pages/NaoEncontrado';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
-import Layout4 from '../components/layouts/Layout4';
+import Feed from '../pages/Feed';
 import FeedEstabelecimentos from '../pages/FeedEstabelecimentos';
 import RecuperarSenha from '../pages/RecuperarSenha';
 import NovaSenha from '../pages/NovaSenha';
@@ -30,7 +30,7 @@ export default function RoutesApp() {
         path="/feed"
         element={
           <PrivateRoute>
-            <Layout4 />
+            <Feed />
           </PrivateRoute>
         }
       />

@@ -39,6 +39,17 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
     fetchData();
   }, [idAvaliacao]);
 
+  const fotos = avaliacao?.fotos ?? [];
+  const temFotos = fotos.length > 0;
+
+  const prev = useCallback(() => {
+    setIdx(i => (temFotos ? (i - 1 + fotos.length) % fotos.length : 0));
+  }, [temFotos, fotos.length]);
+
+  const next = useCallback(() => {
+    setIdx(i => (temFotos ? (i + 1) % fotos.length : 0));
+  }, [temFotos, fotos.length]);
+
   const onKey = useCallback(
     e => {
       if (e.key === 'ArrowLeft') prev?.();
@@ -53,19 +64,10 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
     return () => window.removeEventListener('keydown', onKey);
   }, [onKey]);
 
-  const fotos = avaliacao?.fotos ?? [];
-  const temFotos = fotos.length > 0;
   const likes = avaliacao?.qtdCurtidas ?? 0;
   const commentsCount = useMemo(() => avaliacao?.qtdComentarios, [avaliacao]);
 
   const srcFoto = s => (s?.startsWith('data:') ? s : `data:image/png;base64,${s}`);
-  const prev = useCallback(() => {
-    setIdx(i => (temFotos ? (i - 1 + fotos.length) % fotos.length : 0));
-  }, [temFotos, fotos.length]);
-
-  const next = useCallback(() => {
-    setIdx(i => (temFotos ? (i + 1) % fotos.length : 0));
-  }, [temFotos, fotos.length]);
 
   const handleComment = async () => {
     const texto = comment.trim();
