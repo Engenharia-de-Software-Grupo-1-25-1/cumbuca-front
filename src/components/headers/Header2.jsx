@@ -22,7 +22,8 @@ function Header({ placeholder }) {
   };
 
   const mostrarBotaoNovaAvaliacao = location.pathname === '/feed';
-  const mostrarBotoesPesquisaEFiltro = !location.pathname.startsWith(`/perfil/${user.username}`);
+  const mostrarBotoesPesquisaEFiltro =
+    !location.pathname.startsWith(`/perfil/${user.username}`) && !location.pathname.startsWith('/estabelecimento/');
 
   return (
     <header

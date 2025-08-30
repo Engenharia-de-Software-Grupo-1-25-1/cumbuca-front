@@ -26,3 +26,7 @@ export const adicionarComentario = (idAvaliacao, texto) => {
     headers: { 'Content-Type': 'text/plain; charset=utf-8' },
   });
 };
+
+export const getAvaliacoesEstabelecimento = estabelecimentoId => {
+  return api.get(`/${endpoints.avaliacao}/listar`, { params: { idEstabelecimento: estabelecimentoId } });
+};

@@ -2,21 +2,21 @@ import { useEffect, useState } from 'react';
 import { Spin } from 'antd';
 import CardEstab from './cards/CardEstabelecimento';
 
-const ListaEstabelecimentos = ({ arrayEstabelecimentos }) => {
+const ListaEstabelecimentos = ({ arrayEstabelecimentos, filtros, ordenador }) => {
   const [estabelecimentos, setEstabelecimentos] = useState([]);
   const [carregando, setLoading] = useState(true);
 
   useEffect(() => {
     const carregarEstabelecimentos = async () => {
       setLoading(true);
-      const dados = await arrayEstabelecimentos();
+      const dados = await arrayEstabelecimentos(filtros, ordenador);
       if (dados) {
         setEstabelecimentos(dados);
       }
       setLoading(false);
     };
     carregarEstabelecimentos();
-  }, [arrayEstabelecimentos]);
+  }, [arrayEstabelecimentos, filtros, ordenador]);
 
   if (carregando) {
     return (

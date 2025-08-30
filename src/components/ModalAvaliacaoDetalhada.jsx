@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { obterAvaliacao, adicionarComentario } from '../services/avaliacaoService';
 import { removerComentario } from '../services/comentarioService.js';
@@ -21,31 +21,37 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
   const [posting, setPosting] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
 
-  const fetchData = async () => {
-    try {
-      const req = await obterAvaliacao(idAvaliacao);
-      const comentarios = req.data.comentarios;
-      setAvaliacao({ ...req.data, comentarios });
-      setIdx(0);
-    } catch (e) {
-      console.error(e);
-      message.error('Não foi possível carregar os detalhes.');
-    }
-  };
-
   useEffect(() => {
-    if (idAvaliacao) fetchData();
+    if (!idAvaliacao) return;
+
+    const fetchData = async () => {
+      try {
+        const req = await obterAvaliacao(idAvaliacao);
+        const comentarios = req.data.comentarios;
+        setAvaliacao({ ...req.data, comentarios });
+        setIdx(0);
+      } catch (e) {
+        console.error(e);
+        message.error('Não foi possível carregar os detalhes.');
+      }
+    };
+
+    fetchData();
   }, [idAvaliacao]);
 
-  useEffect(() => {
-    const onKey = e => {
-      if (e.key === 'ArrowLeft') prev();
-      if (e.key === 'ArrowRight') next();
+  const onKey = useCallback(
+    e => {
+      if (e.key === 'ArrowLeft') prev?.();
+      if (e.key === 'ArrowRight') next?.();
       if (e.key === 'Escape') onClose?.();
-    };
+    },
+    [prev, next, onClose]
+  );
+
+  useEffect(() => {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [idx, avaliacao?.fotos?.length]);
+  }, [onKey]);
 
   const fotos = avaliacao?.fotos ?? [];
   const temFotos = fotos.length > 0;
@@ -53,8 +59,13 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
   const commentsCount = useMemo(() => avaliacao?.qtdComentarios, [avaliacao]);
 
   const srcFoto = s => (s?.startsWith('data:') ? s : `data:image/png;base64,${s}`);
-  const prev = () => setIdx(i => (temFotos ? (i - 1 + fotos.length) % fotos.length : 0));
-  const next = () => setIdx(i => (temFotos ? (i + 1) % fotos.length : 0));
+  const prev = useCallback(() => {
+    setIdx(i => (temFotos ? (i - 1 + fotos.length) % fotos.length : 0));
+  }, [temFotos, fotos.length]);
+
+  const next = useCallback(() => {
+    setIdx(i => (temFotos ? (i + 1) % fotos.length : 0));
+  }, [temFotos, fotos.length]);
 
   const handleComment = async () => {
     const texto = comment.trim();
