@@ -15,6 +15,7 @@ export const login = async (username, senha) => {
     .catch(err => {
       message.error(err.response.data || 'Erro ao realizar login');
       console.error(err);
+      throw err;
     });
 };
 
@@ -36,5 +37,6 @@ export const getUser = async () => {
     .catch(err => {
       message.error(err.response.data || 'Erro ao buscar dados do usuário!');
       console.error(err);
+      throw err;
     });
 };

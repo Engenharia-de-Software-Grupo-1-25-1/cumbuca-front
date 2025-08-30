@@ -69,3 +69,9 @@
 ### Adicionando
 
 - Tela de exibir estabelecimento
+
+## US6.4 - PR 11
+
+### Adicionando
+
+- Modal de detalhar avaliações
