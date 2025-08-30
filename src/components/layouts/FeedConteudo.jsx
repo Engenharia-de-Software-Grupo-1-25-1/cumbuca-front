@@ -4,76 +4,98 @@ import { message } from 'antd';
 import { getAvaliacoes } from '../../services/avaliacaoService';
 import AvaliacaoBox from './AvaliacaoBox';
 
-const LOTE = 8;
+const PAGE_SIZE = 10;
 
 export default function FeedConteudo() {
-  const [todas, setTodas] = useState([]);
-  const [visiveis, setVisiveis] = useState(LOTE);
-  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState([]);
+  const [limit, setLimit] = useState(PAGE_SIZE);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const sentinelaRef = useRef(null);
+  const scrollContainerRef = useRef(null);
+  const sentinelRef = useRef(null);
 
-  const carregar = useCallback(async () => {
-    setLoading(true);
+  const fetchAll = useCallback(async () => {
+    setIsLoading(true);
     try {
-      const { data } = await getAvaliacoes();
-      setTodas(Array.isArray(data) ? data : []);
-      setVisiveis(LOTE);
-    } catch (e) {
-      console.error(e);
-      message.error('Não foi possível carregar o feed agora.');
-      setTodas([]);
+      const res = await getAvaliacoes();
+      setData(res.data);
+      setLimit(Math.min(PAGE_SIZE, res.data.length));
+    } catch (err) {
+      console.error(err);
+      message.error('Não foi possível carregar o Feed!');
+      setData([]);
+      setLimit(0);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    carregar();
-  }, [carregar]);
+    fetchAll();
+  }, [fetchAll]);
 
   useEffect(() => {
-    if (!sentinelaRef.current) return;
-    const io = new IntersectionObserver(entries => {
-      const [entry] = entries;
-      if (entry.isIntersecting) {
-        setVisiveis(v => Math.min(v + LOTE, todas.length));
-      }
-    });
-    io.observe(sentinelaRef.current);
-    return () => io.disconnect();
-  }, [todas.length]);
+    if (!sentinelRef.current || !scrollContainerRef.current) return;
 
-  const lista = useMemo(() => todas.slice(0, visiveis), [todas, visiveis]);
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setLimit(current => Math.min(current + PAGE_SIZE, data.length));
+        }
+      },
+      {
+        root: scrollContainerRef.current,
+        rootMargin: '200px',
+        threshold: 0.01,
+      }
+    );
+
+    io.observe(sentinelRef.current);
+    return () => io.disconnect();
+  }, [data.length]);
+
+  const visibleItems = useMemo(() => data.slice(0, limit), [data, limit]);
+  const reachedEnd = limit >= data.length && data.length > 0;
 
   return (
     <div className="bg-[#bc6302] w-[80%] rounded-[10px] py-4 px-6 max-w-[728px] flex flex-col">
-      {loading && (
+      {isLoading && (
         <h2 className="text-center sm:text-[18px] md:text-[20px] lg:text-[20px] font-medium text-[#1e1e1e] p-2 px-4 bg-[#f4a831] w-fit h-fit rounded-[10px] m-auto mt-4 animate-pulse">
           Carregando avaliações...
         </h2>
       )}
 
-      {!loading && todas.length === 0 && (
+      {!isLoading && data.length === 0 && (
         <h2 className="sm:text-[18px] md:text-[24px] lg:text-[24px] font-medium text-[#1e1e1e] p-2 px-4 bg-[#f4a831] w-fit h-fit rounded-[10px] m-auto mt-4">
           Ainda não há avaliações no feed.
         </h2>
       )}
 
-      {!loading && todas.length > 0 && (
-        <>
+      {!isLoading && data.length > 0 && (
+        <div ref={scrollContainerRef} className="scroll-dark mt-2" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
           <DataView
-            value={lista}
+            value={visibleItems}
             itemTemplate={(avaliacao, index) => (
-              <AvaliacaoBox key={`${avaliacao.id}-${index}`} avaliacao={avaliacao} onChange={carregar} />
+              <AvaliacaoBox
+                key={avaliacao && avaliacao.id ? avaliacao.id : `idx-${index}`}
+                avaliacao={avaliacao}
+                onChange={fetchAll}
+              />
             )}
             layout="list"
-            className="scroll-dark mt-2"
-            style={{ maxHeight: '60vh', overflowY: 'auto' }}
           />
 
-          <div ref={sentinelaRef} style={{ height: 1 }} />
-        </>
+          <div className="flex flex-col items-center gap-2 py-3">
+            {!reachedEnd ? (
+              <span className="text-sm text-[#1e1e1e] p-1 px-3 bg-[#f4a831] rounded-[8px]">Carregando mais...</span>
+            ) : (
+              <span className="text-xs text-[#1e1e1e]/80 p-1 px-3 bg-[#f4a831]/70 rounded-[8px]">
+                Você chegou ao fim do Feed, compartilhe novas experiências para esse momento nunca acontecer!
+              </span>
+            )}
+            <div ref={sentinelRef} style={{ height: 1 }} />
+          </div>
+        </div>
       )}
     </div>
   );
