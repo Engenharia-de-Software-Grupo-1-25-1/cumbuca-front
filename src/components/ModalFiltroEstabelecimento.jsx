@@ -19,7 +19,7 @@ export default function ModalFiltroEstabelecimento({ open, onClose, onAplicar, f
       setCategoria(filtros.categoria || '');
       setLocalizacao(filtros.localizacao || '');
       setNota(filtros.notaGeral || 0);
-      setCurtido(filtros.favoritado || false);
+      setCurtido(filtros.isFavoritado || false);
 
       setOrdenarMaisAvaliacoes(ordenador === 'qtdAvaliacoes');
     }
@@ -30,7 +30,7 @@ export default function ModalFiltroEstabelecimento({ open, onClose, onAplicar, f
       nome: estabelecimentoNome || '',
       categoria: categoria || '',
       localizacao: localizacao || '',
-      favoritado: !!curtido,
+      isFavoritado: !!curtido,
       notaGeral: nota > 0 ? nota : null,
     };
 
