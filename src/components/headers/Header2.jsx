@@ -8,6 +8,7 @@ import { FiFilter } from 'react-icons/fi';
 import BarraDePesquisa from './BarraDePesquisa';
 import { useAuth } from '../../features/auth/useAuth';
 import ModalAvaliacao from '../ModalAvaliacao';
+import ModalFiltroEstabelecimento from '../ModalFiltroEstabelecimento';
 import ModalFiltroAvaliacao from '../ModalFiltroAvaliacoes';
 
 //Padrão de Header com logo com título, barra de pesquisa expansível, botão de filtrar e botão de sair
@@ -79,6 +80,15 @@ function Header({ placeholder, onAplicarFiltros, filtros, ordenador }) {
           </>
         )}
 
+        {modalFiltroVisivel && location.pathname == '/estabelecimento' && (
+          <ModalFiltroEstabelecimento
+            open={modalFiltroVisivel}
+            onClose={() => setModalFiltroVisivel(false)}
+            onAplicar={onAplicarFiltros}
+            filtros={filtros}
+            ordenador={ordenador}
+          />
+        )}
         {modalFiltroVisivel && location.pathname == '/feed' && (
           <ModalFiltroAvaliacao
             open={modalFiltroVisivel}

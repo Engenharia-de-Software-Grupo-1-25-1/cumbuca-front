@@ -107,13 +107,13 @@ export function TagInput({ tags, setTags, placeholder = 'Digite e pressione espa
   );
 }
 
-export function CampoEstrelas({ rotulo, valor, onChange, orbigatorio = true }) {
+export function CampoEstrelas({ rotulo, valor, onChange, obrigatorio = true }) {
   const [hover, setHover] = useState(0);
   const atual = hover || valor;
   return (
     <div className="flex flex-col gap-1">
       <span className="text-sm font-semibold text-[#3D2E1C]">
-        {rotulo} {orbigatorio && <span className="text-red-600">*</span>}
+        {rotulo} {obrigatorio && <span className="text-red-600">*</span>}
       </span>
       <div className="flex items-center gap-1">
         {[1, 2, 3, 4, 5].map(n => (

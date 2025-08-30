@@ -26,6 +26,21 @@ const ListaEstabelecimentos = ({ arrayEstabelecimentos, filtros, ordenador }) =>
     );
   }
 
+  if (!Array.isArray(estabelecimentos) || estabelecimentos.length === 0) {
+    return (
+      <div className="block w-full">
+        <div className="flex flex-col items-start gap-4">
+          <h1
+            className="sm:text-[20px] md:text-[30px] lg:text-[30px] font-semibold text-[#1e1e1e]
+                     p-1 px-4 bg-[#f4a831] w-fit h-fit rounded-[10px] mt-8 ml-15 self-start text-left"
+          >
+            Nenhum estabelecimento encontrado.
+          </h1>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="block w-full">
       <div className="flex flex-col items-start gap-4">

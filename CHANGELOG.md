@@ -93,3 +93,9 @@
 ### Adicionando
 
 - Modal filtro de avaliações
+
+## US8.4 - PR 19
+
+### Adicionando
+
+- Modal filtro de estabelecimentos

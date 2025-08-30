@@ -31,8 +31,8 @@ export default function EstabelecimentoBox({ estabelecimentoId }) {
         const data = await getEstabelecimentoById(estabelecimentoId);
         setEstabelecimento(data);
 
-        if (data && data.favoritado !== undefined) {
-          setCurtido(data.favoritado);
+        if (data && data.isFavoritado !== undefined) {
+          setCurtido(data.isFavoritado);
         }
       } catch (error) {
         console.error(error);

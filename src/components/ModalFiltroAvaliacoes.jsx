@@ -201,25 +201,25 @@ export default function ModalFiltroAvaliacao({ open, onClose, onAplicar, filtros
                 rotulo="Nota Geral"
                 valor={notas.notaGeral}
                 onChange={v => setNotas(r => ({ ...r, notaGeral: v }))}
-                orbigatorio={false}
+                obrigatorio={false}
               />
               <CampoEstrelas
                 rotulo="Comida"
                 valor={notas.notaComida}
                 onChange={v => setNotas(r => ({ ...r, notaComida: v }))}
-                orbigatorio={false}
+                obrigatorio={false}
               />
               <CampoEstrelas
                 rotulo="Ambiente"
                 valor={notas.notaAmbiente}
                 onChange={v => setNotas(r => ({ ...r, notaAmbiente: v }))}
-                orbigatorio={false}
+                obrigatorio={false}
               />
               <CampoEstrelas
                 rotulo="Atendimento"
                 valor={notas.notaAtendimento}
                 onChange={v => setNotas(r => ({ ...r, notaAtendimento: v }))}
-                orbigatorio={false}
+                obrigatorio={false}
               />
             </div>
             <div className="mt-2 mb-2 flex items-center justify-end gap-3">
