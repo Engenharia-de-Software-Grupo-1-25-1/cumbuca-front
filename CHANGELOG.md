@@ -84,6 +84,6 @@
 
 ## US6.2 - PR 18
 
-### Adicionando 
+### Adicionando
 
 - Tela do feed
