@@ -15,14 +15,17 @@ export const login = async (username, senha) => {
     .catch(err => {
       message.error(err.response.data || 'Erro ao realizar login');
       console.error(err);
+      throw err;
     });
 };
 
-export const logout = () => {
+export const logout = (silent = false) => {
   document.cookie = 'auth_token=; path=/; max-age=0';
   localStorage.removeItem('userId');
   sessionStorage.removeItem('tagsPopulares');
-  message.success('Logout realizado com sucesso!');
+  if (!silent) {
+    message.success('Logout realizado com sucesso!');
+  }
 };
 
 export const getUser = async () => {
@@ -34,5 +37,15 @@ export const getUser = async () => {
     .catch(err => {
       message.error(err.response.data || 'Erro ao buscar dados do usuário!');
       console.error(err);
+      throw err;
     });
+};
+
+export const verificarSenhaAtual = async (username, senha) => {
+  try {
+    await api.post(`/${ApiEndPoints.login}`, { username, senha }, { skipAuthRedirect: true });
+    return true;
+  } catch {
+    return false;
+  }
 };

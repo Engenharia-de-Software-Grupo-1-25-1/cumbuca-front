@@ -17,22 +17,27 @@ api.interceptors.request.use(
   error => Promise.reject(error)
 );
 
+let isRedirecting = false;
+
 api.interceptors.response.use(
   response => response,
   error => {
+    const status = error.response?.status;
     const skipRedirect = error.config?.skipAuthRedirect;
-    if (
-      !skipRedirect &&
-      error.response &&
-      (error.response.status === 401 ||
-        error.response.status === 403 ||
-        error.response.data.includes('token JWT') ||
-        error.response.data.message.includes('token JWT'))
-    ) {
+    const hasToken = document.cookie.includes('auth_token=');
+
+    if (!skipRedirect && (status === 401 || status === 403) && !isRedirecting && hasToken) {
+      isRedirecting = true;
+
       message.error('Tempo de sessão encerrado, redirecionando para login!');
-      logout();
-      window.location.href = '/login';
+
+      logout?.(true);
+
+      setTimeout(() => {
+        window.location.assign('/login');
+      }, 1000);
     }
+
     return Promise.reject(error);
   }
 );
