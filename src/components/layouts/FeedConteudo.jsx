@@ -6,7 +6,7 @@ import AvaliacaoBox from './AvaliacaoBox';
 
 const PAGE_SIZE = 10;
 
-export default function FeedConteudo() {
+export default function FeedConteudo({ filtros, ordenador }) {
   const [data, setData] = useState([]);
   const [limit, setLimit] = useState(PAGE_SIZE);
   const [isLoading, setIsLoading] = useState(false);
@@ -17,7 +17,7 @@ export default function FeedConteudo() {
   const fetchAll = useCallback(async () => {
     setIsLoading(true);
     try {
-      const res = await getAvaliacoes();
+      const res = await getAvaliacoes(filtros, ordenador);
       setData(res.data);
       setLimit(Math.min(PAGE_SIZE, res.data.length));
     } catch (err) {
@@ -28,7 +28,7 @@ export default function FeedConteudo() {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [filtros, ordenador]);
 
   useEffect(() => {
     fetchAll();

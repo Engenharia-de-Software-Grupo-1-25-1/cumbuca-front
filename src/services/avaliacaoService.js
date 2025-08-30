@@ -1,5 +1,6 @@
 import api from './api';
 import endpoints from '../constants/ApiEndPoints';
+import qs from 'qs';
 
 export const criarAvaliacao = formData => {
   return api.post(`/${endpoints.avaliacao}/criar`, formData);
@@ -21,8 +22,31 @@ export const getAvaliacoesUsuario = userId => {
   return api.get(`/${endpoints.avaliacao}/listar`, { params: { idUsuario: userId } });
 };
 
-export const getAvaliacoes = () => {
-  return api.get(`/${endpoints.avaliacao}/listar`);
+export const getAvaliacoes = (filtros = {}, ordenacao = null) => {
+  const params = {};
+  Object.entries(filtros || {}).forEach(([filtro, valor]) => {
+    if (filtro === 'notas') {
+      Object.entries(valor).forEach(([categoria, nota]) => {
+        if (nota) params[categoria] = nota;
+      });
+      return;
+    }
+
+    if (filtro === 'tags' && Array.isArray(valor)) {
+      params.tags = valor;
+      return;
+    }
+
+    if (valor) {
+      params[filtro] = valor;
+    }
+  });
+
+  if (ordenacao) params.ordenador = ordenacao;
+  return api.get(`/${endpoints.avaliacao}/listar`, {
+    params,
+    paramsSerializer: params => qs.stringify(params, { arrayFormat: 'repeat', skipNulls: true }),
+  });
 };
 
 export const adicionarComentario = (idAvaliacao, texto) => {

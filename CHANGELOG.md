@@ -87,3 +87,9 @@
 ### Adicionando
 
 - Tela do feed
+
+## US8.2 - PR 20
+
+### Adicionando
+
+- Modal filtro de avaliações

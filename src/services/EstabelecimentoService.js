@@ -13,9 +13,7 @@ export const getEstabelecimentos = async (filtros = {}, ordenador = null) => {
       params.ordenador = ordenador;
     }
 
-    const res = await api.get(`${endpoints.estabelecimento}/listar`, {
-      params,
-    });
+    const res = await api.get(`${endpoints.estabelecimento}/listar`, { params });
 
     return res.data;
   } catch (err) {
