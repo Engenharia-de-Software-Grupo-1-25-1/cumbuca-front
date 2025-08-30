@@ -24,7 +24,8 @@ function Header({ placeholder, onAplicarFiltros, filtros, ordenador }) {
   };
 
   const mostrarBotaoNovaAvaliacao = location.pathname === '/feed';
-  const mostrarBotoesPesquisaEFiltro = !location.pathname.startsWith(`/perfil/${user.username}`) && !location.pathname.startsWith('/estabelecimento/');
+  const mostrarBotoesPesquisaEFiltro =
+    !location.pathname.startsWith(`/perfil/${user.username}`) && !location.pathname.startsWith('/estabelecimento/');
 
   return (
     <header
@@ -79,7 +80,13 @@ function Header({ placeholder, onAplicarFiltros, filtros, ordenador }) {
         )}
 
         {modalFiltroVisivel && location.pathname == '/feed' && (
-        <ModalFiltroAvaliacao open={modalFiltroVisivel} onClose={() => setModalFiltroVisivel(false)} onAplicar={onAplicarFiltros} filtros={filtros} ordenador={ordenador}/>
+          <ModalFiltroAvaliacao
+            open={modalFiltroVisivel}
+            onClose={() => setModalFiltroVisivel(false)}
+            onAplicar={onAplicarFiltros}
+            filtros={filtros}
+            ordenador={ordenador}
+          />
         )}
 
         {mostrarBotaoNovaAvaliacao && (
