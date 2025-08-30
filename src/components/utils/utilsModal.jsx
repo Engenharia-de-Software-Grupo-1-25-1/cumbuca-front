@@ -112,7 +112,9 @@ export function CampoEstrelas({ rotulo, valor, onChange }) {
   const atual = hover || valor;
   return (
     <div className="flex flex-col gap-1">
-      <span className="text-sm font-semibold text-[#3D2E1C]">{rotulo}</span>
+      <span className="text-sm font-semibold text-[#3D2E1C]">
+        {rotulo} <span className="text-red-600">*</span>
+      </span>
       <div className="flex items-center gap-1">
         {[1, 2, 3, 4, 5].map(n => (
           <button
@@ -327,5 +329,38 @@ export function AutocompleteNominatim({ id, valor, erro, mostrarErros, onChange,
 
       {temErro && <p className="mt-1 text-[11px] text-red-600">{erro}</p>}
     </div>
+  );
+}
+
+export function Nota({ label, valor = 0 }) {
+  return (
+    <div className="flex items-center gap-2 text-[#6a5427]">
+      <span className="w-[120px] shrink-0 font-semibold text-[#5b4320]">{label}</span>
+      <div className="flex items-center gap-[2px]">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <Star key={i} filled={i < Number(valor || 0)} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export function InfoRow({ label, value }) {
+  return (
+    <div className="flex items-center gap-2 text-[#6a5427]">
+      <span className="w-[120px] shrink-0 font-semibold text-[#5b4320]">{label}</span>
+      <span className="text-[#6a5427]">{value}</span>
+    </div>
+  );
+}
+
+function Star({ filled }) {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4">
+      <path
+        d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+        fill={filled ? '#f29b38' : '#e0cf9f'}
+      />
+    </svg>
   );
 }

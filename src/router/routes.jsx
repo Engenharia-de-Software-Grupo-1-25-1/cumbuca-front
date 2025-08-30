@@ -10,6 +10,7 @@ import NovaSenha from '../pages/NovaSenha';
 import CriarConta from '../pages/CriarConta';
 import EditarPerfil from '../pages/EditarPerfil';
 import Perfil from '../pages/Perfil';
+import Estabelecimento from '../pages/Estabelecimento';
 
 export default function RoutesApp() {
   return (
@@ -39,6 +40,15 @@ export default function RoutesApp() {
         element={
           <PrivateRoute>
             <FeedEstabelecimentos />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/estabelecimento/:id"
+        element={
+          <PrivateRoute>
+            <Estabelecimento />
           </PrivateRoute>
         }
       />

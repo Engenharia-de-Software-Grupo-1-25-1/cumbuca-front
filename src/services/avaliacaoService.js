@@ -20,3 +20,13 @@ export const removerAvaliacao = id => {
 export const getAvaliacoesUsuario = userId => {
   return api.get(`/${endpoints.avaliacao}/listar`, { params: { idUsuario: userId } });
 };
+
+export const adicionarComentario = (idAvaliacao, texto) => {
+  return api.post(`/${endpoints.avaliacao}/comentar/${idAvaliacao}`, texto, {
+    headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+  });
+};
+
+export const getAvaliacoesEstabelecimento = estabelecimentoId => {
+  return api.get(`/${endpoints.avaliacao}/listar`, { params: { idEstabelecimento: estabelecimentoId } });
+};

@@ -63,3 +63,15 @@
 ### Adicionando
 
 - Conexão de botão de editar avaliação com modal de edição
+
+## US7.4 - PR 16
+
+### Adicionando
+
+- Tela de exibir estabelecimento
+
+## US6.4 - PR 11
+
+### Adicionando
+
+- Modal de detalhar avaliações

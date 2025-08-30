@@ -6,6 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../features/auth/useAuth';
 import avatarPadrao from '../assets/fotoDePerfilPadrao.webp';
 import { verificarSenhaAtual } from '../services/authService';
+import { toISODateOnly } from '../utils/date';
+import { normalizeFoto } from '../utils/image';
+import { message } from 'antd';
 
 const EditarPerfil = () => {
   const navigate = useNavigate();
@@ -25,7 +28,6 @@ const EditarPerfil = () => {
   const [novaSenha, setNovaSenha] = useState('');
   const [confirmarNovaSenha, setConfirmarNovaSenha] = useState('');
 
-  const [mensagem, setMensagem] = useState('');
   const [erro, setErro] = useState('');
   const [carregando, setCarregando] = useState(true);
 
@@ -38,17 +40,17 @@ const EditarPerfil = () => {
         setErro('');
 
         const resp = await getUsuarioPorUsername(user.username);
-        if (resp?.sucesso && resp?.data) {
+        if (resp?.data) {
           const { id, nome, username, email, dtNascimento, foto } = resp.data;
           setId(id);
           setNome(nome || '');
           setUsername(username || '');
           setEmail(email || '');
-          setDtNascimento(dtNascimento || '');
-          setPreviewFoto(foto || null);
+          setDtNascimento(toISODateOnly(dtNascimento || ''));
+          setPreviewFoto(normalizeFoto(foto || null));
           setFoto(null);
         } else {
-          setErro(resp?.erro || 'Não foi possível carregar seu perfil.');
+          setErro(resp?.response.data || 'Não foi possível carregar seu perfil.');
         }
       } catch {
         setErro('Não foi possível carregar seu perfil.');
@@ -57,6 +59,10 @@ const EditarPerfil = () => {
       }
     })();
   }, [user?.username]);
+
+  useEffect(() => {
+    if (erro) message.error(erro);
+  }, [erro]);
 
   const handleAlterarFoto = e => {
     const file = e.target.files?.[0];
@@ -68,7 +74,6 @@ const EditarPerfil = () => {
 
   const handleSalvar = async e => {
     e.preventDefault();
-    setMensagem('');
     setErro('');
 
     if (!id) {
@@ -88,7 +93,7 @@ const EditarPerfil = () => {
       if (!novaSenha?.trim()) return setErro('Informe a nova senha.');
       if (novaSenha !== confirmarNovaSenha) return setErro('A confirmação de senha não confere.');
 
-      const ok = await verificarSenhaAtual(user?.username || username || email, senhaAtual.trim());
+      const ok = await verificarSenhaAtual(user?.username, senhaAtual.trim());
       if (!ok) return setErro('Senha atual incorreta.');
 
       senhaParaEnviar = novaSenha.trim();
@@ -111,15 +116,13 @@ const EditarPerfil = () => {
 
     formData.append('senha', senhaParaEnviar);
 
-    const resp = await atualizarPerfil(id, formData);
-    if (resp?.sucesso) {
-      setMensagem('Perfil atualizado com sucesso!');
-      setSenhaAtual('');
-      setNovaSenha('');
-      setConfirmarNovaSenha('');
-    } else {
-      setErro(resp?.erro || 'Não foi possível atualizar o perfil.');
-    }
+    atualizarPerfil(id, formData)
+      .then(() => {
+        message.success('Perfil atualizado com sucesso!');
+      })
+      .catch(error => {
+        message.error(error.response.data || 'Não foi possível atualizar o perfil.');
+      });
   };
 
   return (
@@ -147,7 +150,7 @@ const EditarPerfil = () => {
                   <img src={previewFoto || avatarPadrao} alt="Foto de perfil" className="w-full h-full object-cover" />
                 </div>
 
-                <label className="inline-flex items-center gap-2 bg-[#F4E9C3] text-[#1f1f1f] px-4 py-2 rounded-md cursor-pointer hover:brightness-95">
+                <label className="inline-flex items-center gap-2 bg-[#E9D3AE] text-[#1f1f1f] px-4 py-2 rounded-md cursor-pointer hover:brightness-95">
                   <FaCamera />
                   <span>Alterar foto</span>
                   <input type="file" accept="image/*" className="hidden" onChange={handleAlterarFoto} />
@@ -161,7 +164,7 @@ const EditarPerfil = () => {
                     type="text"
                     value={nome}
                     onChange={e => setNome(e.target.value)}
-                    className="w-full h-11 bg-[#F4E9C3] text-[#1f1f1f] rounded-md px-4 outline-none"
+                    className="w-full h-11 bg-[#E9D3AE] text-[#1f1f1f] rounded-md px-4 outline-none"
                   />
                 </div>
 
@@ -171,7 +174,7 @@ const EditarPerfil = () => {
                     type="text"
                     value={username}
                     onChange={e => setUsername(e.target.value)}
-                    className="w-full h-11 bg-[#F4E9C3] text-[#1f1f1f] rounded-md px-4 outline-none"
+                    className="w-full h-11 bg-[#E9D3AE] text-[#1f1f1f] rounded-md px-4 outline-none"
                   />
                 </div>
 
@@ -182,7 +185,7 @@ const EditarPerfil = () => {
                       type="email"
                       value={email}
                       onChange={e => setEmail(e.target.value)}
-                      className="w-full h-11 bg-[#F4E9C3] text-[#1f1f1f] rounded-md px-4 outline-none"
+                      className="w-full h-11 bg-[#E9D3AE] text-[#1f1f1f] rounded-md px-4 outline-none"
                     />
                   </div>
                   <div>
@@ -191,7 +194,7 @@ const EditarPerfil = () => {
                       type="date"
                       value={dtNascimento}
                       onChange={e => setDtNascimento(e.target.value)}
-                      className="w-full h-11 bg-[#F4E9C3] text-[#1f1f1f] rounded-md px-4 outline-none"
+                      className="w-full h-11 bg-[#E9D3AE] text-[#1f1f1f] rounded-md px-4 outline-none"
                     />
                   </div>
                 </div>
@@ -199,7 +202,7 @@ const EditarPerfil = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[#1f1f1f] font-semibold mb-1">Senha atual</label>
-                    <div className="flex items-center bg-[#F4E9C3] rounded-md px-3 h-11">
+                    <div className="flex items-center bg-[#E9D3AE] rounded-md px-3 h-11">
                       <FaLock className="text-[#5F584E] mr-2" />
                       <input
                         type="password"
@@ -213,7 +216,7 @@ const EditarPerfil = () => {
 
                   <div>
                     <label className="block text-[#1f1f1f] font-semibold mb-1">Nova senha</label>
-                    <div className="flex items-center bg-[#F4E9C3] rounded-md px-3 h-11">
+                    <div className="flex items-center bg-[#E9D3AE] rounded-md px-3 h-11">
                       <FaLock className="text-[#5F584E] mr-2" />
                       <input
                         type="password"
@@ -228,7 +231,7 @@ const EditarPerfil = () => {
 
                 <div>
                   <label className="block text-[#1f1f1f] font-semibold mb-1">Confirmar nova senha</label>
-                  <div className="flex items-center bg-[#F4E9C3] rounded-md px-3 h-11">
+                  <div className="flex items-center bg-[#E9D3AE] rounded-md px-3 h-11">
                     <FaLock className="text-[#5F584E] mr-2" />
                     <input
                       type="password"
@@ -241,30 +244,19 @@ const EditarPerfil = () => {
                 </div>
               </div>
 
-              {erro && (
-                <div className="col-span-full text-red-700 bg-red-50 border border-red-200 rounded-md px-3 py-2 flex items-center gap-2">
-                  <FaExclamationTriangle /> <span>{erro}</span>
-                </div>
-              )}
-              {mensagem && (
-                <div className="col-span-full text-green-700 bg-green-50 border border-green-200 rounded-md px-3 py-2">
-                  {mensagem}
-                </div>
-              )}
-
-              <div className="col-span-full flex gap-4 justify-center mt-1">
-                <button
-                  type="submit"
-                  className="px-8 py-3 bg-[#B62506] text-[#F4E9C3] text-lg font-semibold rounded-full hover:brightness-110"
-                >
-                  Salvar
-                </button>
+              <div className="col-span-full flex gap-4 justify-between mt-1">
                 <button
                   type="button"
                   disabled
                   className="px-8 py-3 bg-[#f08a0c] text-[#1f1f1f] text-lg font-semibold rounded-full opacity-60 cursor-not-allowed"
                 >
                   Excluir
+                </button>
+                <button
+                  type="submit"
+                  className="px-8 py-3 bg-[#B62506] text-[#F4E9C3] text-lg font-semibold rounded-full hover:brightness-110"
+                >
+                  Salvar
                 </button>
               </div>
             </form>
