@@ -69,3 +69,9 @@
 ### Adicionando 
 
 - Tela de exibir estabelecimento
+
+## US8.2 - PR 20
+
+### Adicionando 
+
+- Modal filtro de avaliações

@@ -25,3 +25,24 @@ export const getAvaliacoesEstabelecimento = estabelecimentoId => {
   return api.get(`/${endpoints.avaliacao}/listar`, { params: { idEstabelecimento: estabelecimentoId } });
 };
 
+export const getAvaliacoesFeed = async (filtros = {}, ordenacao = null) => {
+  try {
+    const params = {};
+    Object.entries(filtros || {}).forEach(([filtro, valor]) => {
+      if (valor !== null && valor !== undefined) params[filtro] = valor;
+    });
+
+    if (ordenacao !== null && ordenacao !== undefined) {
+      params.ordenacao = ordenacao;
+    }
+    const res = await api.get(`/${endpoints.avaliacao}/listar`, {
+      params,
+      skipAuthRedirect: true,
+    });
+    return res.data;
+  } catch (err) {
+    console.error('Erro ao listar avaliações do feed.', err);
+    return [];
+  }
+};
+
