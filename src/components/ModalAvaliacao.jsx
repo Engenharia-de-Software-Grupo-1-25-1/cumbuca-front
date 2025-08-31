@@ -36,12 +36,8 @@ export default function ModalAvaliacao({ open, onClose, editar = false, avaliaca
     if (!lugar) e.estabelecimento = 'Campo Estabelecimento é obrigatório';
     if (!item.trim()) e.item = 'Campo Item Consumido é obrigatório';
     if (!descricao.trim()) e.descricao = 'Campo Descrição é obrigatório';
-    if (!notas['geral']) e.geral = 'Campo Nota Geral é obrigatório';
-    if (!notas['comida']) e.comida = 'Campo Comida é obrigatório';
-    if (!notas['ambiente']) e.ambiente = 'Campo Ambiente é obrigatório';
-    if (!notas['atendimento']) e.atendimento = 'Campo Atendimento é obrigatório';
     return e;
-  }, [lugar, item, descricao, notas]);
+  }, [lugar, item, descricao]);
 
   useEffect(() => {
     if (!open) {
@@ -302,21 +298,25 @@ export default function ModalAvaliacao({ open, onClose, editar = false, avaliaca
               <div className="grid grid-cols-2 gap-x-8 gap-y-3 pt-1">
                 <CampoEstrelas
                   rotulo="Nota Geral"
+                  obrigatorio={false}
                   valor={notas.geral}
                   onChange={v => setNotas(r => ({ ...r, geral: v }))}
                 />
                 <CampoEstrelas
                   rotulo="Comida"
+                  obrigatorio={false}
                   valor={notas.comida}
                   onChange={v => setNotas(r => ({ ...r, comida: v }))}
                 />
                 <CampoEstrelas
                   rotulo="Ambiente"
+                  obrigatorio={false}
                   valor={notas.ambiente}
                   onChange={v => setNotas(r => ({ ...r, ambiente: v }))}
                 />
                 <CampoEstrelas
                   rotulo="Atendimento"
+                  obrigatorio={false}
                   valor={notas.atendimento}
                   onChange={v => setNotas(r => ({ ...r, atendimento: v }))}
                 />

@@ -15,9 +15,13 @@ import ModalAvaliacao from '../ModalAvaliacao';
 import fotoDePerfilPadrao from '../../assets/fotoDePerfilPadrao.webp';
 import ModalAvaliacaoDetalhada from '../ModalAvaliacaoDetalhada';
 
-//Box de Avaliação, recebe uma avaliação e a apresenta em um perfil ou no Feed
-//Consegue verificar se o usuário logado é o autor da avaliação para exibir botões de edição e exclusão
-//Lida com curtidas
+import { message } from 'antd';
+import { removerAvaliacao } from '../../services/avaliacaoService';
+import ModalExcluirAvaliacao from '../ModalExcluirAvaliacao';
+
+// Box de Avaliação, recebe uma avaliação e a apresenta em um perfil ou no Feed
+// Consegue verificar se o usuário logado é o autor da avaliação para exibir botões de edição e exclusão
+// Lida com curtidas
 export default function AvalicaoBox({ avaliacao, onChange }) {
   // const [curtido, setCurtido] = useState(avaliacao.curtido);
   // const [qtdCurtidas, setQtdCurtidas] = useState(avaliacao.qtdCurtidas);
@@ -25,17 +29,23 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
   const op = useRef(null);
   const [modalVisivel, setModalVisivel] = useState(false);
   const [modalAvaliacaoDetalhada, showModalDetalhar] = useState(false);
-
+  const [modalExcluir, setModalExcluir] = useState(false);
+  const [deletando, setDeletando] = useState(false);
   const ehAutor = user.id === avaliacao.usuario.id;
 
-  // const handleCurtida = () => {
-  //   if (curtido) {
-  //     setQtdCurtidas(prev => prev - 1);
-  //   } else {
-  //     setQtdCurtidas(prev => prev + 1);
-  //   }
-  //   setCurtido(prev => !prev);
-  // };
+  const handleExcluirAvaliacao = async () => {
+    try {
+      setDeletando(true);
+      await removerAvaliacao(avaliacao.id);
+      message.success('Avaliação excluída com sucesso.');
+      setModalExcluir(false);
+      onChange?.();
+    } catch (e) {
+      message.error(e?.message?.data || 'Erro ao excluir avaliação!');
+    } finally {
+      setDeletando(false);
+    }
+  };
 
   return (
     <div className="bg-[#f7d799] rounded-xl flex flex-col p-4 text-[#1E1E1E] text-2xl gap-4 mb-4">
@@ -100,13 +110,22 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
               <hr className="border-t-1 border-black w-full" />
               <button
                 className="w-full flex gap-2 items-center px-6 py-2 hover:bg-[#e0b874] transition-colors duration-200"
-                onClick={() => setModalVisivel(true)}
+                onClick={() => {
+                  setModalVisivel(true);
+                  op.current?.hide();
+                }}
               >
                 <BiEditAlt className="w-[32px] h-[32px]" />
                 <p className="">Editar</p>
               </button>
               <hr className="border-t-1 border-black w-full" />
-              <button className="w-full flex gap-2 items-center px-6 py-2 hover:bg-[#e0b874] transition-colors duration-200">
+              <button
+                className="w-full flex gap-2 items-center px-6 py-2 hover:bg-[#e0b874] transition-colors duration-200"
+                onClick={() => {
+                  setModalExcluir(true);
+                  op.current?.hide();
+                }}
+              >
                 <FaRegTrashAlt className="w-[32px] h-[32px]" />
                 <p>Excluir</p>
               </button>
@@ -185,6 +204,13 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
       {modalAvaliacaoDetalhada && (
         <ModalAvaliacaoDetalhada idAvaliacao={avaliacao.id} onClose={() => showModalDetalhar(false)} />
       )}
+
+      <ModalExcluirAvaliacao
+        open={modalExcluir}
+        onCancel={() => setModalExcluir(false)}
+        loading={deletando}
+        onConfirm={handleExcluirAvaliacao}
+      />
     </div>
   );
 }
