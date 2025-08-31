@@ -40,7 +40,7 @@ function UsuariosFiltrados() {
             className="w-full max-w-2xl rounded-xl p-4 ring-1 border border-[#ead7aa] bg-[#f6e6c1] text-[#5b4320]"
             aria-live="polite"
           >
-            Não foi encontrado nenhum usuario com o nome:
+            Não foi encontrado nenhum usuário com o nome:
             <span className="font-semibold"> {location.state}</span>
           </div>
         ) : (
