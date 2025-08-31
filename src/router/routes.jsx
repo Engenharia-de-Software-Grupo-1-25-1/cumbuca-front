@@ -3,12 +3,14 @@ import Login from '../pages/Login';
 import NaoEncontrado from '../pages/NaoEncontrado';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
-import Layout4 from '../components/layouts/Layout4';
+import Feed from '../pages/Feed';
 import FeedEstabelecimentos from '../pages/FeedEstabelecimentos';
 import RecuperarSenha from '../pages/RecuperarSenha';
 import NovaSenha from '../pages/NovaSenha';
 import CriarConta from '../pages/CriarConta';
+import EditarPerfil from '../pages/EditarPerfil';
 import Perfil from '../pages/Perfil';
+import Estabelecimento from '../pages/Estabelecimento';
 
 export default function RoutesApp() {
   return (
@@ -28,7 +30,7 @@ export default function RoutesApp() {
         path="/feed"
         element={
           <PrivateRoute>
-            <Layout4 />
+            <Feed />
           </PrivateRoute>
         }
       />
@@ -43,10 +45,28 @@ export default function RoutesApp() {
       />
 
       <Route
+        path="/estabelecimento/:id"
+        element={
+          <PrivateRoute>
+            <Estabelecimento />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
         path="/perfil/:username"
         element={
           <PrivateRoute>
             <Perfil />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/perfil/editar"
+        element={
+          <PrivateRoute>
+            <EditarPerfil />
           </PrivateRoute>
         }
       />

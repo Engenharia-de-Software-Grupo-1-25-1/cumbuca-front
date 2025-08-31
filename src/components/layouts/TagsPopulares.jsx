@@ -4,7 +4,7 @@ import { coresTags } from '../utils/coresTags';
 import { getTagsPopulares } from '../../services/tagService';
 import { message, Spin } from 'antd';
 
-//Container de Tags Populares ordenadas de mais a menos publicações
+// Container de Tags Populares ordenadas de mais a menos publicações
 function TagsPopulares() {
   const [tags, setTags] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -31,16 +31,14 @@ function TagsPopulares() {
       } catch (error) {
         console.error(error);
         message.error('Erro ao carregar tags!');
+        setTags([]);
       } finally {
         setLoading(false);
       }
     }
 
     carregarTags();
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, []);
 
   return (
@@ -53,7 +51,7 @@ function TagsPopulares() {
         </div>
       ) : (
         [...tags].map((tag, index) => {
-          const cor = coresTags[index];
+          const cor = coresTags[index % coresTags.length] || {};
           return (
             <li key={index} className="w-full">
               <TagBox tag={tag} corFundo={cor?.corFundo} corDestaque={cor?.corDestaque} />

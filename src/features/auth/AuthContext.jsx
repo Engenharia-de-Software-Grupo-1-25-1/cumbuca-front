@@ -23,10 +23,14 @@ export function AuthProvider({ children }) {
 
   const login = useCallback(
     async (email, senha) => {
-      await loginRequest(email, senha);
-      const data = await fetchUser();
-      navigate('/feed');
-      return data;
+      try {
+        await loginRequest(email, senha);
+        const data = await fetchUser();
+        navigate('/feed');
+        return data;
+      } catch {
+        return null;
+      }
     },
     [fetchUser, navigate]
   );
@@ -38,7 +42,7 @@ export function AuthProvider({ children }) {
   }, [navigate]);
 
   useEffect(() => {
-    const hasUserId = !!localStorage.getItem('userId');
+    const hasUserId = localStorage.getItem('userId');
     const hasToken = document.cookie.includes('auth_token=');
     if (hasUserId && hasToken) {
       fetchUser();

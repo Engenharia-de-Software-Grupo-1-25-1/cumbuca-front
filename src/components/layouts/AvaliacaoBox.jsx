@@ -13,23 +13,18 @@ import { FiEye } from 'react-icons/fi';
 import { coresTags } from '../utils/coresTags';
 import ModalAvaliacao from '../ModalAvaliacao';
 import fotoDePerfilPadrao from '../../assets/fotoDePerfilPadrao.webp';
+import ModalAvaliacaoDetalhada from '../ModalAvaliacaoDetalhada';
 
-import { message } from 'antd';
-import { removerAvaliacao } from '../../services/avaliacaoService';
-import ModalExcluirAvaliacao from '../ModalExcluirAvaliacao';
-
-// Box de Avaliação, recebe uma avaliação e a apresenta em um perfil ou no Feed
-// Consegue verificar se o usuário logado é o autor da avaliação para exibir botões de edição e exclusão
-// Lida com curtidas
+//Box de Avaliação, recebe uma avaliação e a apresenta em um perfil ou no Feed
+//Consegue verificar se o usuário logado é o autor da avaliação para exibir botões de edição e exclusão
+//Lida com curtidas
 export default function AvalicaoBox({ avaliacao, onChange }) {
   // const [curtido, setCurtido] = useState(avaliacao.curtido);
   // const [qtdCurtidas, setQtdCurtidas] = useState(avaliacao.qtdCurtidas);
   const { user } = useAuth();
   const op = useRef(null);
   const [modalVisivel, setModalVisivel] = useState(false);
-
-  const [modalExcluir, setModalExcluir] = useState(false);
-  const [deletando, setDeletando] = useState(false);
+  const [modalAvaliacaoDetalhada, showModalDetalhar] = useState(false);
 
   const ehAutor = user.id === avaliacao.usuario.id;
 
@@ -61,7 +56,10 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
               <p className="text-sm text-[#505050] sm:text-sm md:text-base lg:text-xl">@{avaliacao.usuario.username}</p>
             </Link>
 
-            <a href="#" className="flex text-xl items-center gap-1 w-fit">
+            <a
+              href={`/estabelecimento/${avaliacao.estabelecimento.id}`}
+              className="flex text-xl items-center gap-1 w-fit"
+            >
               <MdOutlineStorefront color="#356B2A" size="24" />
               <p className="text-sm text-[#356B2A] sm:text-sm md:text-base lg:text-xl">
                 {avaliacao.estabelecimento.nome}
@@ -87,7 +85,13 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
         </button>
 
         <OverlayPanel className="border-[#1E1E1E] border bg-[#f7d799] text-[#1E1E1E]" ref={op}>
-          <button className="w-full flex items-center gap-2 px-6 py-2 hover:bg-[#e0b874] transition-colors duration-200">
+          <button
+            className="w-full flex items-center gap-2 px-6 py-2 hover:bg-[#e0b874] transition-colors duration-200"
+            onClick={e => {
+              showModalDetalhar(true);
+              op.current.hide(e);
+            }}
+          >
             <FiEye className="w-[32px] h-[32px]" />
             <p>Detalhar</p>
           </button>
@@ -187,26 +191,9 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
           onEditSuccess={() => onChange && onChange()}
         />
       )}
-
-      <ModalExcluirAvaliacao
-        open={modalExcluir}
-        onCancel={() => setModalExcluir(false)}
-        loading={deletando}
-        onConfirm={async () => {
-          try {
-            setDeletando(true);
-            await removerAvaliacao(avaliacao.id);
-            message.success('Avaliação excluída com sucesso.');
-            setModalExcluir(false);
-            onChange?.();
-          } catch (e) {
-            console.error(e);
-            message.error(e?.response?.data?.message || 'Erro ao excluir avaliação.');
-          } finally {
-            setDeletando(false);
-          }
-        }}
-      />
+      {modalAvaliacaoDetalhada && (
+        <ModalAvaliacaoDetalhada idAvaliacao={avaliacao.id} onClose={() => showModalDetalhar(false)} />
+      )}
     </div>
   );
 }
