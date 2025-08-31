@@ -106,6 +106,12 @@
 
 - Modal filtro de estabelecimentos
 
+## US6.9 - PR 21
+
+### Adicionando
+
+- Modal de excluir avaliação
+
 ## US9.2 - PR 22
 
 ### Adicionando
