@@ -36,8 +36,12 @@ export default function ModalAvaliacao({ open, onClose, editar = false, avaliaca
     if (!lugar) e.estabelecimento = 'Campo Estabelecimento é obrigatório';
     if (!item.trim()) e.item = 'Campo Item Consumido é obrigatório';
     if (!descricao.trim()) e.descricao = 'Campo Descrição é obrigatório';
+    if (!notas['geral']) e.geral = 'Campo Nota Geral é obrigatório';
+    if (!notas['comida']) e.comida = 'Campo Comida é obrigatório';
+    if (!notas['ambiente']) e.ambiente = 'Campo Ambiente é obrigatório';
+    if (!notas['atendimento']) e.atendimento = 'Campo Atendimento é obrigatório';
     return e;
-  }, [lugar, item, descricao]);
+  }, [lugar, item, descricao, notas]);
 
   useEffect(() => {
     if (!open) {

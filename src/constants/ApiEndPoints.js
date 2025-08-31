@@ -4,4 +4,5 @@ export default {
   avaliacao: 'avaliacao',
   tag: 'tag',
   estabelecimento: 'estabelecimento',
+  comentario: 'comentario',
 };

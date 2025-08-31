@@ -4,27 +4,24 @@ import NavBar from '../components/layouts/NavBar';
 import ListaEstabelecimentos from '../components/ListaDeEstabelecimentos';
 import { getEstabelecimentos } from '../services/EstabelecimentoService';
 import '../styles/index.css';
+import { useState } from 'react';
 
 function Layout() {
-  const [estabelecimentos, setEstabelecimentos] = useState([]);
+  const [filtros, setFiltros] = useState({});
+  const [ordenador, setOrdenador] = useState(null);
 
-  useEffect(() => {
-    const carregarEstabelecimentos = async () => {
-      const dados = await getEstabelecimentos();
-      if (dados) {
-        setEstabelecimentos(dados);
-      }
-    };
-    carregarEstabelecimentos();
-  }, []);
+  const handleAplicarFiltros = (novosFiltros, novaOrdenacao) => {
+    setFiltros(novosFiltros);
+    setOrdenador(novaOrdenacao);
+  };
 
   return (
     <>
-      <Header />
-      <div className="max-w-6xl mx-auto px-0 sm:px-0 md:px-4 lg:px-4" >
+      <Header onAplicarFiltros={handleAplicarFiltros} filtros={filtros} ordenador={ordenador} />
+      <div className="max-w-6xl mx-auto px-0 sm:px-0 md:px-4 lg:px-4">
         <NavBar />
-        <div className="flex gap-4 justify-center ml-0 sm:ml-0 md:ml-4 lg:ml-4 mb-8 no-scrollbar overflow-y-scroll max-h-[calc(118vh-250px)]">
-          <ListaEstabelecimentos arrayEstabelecimentos={estabelecimentos} />
+        <div className="flex gap-4 justify-center ml-0 sm:ml-0 md:ml-4 lg:ml-4 mb-8 no-scrollbar overflow-y-scroll max-h-[calc(100vh-250px)]">
+          <ListaEstabelecimentos arrayEstabelecimentos={getEstabelecimentos} filtros={filtros} ordenador={ordenador} />
         </div>
       </div>
     </>
