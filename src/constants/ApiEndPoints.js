@@ -5,4 +5,5 @@ export default {
   tag: 'tag',
   estabelecimento: 'estabelecimento',
   comentario: 'comentario',
+  curtida: 'avaliacao/curtir',
 };

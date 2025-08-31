@@ -4,8 +4,7 @@ import { OverlayPanel } from 'primereact/overlaypanel';
 import { useAuth } from '../../features/auth/useAuth';
 import { MdOutlineStorefront } from 'react-icons/md';
 import mais from '../../assets/mais.svg';
-// import { FaRegHeart, FaHeart } from 'react-icons/fa6';
-import { FaHeart } from 'react-icons/fa6';
+import { FaHeart, FaRegHeart } from 'react-icons/fa6';
 import { MdOutlineComment, MdOutlineStarPurple500 } from 'react-icons/md';
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { BiEditAlt } from 'react-icons/bi';
@@ -14,7 +13,7 @@ import { coresTags } from '../utils/coresTags';
 import ModalAvaliacao from '../ModalAvaliacao';
 import fotoDePerfilPadrao from '../../assets/fotoDePerfilPadrao.webp';
 import ModalAvaliacaoDetalhada from '../ModalAvaliacaoDetalhada';
-
+import { curtirAvaliacao } from '../../services/curtidaService';
 import { message } from 'antd';
 import { removerAvaliacao } from '../../services/avaliacaoService';
 import ModalExcluirAvaliacao from '../ModalExcluirAvaliacao';
@@ -23,8 +22,9 @@ import ModalExcluirAvaliacao from '../ModalExcluirAvaliacao';
 // Consegue verificar se o usuário logado é o autor da avaliação para exibir botões de edição e exclusão
 // Lida com curtidas
 export default function AvalicaoBox({ avaliacao, onChange }) {
-  // const [curtido, setCurtido] = useState(avaliacao.curtido);
-  // const [qtdCurtidas, setQtdCurtidas] = useState(avaliacao.qtdCurtidas);
+  const [curtido, setCurtido] = useState(avaliacao.isCurtida);
+  const [qtdCurtidas, setQtdCurtidas] = useState(avaliacao.qtdCurtidas);
+  const [qtdComentarios, _] = useState(avaliacao.qtdComentarios);
   const { user } = useAuth();
   const op = useRef(null);
   const [modalVisivel, setModalVisivel] = useState(false);
@@ -44,6 +44,23 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
       message.error(e?.message?.data || 'Erro ao excluir avaliação!');
     } finally {
       setDeletando(false);
+    }
+  };
+
+  const handleCurtida = async () => {
+    try {
+      await curtirAvaliacao(avaliacao.id);
+
+      if (!curtido) {
+        setCurtido(true);
+        setQtdCurtidas(qtdCurtidas + 1);
+      } else {
+        setCurtido(false);
+        setQtdCurtidas(qtdCurtidas - 1);
+      }
+    } catch (e) {
+      console.error(e);
+      message.error('Não foi possível registrar a curtida.');
     }
   };
 
@@ -149,18 +166,18 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
         <div className="flex gap-2 mb-2 flex-wrap">
           <button
             className="flex gap-2 items-center text-base sm:text-base md:text-xl lg:text-xl"
-            // onClick={handleCurtida}
+            onClick={handleCurtida}
           >
-            {/* {curtido ? ( */}
-            <FaHeart className="w-[24px] h-[24px]" fill="#C92F0D" alt="Curtir" />
-            {/* ) : (
-                <FaRegHeart className="w-[24px] h-[24px]" alt="Curtir" />
-              )} */}
-            <p>12</p>
+            {curtido ? (
+              <FaHeart className="w-[24px] h-[24px]" fill="#C92F0D" alt="Curtir" />
+            ) : (
+              <FaRegHeart className="w-[24px] h-[24px]" alt="Curtir" />
+            )}
+            {qtdCurtidas}
           </button>
           <button className="flex gap-2 items-center text-base sm:text-base md:text-xl lg:text-xl">
             <MdOutlineComment alt="Comentar" className="h-[24px] w-[24px]" />
-            <p>1</p>
+            {qtdComentarios}
           </button>
 
           <p className="text-[#505050] text-base ml-0 sm:ml-0 md:ml-auto lg:ml-auto">
@@ -202,7 +219,11 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
         />
       )}
       {modalAvaliacaoDetalhada && (
-        <ModalAvaliacaoDetalhada idAvaliacao={avaliacao.id} onClose={() => showModalDetalhar(false)} />
+        <ModalAvaliacaoDetalhada
+          idAvaliacao={avaliacao.id}
+          onAtualizar={handleCurtida}
+          onClose={() => showModalDetalhar(false)}
+        />
       )}
 
       <ModalExcluirAvaliacao

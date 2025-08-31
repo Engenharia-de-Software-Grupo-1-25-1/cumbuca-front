@@ -12,8 +12,9 @@ import { useAuth } from '../features/auth/useAuth';
 import { message } from 'antd';
 import { coresTags } from './utils/coresTags';
 import fotoDePerfilPadrao from '../assets/fotoDePerfilPadrao.webp';
+import { FaHeart } from 'react-icons/fa6';
 
-export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
+export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtualizar }) {
   const { user } = useAuth();
   const [avaliacao, setAvaliacao] = useState(null);
   const [idx, setIdx] = useState(0);
@@ -21,23 +22,33 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
   const [posting, setPosting] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
 
-  useEffect(() => {
+  const fetchData = useCallback(async () => {
     if (!idAvaliacao) return;
-
-    const fetchData = async () => {
-      try {
-        const req = await obterAvaliacao(idAvaliacao);
-        const comentarios = req.data.comentarios;
-        setAvaliacao({ ...req.data, comentarios });
-        setIdx(0);
-      } catch (e) {
-        console.error(e);
-        message.error('Não foi possível carregar os detalhes.');
-      }
-    };
-
-    fetchData();
+    try {
+      const req = await obterAvaliacao(idAvaliacao);
+      const comentarios = req.data.comentarios;
+      setAvaliacao({ ...req.data, comentarios });
+      setIdx(0);
+    } catch (e) {
+      console.error(e);
+      message.error('Não foi possível carregar os detalhes da avaliação.');
+    }
   }, [idAvaliacao]);
+
+  const handleCurtida = useCallback(async () => {
+    if (!avaliacao?.id) return;
+    try {
+      await onAtualizar?.();
+      await fetchData();
+    } catch (e) {
+      console.error(e);
+      message.error('Não foi possível registrar a curtida.');
+    }
+  }, [avaliacao?.id, fetchData, onAtualizar]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const fotos = avaliacao?.fotos ?? [];
   const temFotos = fotos.length > 0;
@@ -265,10 +276,18 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose }) {
           >
             <div className="flex items-center gap-4">
               <span className="inline-flex items-center gap-1">
-                <FaRegHeart className="h-4 w-4" style={{ color: '#C92F0D' }} /> {likes}
+                <button className="flex items-center gap-1 text-base sm:text-base" onClick={handleCurtida}>
+                  {avaliacao.isCurtida ? (
+                    <FaHeart size={16} className="text-red-600" />
+                  ) : (
+                    <FaRegHeart size={16} className="text-red-600" />
+                  )}
+                  <span className="text-sm leading-none">{likes}</span>
+                </button>
               </span>
               <span className="inline-flex items-center gap-1">
-                <FaRegComment className="h-4 w-4" style={{ color: '#356B2A' }} /> {commentsCount}
+                <FaRegComment className="h-4 w-4" style={{ color: '#356B2A' }} />{' '}
+                <span className="text-sm leading-none">{commentsCount}</span>
               </span>
 
               <div className="ml-2 flex flex-wrap items-center gap-2">

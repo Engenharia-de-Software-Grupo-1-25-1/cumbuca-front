@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { IoSearch, IoClose } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,10 +16,10 @@ function BarraDePesquisa({ placeholder = 'Pesquisar...' }) {
     inputRef.current?.focus();
   };
 
-  const handleSearch = () => {
+  const handleSearch = useCallback(() => {
     if (searchValue == '') return;
     navigate('/filtra-usuario', { state: searchValue });
-  };
+  }, [navigate, searchValue]);
 
   useEffect(() => {
     const onKey = e => {
@@ -27,7 +27,7 @@ function BarraDePesquisa({ placeholder = 'Pesquisar...' }) {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [searchValue]);
+  }, [handleSearch]);
 
   return (
     <div className="flex items-center bg-[#f5dfb6] border border-[#db520a] rounded-full sm:px-0 md:px-4 lg:px-4 py-2 w-[45%] sm:w-[45%] md:w-[80%] lg:w-full max-w-4xl">

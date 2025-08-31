@@ -119,7 +119,7 @@ const EditarPerfil = () => {
     atualizarPerfil(id, formData)
       .then(() => {
         message.success('Perfil atualizado com sucesso!');
-        navigate(`/perfil/${username}`)
+        navigate(`/perfil/${username}`);
       })
       .catch(error => {
         message.error(error.response.data || 'Não foi possível atualizar o perfil.');
