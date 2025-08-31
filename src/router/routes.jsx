@@ -78,15 +78,19 @@ export default function RoutesApp() {
         path="filtra-usuario"
         element={
           <PrivateRoute>
-            {' '}
             <UsuariosFiltrados />
+          </PrivateRoute>
+          } 
+          />
+
+      <Route
         path="/perfil/editar"
         element={
           <PrivateRoute>
             <EditarPerfil />
           </PrivateRoute>
-        }</PrivateRoute>} />
-
+        }
+      />
       <Route path="/recuperar-senha" element={<RecuperarSenha />} />
       <Route path="/alterar-senha" element={<NovaSenha />} />
       <Route path="/cadastrar-usuario" element={<CriarConta />} />

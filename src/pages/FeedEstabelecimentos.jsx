@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Header from '../components/headers/Header2';
 import NavBar from '../components/layouts/NavBar';
 import ListaEstabelecimentos from '../components/ListaDeEstabelecimentos';
 import { getEstabelecimentos } from '../services/EstabelecimentoService';
 import '../styles/index.css';
-import { useState } from 'react';
 
 function Layout() {
   const [filtros, setFiltros] = useState({});

@@ -1,22 +1,17 @@
-import {   useState } from 'react';
-import { Spin } from 'antd';
+
 import CardUsuario from './cards/CardUsuario.jsx';
 
 const ListaUsuarios = ({ arrayUsuarios }) => {
-  const [carregando, setLoading] = useState(true);
-
-  if (carregando) {
-    return (
-      <div style={{ textAlign: 'center', marginTop: '50px' }}>
-        <Spin size="large" />
-      </div>
-    );
-  }
 
   return (
-    <div className="block w-full">
-      <div className="flex flex-col items-start gap-4">
-        {Array.isArray(arrayUsuarios) && arrayUsuarios.map(user => <CardUsuario key={user.id} usuario={user} />)}
+    <div className="w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
+        {Array.isArray(arrayUsuarios) &&
+          arrayUsuarios.map((user) => (
+            <div key={user.id} className="h-full">
+              <CardUsuario user={user} />
+            </div>
+          ))}
       </div>
     </div>
   );

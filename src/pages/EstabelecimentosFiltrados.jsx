@@ -6,11 +6,11 @@ import ListaEstabelecimentos from '../components/ListaDeEstabelecimentos';
 import { getEstabelecimentosContainingNome } from '../services/EstabelecimentoService';
 
 function EstabelecimentosFiltrados() {
-  const [estabelecimentosFiltados,setEstabelecimentosFiltrados] =  useState([]);
-  const [loading,setLoading] = useState(false);
+  const [estabelecimentosFiltados, setEstabelecimentosFiltrados] = useState([]);
+  const [loading, setLoading] = useState(false);
   const location = useLocation();
 
- useEffect(() => {
+  useEffect(() => {
     const carregarEstabelecimentos = async () => {
       setLoading(true);
       const res = await getEstabelecimentosContainingNome(location.state);
@@ -22,7 +22,6 @@ function EstabelecimentosFiltrados() {
     };
     carregarEstabelecimentos();
   }, [location.state]);
-
 
   if (loading) {
     return (
