@@ -17,8 +17,8 @@ function UsuariosFiltrados() {
       const dados = res.data;
       if (dados.length > 0) {
         setUsuariosFiltrados(dados);
-      } 
-      setLoading(false)
+      }
+      setLoading(false);
     };
     carregarUsuarios();
   }, [location.state]);

@@ -1,11 +1,10 @@
 import { useRef, useState, useEffect } from 'react';
 import { IoSearch, IoClose } from 'react-icons/io5';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function BarraDePesquisa({ placeholder = 'Pesquisar...' }) {
   const [searchValue, setSearchValue] = useState('');
   const inputRef = useRef(null);
-  const location = useLocation();
   const navigate = useNavigate();
 
   const handleInputChange = e => {
@@ -19,10 +18,7 @@ function BarraDePesquisa({ placeholder = 'Pesquisar...' }) {
 
   const handleSearch = () => {
     if (searchValue == '') return;
-    const pathname = location.pathname;
-    if (pathname == '/feed' || pathname == '/filtra-usuario') {
-      navigate('/filtra-usuario', { state: searchValue });
-    }
+    navigate('/filtra-usuario', { state: searchValue });
   };
 
   useEffect(() => {

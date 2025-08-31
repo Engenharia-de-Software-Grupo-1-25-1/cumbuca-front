@@ -44,8 +44,8 @@ const ListaEstabelecimentos = ({ arrayEstabelecimentos, filtros, ordenador }) =>
   return (
     <div className="block w-full">
       <div className="flex flex-col items-start gap-4">
-        {Array.isArray(arrayEstabelecimentos) &&
-          arrayEstabelecimentos.map(est => <CardEstab key={est.id} estabelecimento={est} />)}
+        {Array.isArray(estabelecimentos) &&
+          estabelecimentos.map(est => <CardEstab key={est.id} estabelecimento={est} />)}
       </div>
     </div>
   );
