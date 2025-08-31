@@ -100,8 +100,26 @@
 
 - Modal filtro de estabelecimentos
 
+## US8.4 - PR 19
+
+### Adicionando
+
+- Modal filtro de estabelecimentos
+
 ## US6.9 - PR 21
 
 ### Adicionando
 
 - Modal de excluir avaliação
+
+## US9.2 - PR 22
+
+### Adicionando
+
+- Tela de listagem de usuários filtrados por nome
+
+## US10.2 - PR 23
+
+### Adicionando
+
+- Funcionalidade de curtir e descurtir avaliação

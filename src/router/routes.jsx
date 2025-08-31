@@ -10,6 +10,7 @@ import NovaSenha from '../pages/NovaSenha';
 import CriarConta from '../pages/CriarConta';
 import EditarPerfil from '../pages/EditarPerfil';
 import Perfil from '../pages/Perfil';
+import UsuariosFiltrados from '../pages/UsuarioFiltrados';
 import Estabelecimento from '../pages/Estabelecimento';
 
 export default function RoutesApp() {
@@ -63,6 +64,15 @@ export default function RoutesApp() {
       />
 
       <Route
+        path="filtra-usuario"
+        element={
+          <PrivateRoute>
+            <UsuariosFiltrados />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
         path="/perfil/editar"
         element={
           <PrivateRoute>
@@ -70,7 +80,6 @@ export default function RoutesApp() {
           </PrivateRoute>
         }
       />
-
       <Route path="/recuperar-senha" element={<RecuperarSenha />} />
       <Route path="/alterar-senha" element={<NovaSenha />} />
       <Route path="/cadastrar-usuario" element={<CriarConta />} />

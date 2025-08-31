@@ -1,9 +1,11 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { IoSearch, IoClose } from 'react-icons/io5';
+import { useNavigate } from 'react-router-dom';
 
 function BarraDePesquisa({ placeholder = 'Pesquisar...' }) {
   const [searchValue, setSearchValue] = useState('');
   const inputRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleInputChange = e => {
     setSearchValue(e.target.value);
@@ -13,6 +15,19 @@ function BarraDePesquisa({ placeholder = 'Pesquisar...' }) {
     setSearchValue('');
     inputRef.current?.focus();
   };
+
+  const handleSearch = () => {
+    if (searchValue == '') return;
+    navigate('/filtra-usuario', { state: searchValue });
+  };
+
+  useEffect(() => {
+    const onKey = e => {
+      if (e.key === 'Enter') handleSearch();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [searchValue]);
 
   return (
     <div className="flex items-center bg-[#f5dfb6] border border-[#db520a] rounded-full sm:px-0 md:px-4 lg:px-4 py-2 w-[45%] sm:w-[45%] md:w-[80%] lg:w-full max-w-4xl">

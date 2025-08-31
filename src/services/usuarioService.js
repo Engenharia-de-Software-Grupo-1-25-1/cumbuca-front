@@ -18,3 +18,7 @@ export const criarUsuario = formData => {
 export const getUsuarioPorUsername = username => {
   return api.get(`/${endpoints.usuario}/recuperar/${username}`);
 };
+
+export const getUsuariosContainingNome = nome => {
+  return api.get(`/${endpoints.usuario}/listar`, { params: { nome: nome } });
+};
