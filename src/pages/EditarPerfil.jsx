@@ -31,6 +31,7 @@ const EditarPerfil = () => {
   const [erro, setErro] = useState('');
   const [carregando, setCarregando] = useState(true);
   const [salvando, setSalvando] = useState(false);
+  const [excluindo, setExcluindo] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -74,8 +75,10 @@ const EditarPerfil = () => {
   };
 
   const handleDelete = async () => {
+    setExcluindo(true);
     if (!id) {
       setErro('Não foi possível identificar o usuário para atualizar.');
+      setExcluindo(false);
       return;
     }
     try {
@@ -85,6 +88,8 @@ const EditarPerfil = () => {
       navigate('/login');
     } catch {
       message.error('Não foi possível remover o usuário!');
+    } finally {
+      setExcluindo(false);
     }
   };
 
@@ -197,7 +202,7 @@ const EditarPerfil = () => {
                     type="file"
                     accept="image/*"
                     className="hidden"
-                    disabled={salvando}
+                    disabled={salvando || excluindo}
                     onChange={handleAlterarFoto}
                   />
                 </label>
@@ -209,7 +214,7 @@ const EditarPerfil = () => {
                   <input
                     type="text"
                     value={nome}
-                    disabled={salvando}
+                    disabled={salvando || excluindo}
                     onChange={e => setNome(e.target.value)}
                     className="w-full h-11 bg-[#E9D3AE] text-[#1f1f1f] rounded-md px-4 outline-none"
                   />
@@ -220,7 +225,7 @@ const EditarPerfil = () => {
                   <input
                     type="text"
                     value={username}
-                    disabled={salvando}
+                    disabled={salvando || excluindo}
                     onChange={e => setUsername(e.target.value)}
                     className="w-full h-11 bg-[#E9D3AE] text-[#1f1f1f] rounded-md px-4 outline-none"
                   />
@@ -231,7 +236,7 @@ const EditarPerfil = () => {
                     <label className="block text-[#1f1f1f] font-semibold mb-1">E-mail</label>
                     <input
                       type="email"
-                      disabled={salvando}
+                      disabled={salvando || excluindo}
                       value={email}
                       onChange={e => setEmail(e.target.value)}
                       className="w-full h-11 bg-[#E9D3AE] text-[#1f1f1f] rounded-md px-4 outline-none"
@@ -241,7 +246,7 @@ const EditarPerfil = () => {
                     <label className="block text-[#1f1f1f] font-semibold mb-1">Data de nascimento</label>
                     <input
                       type="date"
-                      disabled={salvando}
+                      disabled={salvando || excluindo}
                       value={dtNascimento}
                       onChange={e => setDtNascimento(e.target.value)}
                       className="w-full h-11 bg-[#E9D3AE] text-[#1f1f1f] rounded-md px-4 outline-none"
@@ -256,7 +261,7 @@ const EditarPerfil = () => {
                       <FaLock className="text-[#5F584E] mr-2" />
                       <input
                         type="password"
-                        disabled={salvando}
+                        disabled={salvando || excluindo}
                         value={senhaAtual}
                         onChange={e => setSenhaAtual(e.target.value)}
                         placeholder="Senha atual"
@@ -272,7 +277,7 @@ const EditarPerfil = () => {
                       <input
                         type="password"
                         value={novaSenha}
-                        disabled={salvando}
+                        disabled={salvando || excluindo}
                         onChange={e => setNovaSenha(e.target.value)}
                         placeholder="Nova senha"
                         className="w-full bg-transparent text-[#1f1f1f] outline-none"
@@ -287,7 +292,7 @@ const EditarPerfil = () => {
                     <FaLock className="text-[#5F584E] mr-2" />
                     <input
                       type="password"
-                      disabled={salvando}
+                      disabled={salvando || excluindo}
                       value={confirmarNovaSenha}
                       onChange={e => setConfirmarNovaSenha(e.target.value)}
                       placeholder="Confirmar nova senha"
@@ -300,18 +305,18 @@ const EditarPerfil = () => {
               <div className="col-span-full flex gap-4 justify-between mt-1">
                 <button
                   type="button"
-                  disabled={salvando}
+                  disabled={salvando || excluindo}
                   onClick={handleDelete}
                   className="mt-6 bg-red-700 hover:bg-red-800 text-[#f5dfb6] font-bold py-2 px-6 rounded-full text-lg w-full transition flex items-center justify-center gap-2"
                 >
-                  {salvando && (
+                  {excluindo && (
                     <span className="animate-spin border-2 border-t-transparent border-[#f5dfb6] rounded-full w-4 h-4"></span>
                   )}
                   Excluir
                 </button>
                 <button
                   type="submit"
-                  disabled={salvando}
+                  disabled={salvando || excluindo}
                   className="mt-6 bg-red-700 hover:bg-red-800 text-[#f5dfb6] font-bold py-2 px-6 rounded-full text-lg w-full transition flex items-center justify-center gap-2"
                 >
                   {salvando && (
