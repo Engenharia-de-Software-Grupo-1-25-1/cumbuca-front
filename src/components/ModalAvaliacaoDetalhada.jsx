@@ -367,7 +367,13 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
                 return (
                   <li key={c.id} className="flex gap-3 items-start">
                     <img
-                      src={c?.usuario?.foto ? srcFoto(c.usuario.foto) : fotoDePerfilPadrao}
+                      src={
+                        c?.usuario?.status === 'ATIVO'
+                          ? c?.usuario?.foto
+                            ? srcFoto(c.usuario.foto)
+                            : fotoDePerfilPadrao
+                          : fotoDePerfilPadrao
+                      }
                       alt={username}
                       className="mt-1 h-8 w-8 rounded-full object-cover bg-[#E9D3AE] ring-1 ring-[#E9CD92]"
                     />
@@ -375,7 +381,9 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
                     <div className="flex-1 min-w-0 rounded-xl p-3 bg-[#F4E1C1] border border-neutral-300">
                       <div className="flex items-start justify-between gap-3">
                         <div className="mb-1 text-sm text-[#3D2E1C] truncate">
-                          <span className="font-semibold">{nome}</span>{' '}
+                          <span className="font-semibold">
+                            {c?.usuario?.status === 'ATIVO' ? nome : `${nome} (INATIVO)`}
+                          </span>{' '}
                           <span className="text-[#7A6A4C]">@{username}</span>
                         </div>
 
