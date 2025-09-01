@@ -31,6 +31,7 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
   const [modalAvaliacaoDetalhada, showModalDetalhar] = useState(false);
   const [modalExcluir, setModalExcluir] = useState(false);
   const [deletando, setDeletando] = useState(false);
+  const [curtindo, setCurtindo] = useState(false);
   const ehAutor = user.id === avaliacao.usuario.id;
 
   const handleExcluirAvaliacao = async () => {
@@ -48,6 +49,7 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
   };
 
   const handleCurtida = async () => {
+    setCurtindo(true);
     try {
       await curtirAvaliacao(avaliacao.id);
 
@@ -61,6 +63,8 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
     } catch (e) {
       console.error(e);
       message.error('Não foi possível registrar a curtida.');
+    } finally {
+      setCurtindo(false);
     }
   };
 
@@ -173,6 +177,7 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
           <button
             className="flex gap-2 items-center text-base sm:text-base md:text-xl lg:text-xl"
             onClick={handleCurtida}
+            disabled={curtindo}
           >
             {curtido ? (
               <FaHeart className="w-[24px] h-[24px]" fill="#C92F0D" alt="Curtir" />

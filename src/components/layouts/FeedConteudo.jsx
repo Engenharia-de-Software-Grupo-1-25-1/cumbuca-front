@@ -10,16 +10,16 @@ export default function FeedConteudo({ filtros, ordenador }) {
   const [data, setData] = useState([]);
   const [limit, setLimit] = useState(PAGE_SIZE);
   const [isLoading, setIsLoading] = useState(false);
+  const [isPaging, setIsPaging] = useState(false);
 
   const scrollContainerRef = useRef(null);
-  const sentinelRef = useRef(null);
 
   const fetchAll = useCallback(async () => {
     setIsLoading(true);
     try {
-      const res = await getAvaliacoes(filtros, ordenador);
-      setData(res.data);
-      setLimit(Math.min(PAGE_SIZE, res.data.length));
+      const { data: rows } = await getAvaliacoes(filtros, ordenador);
+      setData(rows || []);
+      setLimit(Math.min(PAGE_SIZE, (rows || []).length));
     } catch (err) {
       console.error(err);
       message.error('Não foi possível carregar o Feed!');
@@ -34,28 +34,40 @@ export default function FeedConteudo({ filtros, ordenador }) {
     fetchAll();
   }, [fetchAll]);
 
-  useEffect(() => {
-    if (!sentinelRef.current || !scrollContainerRef.current) return;
-
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setLimit(current => Math.min(current + PAGE_SIZE, data.length));
-        }
-      },
-      {
-        root: scrollContainerRef.current,
-        rootMargin: '200px',
-        threshold: 0.01,
-      }
-    );
-
-    io.observe(sentinelRef.current);
-    return () => io.disconnect();
-  }, [data.length]);
-
   const visibleItems = useMemo(() => data.slice(0, limit), [data, limit]);
   const reachedEnd = limit >= data.length && data.length > 0;
+
+  useEffect(() => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+
+    const threshold = 120;
+    let ticking = false;
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+
+        if (isPaging || reachedEnd) return;
+
+        const { scrollTop, clientHeight, scrollHeight } = el;
+        const nearBottom = scrollTop + clientHeight >= scrollHeight - threshold;
+
+        if (nearBottom && limit < data.length) {
+          setIsPaging(true);
+          setLimit(curr => Math.min(curr + PAGE_SIZE, data.length));
+          setTimeout(() => setIsPaging(false), 250);
+        }
+      });
+    };
+
+    el.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    return () => el.removeEventListener('scroll', onScroll);
+  }, [data.length, limit, isPaging, reachedEnd]);
 
   return (
     <div className="bg-[#bc6302] w-[80%] rounded-[10px] py-4 px-6 max-w-[728px] flex flex-col">
@@ -76,24 +88,21 @@ export default function FeedConteudo({ filtros, ordenador }) {
           <DataView
             value={visibleItems}
             itemTemplate={(avaliacao, index) => (
-              <AvaliacaoBox
-                key={avaliacao && avaliacao.id ? avaliacao.id : `idx-${index}`}
-                avaliacao={avaliacao}
-                onChange={fetchAll}
-              />
+              <AvaliacaoBox key={avaliacao?.id ?? `idx-${index}`} avaliacao={avaliacao} onChange={fetchAll} />
             )}
             layout="list"
           />
 
           <div className="flex flex-col items-center gap-2 py-3">
-            {!reachedEnd ? (
-              <span className="text-sm text-[#1e1e1e] p-1 px-3 bg-[#f4a831] rounded-[8px]">Carregando mais...</span>
-            ) : (
+            {reachedEnd ? (
               <span className="text-xs text-[#1e1e1e]/80 p-1 px-3 bg-[#f4a831]/70 rounded-[8px]">
                 Você chegou ao fim do Feed, compartilhe novas experiências para esse momento nunca acontecer!
               </span>
+            ) : (
+              isPaging && (
+                <span className="text-sm text-[#1e1e1e] p-1 px-3 bg-[#f4a831] rounded-[8px]">Carregando mais...</span>
+              )
             )}
-            <div ref={sentinelRef} style={{ height: 1 }} />
           </div>
         </div>
       )}

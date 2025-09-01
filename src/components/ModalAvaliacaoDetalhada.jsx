@@ -21,6 +21,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
   const [comment, setComment] = useState('');
   const [posting, setPosting] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
+  const [curtindo, setCurtindo] = useState(false);
 
   const fetchData = useCallback(async () => {
     if (!idAvaliacao) return;
@@ -36,6 +37,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
   }, [idAvaliacao]);
 
   const handleCurtida = useCallback(async () => {
+    setCurtindo(true);
     if (!avaliacao?.id) return;
     try {
       await onAtualizar?.();
@@ -43,6 +45,8 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
     } catch (e) {
       console.error(e);
       message.error('Não foi possível registrar a curtida.');
+    } finally {
+      setCurtindo(false);
     }
   }, [avaliacao?.id, fetchData, onAtualizar]);
 
@@ -276,7 +280,11 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
           >
             <div className="flex items-center gap-4">
               <span className="inline-flex items-center gap-1">
-                <button className="flex items-center gap-1 text-base sm:text-base" onClick={handleCurtida}>
+                <button
+                  className="flex items-center gap-1 text-base sm:text-base"
+                  disabled={curtindo}
+                  onClick={handleCurtida}
+                >
                   {avaliacao.isCurtida ? (
                     <FaHeart size={16} className="text-red-600" />
                   ) : (
