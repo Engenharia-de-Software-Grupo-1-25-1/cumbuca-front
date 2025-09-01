@@ -117,6 +117,7 @@ const CriarConta = () => {
             <input
               type="file"
               accept="image/*"
+              disabled={cadastrando}
               onChange={e => {
                 const file = e.target.files?.[0];
                 if (previewFoto && previewFoto.startsWith('blob:')) {
@@ -138,6 +139,7 @@ const CriarConta = () => {
                 alt="Foto de perfil"
                 className="w-full h-full object-cover rounded-full bg-[#f8e8af] [color:transparent] [text-indent:-9999px]"
                 loading="lazy"
+                disabled={cadastrando}
                 draggable={false}
                 onError={e => {
                   if (!e.currentTarget.src.includes('avatar_padrao.png')) {
@@ -160,6 +162,7 @@ const CriarConta = () => {
             value={usuario.nome}
             onChange={e => setUsuario({ ...usuario, nome: e.target.value })}
             placeholder="Nome"
+            disabled={cadastrando}
           />
 
           <InputComIcone
@@ -168,6 +171,7 @@ const CriarConta = () => {
             value={usuario.username}
             onChange={e => setUsuario({ ...usuario, username: e.target.value })}
             placeholder="Nome de Usuário"
+            disabled={cadastrando}
           />
 
           <InputComIcone
@@ -176,6 +180,7 @@ const CriarConta = () => {
             value={usuario.email}
             onChange={e => setUsuario({ ...usuario, email: e.target.value })}
             placeholder="E-mail"
+            disabled={cadastrando}
           />
 
           <div className="flex items-center border-b border-gray-400 py-2">
@@ -191,6 +196,7 @@ const CriarConta = () => {
               dropdownMode="select"
               locale="pt-BR"
               className="bg-transparent outline-none w-full text-gray-800 placeholder-gray-600"
+              disabled={cadastrando}
             />
           </div>
 
@@ -200,6 +206,7 @@ const CriarConta = () => {
             value={usuario.senha}
             onChange={e => setUsuario({ ...usuario, senha: e.target.value })}
             placeholder="Senha"
+            disabled={cadastrando}
           />
 
           <InputComIcone
@@ -208,6 +215,7 @@ const CriarConta = () => {
             value={usuario.confirmarSenha}
             onChange={e => setUsuario({ ...usuario, confirmarSenha: e.target.value })}
             placeholder="Confirmar Senha"
+            disabled={cadastrando}
           />
 
           <button

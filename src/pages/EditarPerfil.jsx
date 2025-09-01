@@ -30,6 +30,7 @@ const EditarPerfil = () => {
 
   const [erro, setErro] = useState('');
   const [carregando, setCarregando] = useState(true);
+  const [salvando, setSalvando] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -90,13 +91,16 @@ const EditarPerfil = () => {
   const handleSalvar = async e => {
     e.preventDefault();
     setErro('');
+    setSalvando(true);
 
     if (!id) {
       setErro('Não foi possível identificar o usuário para atualizar.');
+      setSalvando(false);
       return;
     }
     if (!nome || !username || !email || !dtNascimento) {
       setErro('Preencha nome, nome de usuário, e-mail e data de nascimento.');
+      setSalvando(false);
       return;
     }
 
@@ -104,20 +108,36 @@ const EditarPerfil = () => {
 
     let senhaParaEnviar = null;
     if (trocandoSenha) {
-      if (!senhaAtual?.trim()) return setErro('Informe a senha atual para alterar a senha.');
-      if (!novaSenha?.trim()) return setErro('Informe a nova senha.');
-      if (novaSenha !== confirmarNovaSenha) return setErro('A confirmação de senha não confere.');
+      if (!senhaAtual?.trim()) {
+        setSalvando(false);
+        return setErro('Informe a senha atual para alterar a senha.');
+      }
+      if (!novaSenha?.trim()) {
+        setSalvando(false);
+        return setErro('Informe a nova senha.');
+      }
+      if (novaSenha !== confirmarNovaSenha) {
+        setSalvando(false);
+        return setErro('A confirmação de senha não confere.');
+      }
 
       const ok = await verificarSenhaAtual(user?.username, senhaAtual.trim());
-      if (!ok) return setErro('Senha atual incorreta.');
+      if (!ok) {
+        setSalvando(false);
+        return setErro('Senha atual incorreta.');
+      }
 
       senhaParaEnviar = novaSenha.trim();
     } else {
       if (!senhaAtual?.trim()) {
+        setSalvando(false);
         return setErro('Para salvar alterações sem trocar a senha, informe sua senha atual.');
       }
       const ok = await verificarSenhaAtual(user?.username || username || email, senhaAtual.trim());
-      if (!ok) return setErro('Senha atual incorreta.');
+      if (!ok) {
+        setSalvando(false);
+        return setErro('Senha atual incorreta.');
+      }
 
       senhaParaEnviar = senhaAtual.trim();
     }
@@ -134,10 +154,14 @@ const EditarPerfil = () => {
     atualizarPerfil(id, formData)
       .then(() => {
         message.success('Perfil atualizado com sucesso!');
-        navigate(`/perfil/${username}`);
+        logout();
+        navigate('/login');
       })
       .catch(error => {
         message.error(error.response.data || 'Não foi possível atualizar o perfil.');
+      })
+      .finally(() => {
+        setSalvando(false);
       });
   };
 
@@ -169,7 +193,13 @@ const EditarPerfil = () => {
                 <label className="inline-flex items-center gap-2 bg-[#E9D3AE] text-[#1f1f1f] px-4 py-2 rounded-md cursor-pointer hover:brightness-95">
                   <FaCamera />
                   <span>Alterar foto</span>
-                  <input type="file" accept="image/*" className="hidden" onChange={handleAlterarFoto} />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    disabled={salvando}
+                    onChange={handleAlterarFoto}
+                  />
                 </label>
               </div>
 
@@ -179,6 +209,7 @@ const EditarPerfil = () => {
                   <input
                     type="text"
                     value={nome}
+                    disabled={salvando}
                     onChange={e => setNome(e.target.value)}
                     className="w-full h-11 bg-[#E9D3AE] text-[#1f1f1f] rounded-md px-4 outline-none"
                   />
@@ -189,6 +220,7 @@ const EditarPerfil = () => {
                   <input
                     type="text"
                     value={username}
+                    disabled={salvando}
                     onChange={e => setUsername(e.target.value)}
                     className="w-full h-11 bg-[#E9D3AE] text-[#1f1f1f] rounded-md px-4 outline-none"
                   />
@@ -199,6 +231,7 @@ const EditarPerfil = () => {
                     <label className="block text-[#1f1f1f] font-semibold mb-1">E-mail</label>
                     <input
                       type="email"
+                      disabled={salvando}
                       value={email}
                       onChange={e => setEmail(e.target.value)}
                       className="w-full h-11 bg-[#E9D3AE] text-[#1f1f1f] rounded-md px-4 outline-none"
@@ -208,6 +241,7 @@ const EditarPerfil = () => {
                     <label className="block text-[#1f1f1f] font-semibold mb-1">Data de nascimento</label>
                     <input
                       type="date"
+                      disabled={salvando}
                       value={dtNascimento}
                       onChange={e => setDtNascimento(e.target.value)}
                       className="w-full h-11 bg-[#E9D3AE] text-[#1f1f1f] rounded-md px-4 outline-none"
@@ -222,6 +256,7 @@ const EditarPerfil = () => {
                       <FaLock className="text-[#5F584E] mr-2" />
                       <input
                         type="password"
+                        disabled={salvando}
                         value={senhaAtual}
                         onChange={e => setSenhaAtual(e.target.value)}
                         placeholder="Senha atual"
@@ -237,6 +272,7 @@ const EditarPerfil = () => {
                       <input
                         type="password"
                         value={novaSenha}
+                        disabled={salvando}
                         onChange={e => setNovaSenha(e.target.value)}
                         placeholder="Nova senha"
                         className="w-full bg-transparent text-[#1f1f1f] outline-none"
@@ -251,6 +287,7 @@ const EditarPerfil = () => {
                     <FaLock className="text-[#5F584E] mr-2" />
                     <input
                       type="password"
+                      disabled={salvando}
                       value={confirmarNovaSenha}
                       onChange={e => setConfirmarNovaSenha(e.target.value)}
                       placeholder="Confirmar nova senha"
@@ -263,15 +300,23 @@ const EditarPerfil = () => {
               <div className="col-span-full flex gap-4 justify-between mt-1">
                 <button
                   type="button"
+                  disabled={salvando}
                   onClick={handleDelete}
-                  className="px-8 py-3 bg-[#f08a0c] text-[#1f1f1f] text-lg font-semibold rounded-full opacity-60  hover:brightness-110"
+                  className="mt-6 bg-red-700 hover:bg-red-800 text-[#f5dfb6] font-bold py-2 px-6 rounded-full text-lg w-full transition flex items-center justify-center gap-2"
                 >
+                  {salvando && (
+                    <span className="animate-spin border-2 border-t-transparent border-[#f5dfb6] rounded-full w-4 h-4"></span>
+                  )}
                   Excluir
                 </button>
                 <button
                   type="submit"
-                  className="px-8 py-3 bg-[#B62506] text-[#F4E9C3] text-lg font-semibold rounded-full hover:brightness-110"
+                  disabled={salvando}
+                  className="mt-6 bg-red-700 hover:bg-red-800 text-[#f5dfb6] font-bold py-2 px-6 rounded-full text-lg w-full transition flex items-center justify-center gap-2"
                 >
+                  {salvando && (
+                    <span className="animate-spin border-2 border-t-transparent border-[#f5dfb6] rounded-full w-4 h-4"></span>
+                  )}
                   Salvar
                 </button>
               </div>
