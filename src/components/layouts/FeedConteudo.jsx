@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
+import { forwardRef, useImperativeHandle, useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { DataView } from 'primereact/dataview';
 import { message } from 'antd';
 import { getAvaliacoes } from '../../services/avaliacaoService';
@@ -6,7 +6,7 @@ import AvaliacaoBox from './AvaliacaoBox';
 
 const PAGE_SIZE = 10;
 
-export default function FeedConteudo({ filtros, ordenador }) {
+const FeedConteudo = forwardRef(({ filtros, ordenador }, ref) => {
   const [data, setData] = useState([]);
   const [limit, setLimit] = useState(PAGE_SIZE);
   const [isLoading, setIsLoading] = useState(false);
@@ -30,6 +30,10 @@ export default function FeedConteudo({ filtros, ordenador }) {
     }
   }, [filtros, ordenador]);
 
+  useImperativeHandle(ref, () => ({
+    fetchAll,
+  }));
+
   useEffect(() => {
     fetchAll();
   }, [fetchAll]);
@@ -49,7 +53,6 @@ export default function FeedConteudo({ filtros, ordenador }) {
       ticking = true;
       requestAnimationFrame(() => {
         ticking = false;
-
         if (isPaging || reachedEnd) return;
 
         const { scrollTop, clientHeight, scrollHeight } = el;
@@ -65,7 +68,6 @@ export default function FeedConteudo({ filtros, ordenador }) {
 
     el.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
-
     return () => el.removeEventListener('scroll', onScroll);
   }, [data.length, limit, isPaging, reachedEnd]);
 
@@ -108,4 +110,6 @@ export default function FeedConteudo({ filtros, ordenador }) {
       )}
     </div>
   );
-}
+});
+
+export default FeedConteudo;

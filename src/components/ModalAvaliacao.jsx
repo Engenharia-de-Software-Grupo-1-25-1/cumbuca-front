@@ -14,7 +14,7 @@ import {
 } from './utils/utilsModal.helpers';
 import { TagInput, CampoEstrelas, SeletorFotos, AutocompleteNominatim } from './utils/utilsModal';
 
-export default function ModalAvaliacao({ open, onClose, editar = false, avaliacaoId = null, onEditSuccess }) {
+export default function ModalAvaliacao({ open, onClose, editar = false, avaliacaoId = null, onSuccess }) {
   const [textoLugar, setTextoLugar] = useState('');
   const [lugar, setLugar] = useState(null);
 
@@ -170,7 +170,7 @@ export default function ModalAvaliacao({ open, onClose, editar = false, avaliaca
     acao
       .then(() => {
         message.success(editar ? 'Avaliação editada com sucesso!' : 'Avaliação criada com sucesso!');
-        onEditSuccess?.();
+        onSuccess?.();
         onClose?.();
       })
       .catch(err => {

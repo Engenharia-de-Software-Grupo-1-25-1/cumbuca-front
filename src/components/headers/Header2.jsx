@@ -12,7 +12,7 @@ import ModalFiltroEstabelecimento from '../ModalFiltroEstabelecimento';
 import ModalFiltroAvaliacao from '../ModalFiltroAvaliacoes';
 
 //Padrão de Header com logo com título, barra de pesquisa expansível, botão de filtrar e botão de sair
-function Header({ placeholder, onAplicarFiltros, filtros, ordenador }) {
+function Header({ placeholder, onAplicarFiltros, filtros, ordenador, onChange }) {
   const [mostrarPesquisa, setMostrarPesquisa] = useState(false);
   const [modalVisivel, setModalVisivel] = useState(false);
   const [modalFiltroVisivel, setModalFiltroVisivel] = useState(false);
@@ -113,7 +113,13 @@ function Header({ placeholder, onAplicarFiltros, filtros, ordenador }) {
           <MdOutlineLogout className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] h-auto" alt="Sair" />
         </button>
       </div>
-      {modalVisivel && <ModalAvaliacao open={modalVisivel} onClose={() => setModalVisivel(false)} />}
+      {modalVisivel && (
+        <ModalAvaliacao
+          open={modalVisivel}
+          onClose={() => setModalVisivel(false)}
+          onSuccess={() => onChange && onChange()}
+        />
+      )}
     </header>
   );
 }

@@ -221,9 +221,9 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
         <div className="h-[calc(92vh-72px)] overflow-y-auto border-t border-neutral-300">
           <div className="px-4 pt-3">
             <p className="text-[13px] text-[#4a3a1b]">{avaliacao.descricao}</p>
-            {temFotos &&
-            <div className="mt-3 rounded-xl p-3 border border-neutral-300 bg-[#F6E4B8]">
-              <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg bg-[#E9D3AE]">
+            {temFotos && (
+              <div className="mt-3 rounded-xl p-3 border border-neutral-300 bg-[#F6E4B8]">
+                <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg bg-[#E9D3AE]">
                   <img
                     src={srcFoto(fotos[idx])}
                     alt={`Foto ${idx + 1} de ${fotos.length}`}
@@ -231,40 +231,40 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
                     draggable={false}
                   />
 
+                  {temFotos && fotos.length > 1 && (
+                    <>
+                      <button
+                        onClick={prev}
+                        className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/25 p-2 text-white hover:bg-black/35"
+                        aria-label="Imagem anterior"
+                      >
+                        <FiChevronLeft className="h-5 w-5" />
+                      </button>
+                      <button
+                        onClick={next}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/25 p-2 text-white hover:bg-black/35"
+                        aria-label="Próxima imagem"
+                      >
+                        <FiChevronRight className="h-5 w-5" />
+                      </button>
+                    </>
+                  )}
+                </div>
+
                 {temFotos && fotos.length > 1 && (
-                  <>
-                    <button
-                      onClick={prev}
-                      className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/25 p-2 text-white hover:bg-black/35"
-                      aria-label="Imagem anterior"
-                    >
-                      <FiChevronLeft className="h-5 w-5" />
-                    </button>
-                    <button
-                      onClick={next}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/25 p-2 text-white hover:bg-black/35"
-                      aria-label="Próxima imagem"
-                    >
-                      <FiChevronRight className="h-5 w-5" />
-                    </button>
-                  </>
+                  <div className="mt-2 flex items-center justify-center gap-2">
+                    {fotos.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setIdx(i)}
+                        aria-label={`Ir para imagem ${i + 1}`}
+                        className={`h-[3px] rounded-full transition-all ${idx === i ? 'w-10 bg-[#C84F2E]' : 'w-5 bg-[#E9D3AE]'}`}
+                      />
+                    ))}
+                  </div>
                 )}
               </div>
-
-              {temFotos && fotos.length > 1 && (
-                <div className="mt-2 flex items-center justify-center gap-2">
-                  {fotos.map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setIdx(i)}
-                      aria-label={`Ir para imagem ${i + 1}`}
-                      className={`h-[3px] rounded-full transition-all ${idx === i ? 'w-10 bg-[#C84F2E]' : 'w-5 bg-[#E9D3AE]'}`}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
-            }
+            )}
           </div>
 
           <div className="px-4 pt-3">

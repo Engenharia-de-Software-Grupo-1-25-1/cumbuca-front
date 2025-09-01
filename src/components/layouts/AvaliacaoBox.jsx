@@ -226,7 +226,7 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
           onClose={() => setModalVisivel(false)}
           editar={true}
           avaliacaoId={avaliacao.id}
-          onEditSuccess={() => onChange && onChange()}
+          onSuccess={() => onChange && onChange()}
         />
       )}
       {modalAvaliacaoDetalhada && (
