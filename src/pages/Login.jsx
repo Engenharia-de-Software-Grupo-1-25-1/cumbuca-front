@@ -8,15 +8,19 @@ import InputComIcone from '../components/InputComIcone';
 export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [logando, setLogando] = useState(false);
   const { login } = useAuth();
 
   const handleSubmit = async e => {
     e.preventDefault();
+    setLogando(true);
     try {
       await login(email, senha);
     } catch (err) {
       message.error('Falha no login');
       console.error(err);
+    } finally {
+      setLogando(false);
     }
   };
 
@@ -53,8 +57,12 @@ export default function Login() {
 
           <button
             type="submit"
-            className="mt-6 bg-red-700 hover:bg-red-800 text-[#f5dfb6] font-bold py-2 px-6 rounded-full text-lg w-full transition"
+            className="mt-6 bg-red-700 hover:bg-red-800 text-[#f5dfb6] font-bold py-2 px-6 rounded-full text-lg w-full transition flex items-center justify-center gap-2"
+            disabled={logando}
           >
+            {logando && (
+              <span className="animate-spin border-2 border-t-transparent border-[#f5dfb6] rounded-full w-4 h-4"></span>
+            )}
             Entrar
           </button>
         </form>

@@ -24,6 +24,7 @@ const CriarConta = () => {
   });
   const [foto, setFoto] = useState(null);
   const [previewFoto, setPreviewFoto] = useState(null);
+  const [cadastrando, setCadastrando] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,16 +37,18 @@ const CriarConta = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
-
+    setCadastrando(true);
     const { nome, username, email, dtNascimento, senha, confirmarSenha } = usuario;
 
     if (!nome || !username || !email || !dtNascimento || !senha || !confirmarSenha) {
       message.error('Por favor, preencha todos os campos obrigatórios.');
+      setCadastrando(false);
       return;
     }
 
     if (senha !== confirmarSenha) {
       message.error('As senhas não coincidem.');
+      setCadastrando(false);
       return;
     }
 
@@ -58,6 +61,7 @@ const CriarConta = () => {
 
     if (!idadeValida) {
       message.error('Você precisa ter no mínimo 14 anos para se cadastrar.');
+      setCadastrando(false);
       return;
     }
 
@@ -93,6 +97,9 @@ const CriarConta = () => {
       })
       .catch(err => {
         message.error(err?.response?.data || 'Erro ao cadastrar. Verifique se e-mail ou usuário já estão em uso.');
+      })
+      .finally(() => {
+        setCadastrando(false);
       });
   };
 
@@ -206,7 +213,11 @@ const CriarConta = () => {
           <button
             type="submit"
             className="w-full py-3 bg-[#B62506] text-[#F4E9C3] text-lg font-semibold rounded-full transition hover:brightness-110"
+            disabled={cadastrando}
           >
+            {cadastrando && (
+              <span className="animate-spin border-2 border-t-transparent border-[#f5dfb6] rounded-full w-4 h-4"></span>
+            )}
             Cadastrar
           </button>
         </form>
