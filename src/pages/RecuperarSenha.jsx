@@ -34,7 +34,7 @@ const RecuperarSenha = () => {
       <div className="flex flex-col items-center mt-4 px-4">
         <h2 className="mb-5 text-xl">Informe seu e-mail cadastrado para redefinir sua senha</h2>
 
-        <div className="flex flex-col items-center border-b border-gray-400 rounded-xl sm:p-6 w-full max-w-sm shadow-md bg-[#f8e8af]">
+        <div className="flex flex-col items-center border-b border-gray-400 rounded-xl sm:p-6 w-full max-w-sm shadow-md bg-[#f5dfb6]">
           <div className="relative flex w-full items-center">
             <FaEnvelope className="text-gray-600 mr-3 self-center" />
             <input
