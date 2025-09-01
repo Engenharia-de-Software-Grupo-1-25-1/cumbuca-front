@@ -34,8 +34,8 @@ const RecuperarSenha = () => {
       <div className="flex flex-col items-center mt-4 px-4">
         <h2 className="mb-5 text-xl">Informe seu e-mail cadastrado para redefinir sua senha</h2>
 
-        <div className="flex flex-col items-center border-b border-gray-400 rounded-xl sm:p-6 w-full max-w-sm shadow-md bg-[#f5dfb6]">
-          <div className="relative flex w-full items-center">
+        <div className="flex flex-col items-center rounded-xl p-4 sm:p-6 w-full max-w-sm shadow-md bg-[#f5dfb6]">
+          <div className="relative flex w-full items-center border-b border-gray-400 ">
             <FaEnvelope className="text-gray-600 mr-3 self-center" />
             <input
               type="email"
@@ -43,7 +43,7 @@ const RecuperarSenha = () => {
               onChange={e => setEmail(e.target.value)}
               placeholder="E-mail"
               disabled={loading}
-              className={`border-0 border-b-2 border-[#555] bg-transparent outline-none text-[1rem] text-[#333] w-full placeholder:text-[#777]
+              className={`border-0 bg-transparent outline-none text-[1rem] text-[#333] w-full placeholder:text-[#777]
                 ${loading ? 'opacity-60 cursor-not-allowed' : ''}`}
               required
             />
@@ -68,7 +68,7 @@ const RecuperarSenha = () => {
           type="button"
           onClick={handleSubmit}
           disabled={loading}
-          className={`mt-3 bg-red-700 hover:bg-red-800 text-[#f5dfb6] font-bold rounded-full text-lg transition sm:p-3 w-full max-w-sm
+          className={`mt-3 bg-red-700 hover:bg-red-800 text-[#f5dfb6] font-bold rounded-full text-lg transition py-2 px-6 w-full max-w-sm
             ${loading ? 'opacity-70 cursor-not-allowed hover:bg-red-700' : ''}`}
         >
           {loading ? 'Enviando...' : 'Enviar'}
