@@ -5,7 +5,7 @@ import Layout from '../components/layouts/Layout1';
 import { novasSenhas } from '../services/recuperarSenhaService';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
-const NovaSenha = () => {
+export default function NovaSenha() {
   const [senha, setSenha] = useState('');
   const [confirmacaoSenha, setConfirmacaoSenha] = useState('');
   const [error, setError] = useState(false);
@@ -60,15 +60,17 @@ const NovaSenha = () => {
     <>
       <Layout subtitulo="Nova Senha" />
       <div className="flex flex-col items-center mt-4 px-4">
-        <div className="flex flex-col items-center border-b border-gray-400 rounded-xl sm:p-6 w-full max-w-sm shadow-md bg-[#f8e8af]">
-          <div className="flex w-full">
-            <FaLock className="text-gray-600 mr-3 mt-[10px]" />
+        <div className="bg-[#f5dfb6] rounded-xl p-4 sm:p-6 w-full max-w-sm shadow-md space-y-4">
+          <div className="flex items-center border-b border-gray-400 py-2">
+            <FaLock className="text-gray-600 mr-3" />
             <input
               type="password"
               value={senha}
               onChange={e => setSenha(e.target.value)}
               placeholder="Nova senha"
-              className={`border-0 border-b-2 border-[#555] pb-2 bg-transparent outline-none text-[1rem] text-[#333] w-full placeholder:text-[#777] ${loading ? 'opacity-60 cursor-not-allowed' : ''}`}
+              className={`bg-transparent outline-none w-full text-gray-800 placeholder-gray-600 ${
+                loading ? 'opacity-60 cursor-not-allowed' : ''
+              }`}
               required
               disabled={loading}
             />
@@ -81,14 +83,16 @@ const NovaSenha = () => {
             )}
           </div>
 
-          <div className="flex mt-4 w-full">
-            <FaLock className="text-gray-600 mr-3 mt-[10px]" />
+          <div className="flex items-center border-b border-gray-400 py-2">
+            <FaLock className="text-gray-600 mr-3" />
             <input
               type="password"
               value={confirmacaoSenha}
               onChange={e => setConfirmacaoSenha(e.target.value)}
               placeholder="Confirmar senha"
-              className={`border-0 border-b-2 border-[#555] pb-2 bg-transparent outline-none text-[1rem] text-[#333] w-full placeholder:text-[#777] ${loading ? 'opacity-60 cursor-not-allowed' : ''}`}
+              className={`bg-transparent outline-none w-full text-gray-800 placeholder-gray-600 ${
+                loading ? 'opacity-60 cursor-not-allowed' : ''
+              }`}
               required
               disabled={loading}
             />
@@ -113,13 +117,16 @@ const NovaSenha = () => {
           type="button"
           onClick={handleClick}
           disabled={loading}
-          className={`mt-3 bg-red-700 hover:bg-red-800 text-[#f5dfb6] font-bold rounded-full text-lg transition sm:p-3 w-full max-w-sm ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+          className={`mt-4 bg-red-700 hover:bg-red-800 text-[#f5dfb6] font-bold py-2 px-6 rounded-full text-lg w-full max-w-sm transition flex items-center justify-center gap-2 ${
+            loading ? 'opacity-70 cursor-not-allowed' : ''
+          }`}
         >
+          {loading && (
+            <span className="animate-spin border-2 border-t-transparent border-[#f5dfb6] rounded-full w-4 h-4"></span>
+          )}
           {loading ? 'Redefinindo...' : 'Redefinir'}
         </button>
       </div>
     </>
   );
-};
-
-export default NovaSenha;
+}
