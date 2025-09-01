@@ -212,7 +212,7 @@ const CriarConta = () => {
 
           <button
             type="submit"
-            className="w-full py-3 bg-[#B62506] text-[#F4E9C3] text-lg font-semibold rounded-full transition hover:brightness-110"
+            className="mt-6 bg-red-700 hover:bg-red-800 text-[#f5dfb6] font-bold py-2 px-6 rounded-full text-lg w-full transition flex items-center justify-center gap-2"
             disabled={cadastrando}
           >
             {cadastrando && (
