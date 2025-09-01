@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { FaLock, FaCamera, FaArrowLeft, FaExclamationTriangle } from 'react-icons/fa';
 import Layout2 from '../components/layouts/Layout2';
-import { atualizarPerfil, getUsuarioPorUsername } from '../services/usuarioService';
+import { atualizarPerfil, getUsuarioPorUsername, apagarUsuario } from '../services/usuarioService';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../features/auth/useAuth';
 import avatarPadrao from '../assets/fotoDePerfilPadrao.webp';
-import { verificarSenhaAtual } from '../services/authService';
+import { logout, verificarSenhaAtual } from '../services/authService';
 import { toISODateOnly } from '../utils/date';
 import { normalizeFoto } from '../utils/image';
 import { message } from 'antd';
@@ -69,6 +69,21 @@ const EditarPerfil = () => {
     if (file) {
       setFoto(file);
       setPreviewFoto(URL.createObjectURL(file));
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!id) {
+      setErro('Não foi possível identificar o usuário para atualizar.');
+      return;
+    }
+    try {
+      await apagarUsuario(id);
+      message.success('Usuário removido com sucesso!');
+      logout();
+      navigate('/login');
+    } catch {
+      message.error('Não foi possível remover o usuário!');
     }
   };
 
@@ -248,8 +263,8 @@ const EditarPerfil = () => {
               <div className="col-span-full flex gap-4 justify-between mt-1">
                 <button
                   type="button"
-                  disabled
-                  className="px-8 py-3 bg-[#f08a0c] text-[#1f1f1f] text-lg font-semibold rounded-full opacity-60 cursor-not-allowed"
+                  onClick={handleDelete}
+                  className="px-8 py-3 bg-[#f08a0c] text-[#1f1f1f] text-lg font-semibold rounded-full opacity-60  hover:brightness-110"
                 >
                   Excluir
                 </button>

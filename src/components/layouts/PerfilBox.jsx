@@ -69,13 +69,19 @@ export default function PerfilBox({ usuario, loadingUsuario }) {
     <div className="bg-[#bc6302] w-[80%] rounded-[10px] py-4 px-6 max-w-[728px] flex flex-col">
       <div className="flex flex-wrap justify-between">
         <img
-          src={usuario.foto ? `data:image/jpeg;base64,${usuario.foto}` : fotoDePerfilPadrao}
+          src={
+            usuario.status === 'ATIVO'
+              ? usuario.foto
+                ? `data:image/jpeg;base64,${usuario.foto}`
+                : fotoDePerfilPadrao
+              : fotoDePerfilPadrao
+          }
           className="h-[50px] sm:h-[50px] md:h-[75px] lg:h-[75px] rounded-full"
           alt={`Foto de perfil de ${usuario.nome}`}
         />
         <div className="self-center ml-[1em] sm:ml-[1em] md:ml-[2em] lg:ml-[2em] mr-auto">
           <h1 className="font-semibold text-[24px] sm:text-[24px] md:text-[36px] lg:text-[36px] leading-[1.2]">
-            {usuario.nome}
+            {usuario.status === 'ATIVO' ? usuario.nome : `${usuario.nome} (INATIVO)`}
           </h1>
           <h2 className="font-normal text-[16px] sm:text-[16px] md:text-[20px] lg:text-[20px]">@{usuario.username}</h2>
         </div>

@@ -70,7 +70,13 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
         <div className="flex gap-4 sm:gap-4 md:gap-8 lg:gap-8 flex-col sm:flex-col md:flex-row lg:flex-row">
           <Link to={`/perfil/${avaliacao.usuario.username}`} className="flex-shrink-0">
             <img
-              src={avaliacao.usuario.foto ? `data:image/jpeg;base64,${avaliacao.usuario.foto}` : fotoDePerfilPadrao}
+              src={
+                avaliacao.usuario.status === 'ATIVO'
+                  ? avaliacao.usuario.foto
+                    ? `data:image/jpeg;base64,${avaliacao.usuario.foto}`
+                    : fotoDePerfilPadrao
+                  : fotoDePerfilPadrao
+              }
               className="rounded-full hover:brightness-90 transition duration-300 h-auto w-[48px] sm:w-[48px] md:w-[54px] lg:w-[65px]"
               alt={`Foto de perfil de ${avaliacao.usuario.nome}`}
             />
@@ -78,7 +84,7 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
           <div>
             <Link to={`/perfil/${avaliacao.usuario.username}`} className="flex hover:no-underline flex-wrap">
               <p className="hover:underline mr-4 text-base sm:text-base md:text-xl lg:text-2xl">
-                {avaliacao.usuario.nome}
+                {avaliacao.usuario.status === 'ATIVO' ? avaliacao.usuario.nome : `${avaliacao.usuario.nome} (INATIVO)`}
               </p>
               <p className="text-sm text-[#505050] sm:text-sm md:text-base lg:text-xl">@{avaliacao.usuario.username}</p>
             </Link>

@@ -22,3 +22,7 @@ export const getUsuarioPorUsername = username => {
 export const getUsuariosContainingNome = nome => {
   return api.get(`/${endpoints.usuario}/listar`, { params: { nome: nome } });
 };
+
+export const apagarUsuario = id => {
+  return api.delete(`/${endpoints.usuario}/remover/${id}`);
+};
