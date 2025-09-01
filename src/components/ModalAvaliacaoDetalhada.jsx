@@ -221,20 +221,15 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
         <div className="h-[calc(92vh-72px)] overflow-y-auto border-t border-neutral-300">
           <div className="px-4 pt-3">
             <p className="text-[13px] text-[#4a3a1b]">{avaliacao.descricao}</p>
+            {temFotos &&
             <div className="mt-3 rounded-xl p-3 border border-neutral-300 bg-[#F6E4B8]">
               <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg bg-[#E9D3AE]">
-                {temFotos ? (
                   <img
                     src={srcFoto(fotos[idx])}
                     alt={`Foto ${idx + 1} de ${fotos.length}`}
                     className="h-full w-full object-cover select-none"
                     draggable={false}
                   />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center">
-                    <FiImage className="h-10 w-10 text-[#6C5A3E]" />
-                  </div>
-                )}
 
                 {temFotos && fotos.length > 1 && (
                   <>
@@ -269,6 +264,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
                 </div>
               )}
             </div>
+            }
           </div>
 
           <div className="px-4 pt-3">
