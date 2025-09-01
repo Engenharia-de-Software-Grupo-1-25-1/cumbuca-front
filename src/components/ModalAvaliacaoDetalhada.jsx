@@ -180,7 +180,13 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
 
             <Link to={`/perfil/${avaliacao.usuario.username}`} className="flex-shrink-0">
               <img
-                src={avaliacao.usuario?.foto ? `data:image/jpeg;base64,${avaliacao.usuario.foto}` : fotoDePerfilPadrao}
+                src={
+                  avaliacao.usuario?.status === 'ATIVO'
+                    ? avaliacao.usuario?.foto
+                      ? `data:image/jpeg;base64,${avaliacao.usuario?.foto}`
+                      : fotoDePerfilPadrao
+                    : fotoDePerfilPadrao
+                }
                 className="rounded-full hover:brightness-90 transition duration-300 h-[40px] w-[40px] ring-1 ring-[#E9CD92] bg-[#E9D3AE]"
                 alt={`Foto de perfil de ${avaliacao.usuario?.nome}`}
               />
@@ -192,7 +198,9 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
                 className="flex items-baseline gap-x-2 hover:no-underline translate-y-[6px]"
               >
                 <p className="hover:underline text-[15px] font-semibold text-[#1E1E1E] truncate">
-                  {avaliacao.usuario?.nome}
+                  {avaliacao.usuario?.status === 'ATIVO'
+                    ? avaliacao.usuario?.nome
+                    : `${avaliacao.usuario?.nome} (INATIVO)`}
                 </p>
                 <p className="text-[13px] text-[#505050]">@{avaliacao.usuario?.username}</p>
               </Link>
