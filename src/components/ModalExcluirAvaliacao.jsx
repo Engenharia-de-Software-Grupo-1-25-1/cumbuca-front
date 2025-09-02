@@ -1,4 +1,5 @@
 import { FaExclamationTriangle } from 'react-icons/fa';
+import { FiX } from 'react-icons/fi';
 
 export default function ModalExcluirAvaliacao({
   open,
@@ -20,7 +21,7 @@ export default function ModalExcluirAvaliacao({
           className="absolute right-3 top-3 text-[#7a4a1f] text-xl leading-none"
           aria-label="Fechar"
         >
-          ×
+          <FiX className="h-5 w-5" />
         </button>
 
         <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-lg bg-[#f9c56d]">

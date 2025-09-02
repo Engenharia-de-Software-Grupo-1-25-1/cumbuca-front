@@ -81,7 +81,7 @@ export default function PerfilBox({ usuario, loadingUsuario }) {
         />
         <div className="self-center ml-[1em] sm:ml-[1em] md:ml-[2em] lg:ml-[2em] mr-auto">
           <h1 className="font-semibold text-[24px] sm:text-[24px] md:text-[36px] lg:text-[36px] leading-[1.2]">
-            {usuario.status === 'ATIVO' ? usuario.nome : `${usuario.nome} (INATIVO)`}
+            {usuario.status === 'ATIVO' ? usuario.nome : 'Usuário inativo'}
           </h1>
           <h2 className="font-normal text-[16px] sm:text-[16px] md:text-[20px] lg:text-[20px]">@{usuario.username}</h2>
         </div>

@@ -36,7 +36,7 @@ function BarraDePesquisa() {
         type="search"
         ref={inputRef}
         value={searchValue}
-        placeholder={'Pesquisar Usuário...'}
+        placeholder={'Pesquisar usuário...'}
         className="w-full bg-transparent border-none outline-none font-poppins sm:text-[20px] md:text-[24px] lg:text-[24px] text-[#1e1e1e] px-4"
         onChange={handleInputChange}
       />

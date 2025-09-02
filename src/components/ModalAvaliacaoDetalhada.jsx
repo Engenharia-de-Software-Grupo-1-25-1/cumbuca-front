@@ -14,7 +14,7 @@ import { coresTags } from './utils/coresTags';
 import fotoDePerfilPadrao from '../assets/fotoDePerfilPadrao.webp';
 import { FaHeart } from 'react-icons/fa6';
 
-export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtualizar }) {
+export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtualizar, onComment = () => {} }) {
   const { user } = useAuth();
   const [avaliacao, setAvaliacao] = useState(null);
   const [idx, setIdx] = useState(0);
@@ -90,6 +90,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
     setPosting(true);
     try {
       const response = await adicionarComentario(idAvaliacao, texto);
+      const novoTotal = (avaliacao?.qtdComentarios ?? 0) + 1;
       setComment('');
       setAvaliacao(old => ({
         ...old,
@@ -103,11 +104,13 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
               nome: user?.nome,
               username: user?.username,
               foto: user?.foto ?? null,
+              status: user?.status,
             },
           },
         ],
-        qtdComentarios: old?.qtdComentarios + 1,
+        qtdComentarios: novoTotal,
       }));
+      onComment?.(novoTotal);
     } catch (e) {
       console.error(e);
       message.error('Falha ao comentar. Tente novamente.');
@@ -120,14 +123,16 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
     setDeletingId(idComentario);
     try {
       await removerComentario(idComentario);
+      const novoTotal = Math.max(0, (avaliacao?.qtdComentarios ?? 0) - 1);
       setAvaliacao(old => {
         const filtrados = (old?.comentarios ?? []).filter(c => c.id !== idComentario);
         return {
           ...old,
           comentarios: filtrados,
-          qtdComentarios: Math.max(0, old?.qtdComentarios - 1),
+          qtdComentarios: novoTotal,
         };
       });
+      onComment?.(novoTotal);
       message.success('Comentário excluído.');
     } catch (e) {
       console.error(e);
@@ -198,9 +203,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
                 className="flex items-baseline gap-x-2 hover:no-underline translate-y-[6px]"
               >
                 <p className="hover:underline text-[15px] font-semibold text-[#1E1E1E] truncate">
-                  {avaliacao.usuario?.status === 'ATIVO'
-                    ? avaliacao.usuario?.nome
-                    : `${avaliacao.usuario?.nome} (INATIVO)`}
+                  {avaliacao.usuario?.status === 'ATIVO' ? avaliacao.usuario?.nome : 'Usuário inativo'}
                 </p>
                 <p className="text-[13px] text-[#505050]">@{avaliacao.usuario?.username}</p>
               </Link>
@@ -218,7 +221,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
           </div>
         </div>
 
-        <div className="h-[calc(92vh-72px)] overflow-y-auto border-t border-neutral-300">
+        <div className="max-h-[calc(92vh-72px)] overflow-y-auto border-t border-neutral-300">
           <div className="px-4 pt-3">
             <p className="text-[13px] text-[#4a3a1b]">{avaliacao.descricao}</p>
             {temFotos && (
@@ -378,7 +381,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
                       <div className="flex items-start justify-between gap-3">
                         <div className="mb-1 text-sm text-[#3D2E1C] truncate">
                           <span className="font-semibold">
-                            {c?.usuario?.status === 'ATIVO' ? nome : `${nome} (INATIVO)`}
+                            {c?.usuario?.status === 'ATIVO' ? nome : 'Usuário inativo'}
                           </span>{' '}
                           <span className="text-[#7A6A4C]">@{username}</span>
                         </div>

@@ -47,9 +47,7 @@ export default function ModalFiltroAvaliacao({ open, onClose, onAplicar, filtros
       notas: notas,
     };
 
-    if (onAplicar) {
-      onAplicar(filtros, classificacao);
-    }
+    onAplicar?.(filtros, classificacao);
 
     onClose();
   };
@@ -62,6 +60,18 @@ export default function ModalFiltroAvaliacao({ open, onClose, onAplicar, filtros
     setPrecoMinimo('');
     setPrecoMaximo('');
     setNotas({ notaGeral: 0, notaComida: 0, notaAmbiente: 0, notaAtendimento: 0 });
+    const filtros = {
+      usuario: '',
+      estabelecimento: '',
+      itemConsumido: '',
+      tags: [],
+      precoMinimo: null,
+      precoMaximo: null,
+      notas: { notaGeral: 0, notaComida: 0, notaAmbiente: 0, notaAtendimento: 0 },
+    };
+
+    onAplicar?.(filtros, classificacao);
+    onClose();
   };
 
   const onKeyDownPreco = (e, setPreco) => {
@@ -110,11 +120,13 @@ export default function ModalFiltroAvaliacao({ open, onClose, onAplicar, filtros
               <input
                 type="text"
                 id="usuarioNome"
+                placeholder="Digite o nome do usuário"
                 value={usuarioNome}
                 onChange={e => setUsuarioNome(e.target.value)}
                 className={j(
                   'w-full rounded-full border px-4 py-2 text-sm text-black leading-tight outline-none focus:border-emerald-600',
-                  'bg-[#F2D7A0]'
+                  'bg-[#F2D7A0]',
+                  'placeholder-gray-700'
                 )}
               />
             </div>
@@ -125,11 +137,13 @@ export default function ModalFiltroAvaliacao({ open, onClose, onAplicar, filtros
               <input
                 type="text"
                 id="estabelecimentoNome"
+                placeholder="Digite o nome do estabelecimento"
                 value={estabelecimentoNome}
                 onChange={e => setEstabelecimentoNome(e.target.value)}
                 className={j(
                   'w-full rounded-full border px-4 py-2 text-sm text-black leading-tight outline-none focus:border-emerald-600',
-                  'bg-[#F2D7A0]'
+                  'bg-[#F2D7A0]',
+                  'placeholder-gray-700'
                 )}
               />
             </div>
@@ -140,9 +154,10 @@ export default function ModalFiltroAvaliacao({ open, onClose, onAplicar, filtros
               <input
                 type="text"
                 id="itemConsumido"
+                placeholder="Digite o item consumido"
                 value={itemConsumido}
                 onChange={e => setItemConsumido(e.target.value)}
-                className="w-full rounded-full border px-4 py-2 text-sm text-black leading-tight outline-none focus:border-emerald-600 bg-[#F2D7A0]"
+                className="w-full rounded-full border px-4 py-2 text-sm text-black leading-tight outline-none focus:border-emerald-600 bg-[#F2D7A0] placeholder-gray-700"
               />
             </div>
             <TagInput tags={tags} setTags={setTags} />

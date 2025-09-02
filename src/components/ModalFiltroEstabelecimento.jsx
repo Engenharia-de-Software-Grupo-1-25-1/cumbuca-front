@@ -49,6 +49,16 @@ export default function ModalFiltroEstabelecimento({ open, onClose, onAplicar, f
     setNota(0);
     setCurtido(false);
     setOrdenarMaisAvaliacoes(false);
+    const filtrosAplicar = {
+      nome: '',
+      categoria: '',
+      localizacao: '',
+      isFavoritado: false,
+      notaGeral: 0,
+    };
+
+    onAplicar?.(filtrosAplicar, null);
+    onClose?.();
   };
 
   return (
@@ -75,11 +85,13 @@ export default function ModalFiltroEstabelecimento({ open, onClose, onAplicar, f
               <input
                 type="text"
                 id="estabelecimentoNome"
+                placeholder="Digite o nome do estabelecimento"
                 value={estabelecimentoNome}
                 onChange={e => setEstabelecimentoNome(e.target.value)}
                 className={j(
                   'w-full rounded-full border px-4 py-2 text-sm text-black leading-tight outline-none focus:border-emerald-600',
-                  'bg-[#F2D7A0]'
+                  'bg-[#F2D7A0]',
+                  'placeholder-gray-700'
                 )}
               />
             </div>
@@ -94,8 +106,9 @@ export default function ModalFiltroEstabelecimento({ open, onClose, onAplicar, f
                 type="text"
                 id="localizacao"
                 value={localizacao}
+                placeholder="Digite a localização do estabelecimento"
                 onChange={e => setLocalizacao(e.target.value)}
-                className="w-full rounded-full border px-4 py-2 text-sm text-black leading-tight outline-none focus:border-emerald-600 bg-[#F2D7A0]"
+                className="w-full rounded-full border px-4 py-2 text-sm text-black leading-tight outline-none focus:border-emerald-600 bg-[#F2D7A0] placeholder-gray-700"
               />
             </div>
 

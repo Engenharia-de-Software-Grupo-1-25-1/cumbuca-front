@@ -24,7 +24,7 @@ import ModalExcluirAvaliacao from '../ModalExcluirAvaliacao';
 export default function AvalicaoBox({ avaliacao, onChange }) {
   const [curtido, setCurtido] = useState(avaliacao.isCurtida);
   const [qtdCurtidas, setQtdCurtidas] = useState(avaliacao.qtdCurtidas);
-  const [qtdComentarios, _] = useState(avaliacao.qtdComentarios);
+  const [qtdComentarios, setQtdComentarios] = useState(avaliacao.qtdComentarios);
   const { user } = useAuth();
   const op = useRef(null);
   const [modalVisivel, setModalVisivel] = useState(false);
@@ -46,6 +46,10 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
     } finally {
       setDeletando(false);
     }
+  };
+
+  const handleComentar = qtdComentarios => {
+    setQtdComentarios(qtdComentarios);
   };
 
   const handleCurtida = async () => {
@@ -88,7 +92,7 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
           <div>
             <Link to={`/perfil/${avaliacao.usuario.username}`} className="flex hover:no-underline flex-wrap">
               <p className="hover:underline mr-4 text-base sm:text-base md:text-xl lg:text-2xl">
-                {avaliacao.usuario.status === 'ATIVO' ? avaliacao.usuario.nome : `${avaliacao.usuario.nome} (INATIVO)`}
+                {avaliacao.usuario.status === 'ATIVO' ? avaliacao.usuario.nome : 'Usuário inativo'}
               </p>
               <p className="text-sm text-[#505050] sm:text-sm md:text-base lg:text-xl">@{avaliacao.usuario.username}</p>
             </Link>
@@ -236,6 +240,7 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
         <ModalAvaliacaoDetalhada
           idAvaliacao={avaliacao.id}
           onAtualizar={handleCurtida}
+          onComment={handleComentar}
           onClose={() => showModalDetalhar(false)}
         />
       )}

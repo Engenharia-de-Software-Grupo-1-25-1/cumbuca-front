@@ -297,7 +297,7 @@ export default function ModalAvaliacao({ open, onClose, editar = false, avaliaca
 
               <div className="grid grid-cols-2 gap-x-8 gap-y-3 pt-1">
                 <CampoEstrelas
-                  rotulo="Nota Geral"
+                  rotulo="Geral"
                   obrigatorio={false}
                   valor={notas.geral}
                   onChange={v => setNotas(r => ({ ...r, geral: v }))}
