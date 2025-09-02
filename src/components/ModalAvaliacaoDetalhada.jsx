@@ -4,9 +4,9 @@ import { obterAvaliacao, adicionarComentario } from '../services/avaliacaoServic
 import { removerComentario } from '../services/comentarioService.js';
 import { HiArrowLeft } from 'react-icons/hi2';
 import { formatFromDigits } from './utils/utilsModal.helpers';
-import { MdOutlineStorefront } from 'react-icons/md';
-import { FiImage, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
-import { FaRegHeart, FaRegComment, FaRegTrashAlt } from 'react-icons/fa';
+import { MdOutlineStorefront, MdOutlineComment } from 'react-icons/md';
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { FaRegHeart, FaRegTrashAlt } from 'react-icons/fa';
 import { Nota, InfoRow } from './utils/utilsModal.jsx';
 import { useAuth } from '../features/auth/useAuth';
 import { message } from 'antd';
@@ -298,7 +298,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
                 </button>
               </span>
               <span className="inline-flex items-center gap-1">
-                <FaRegComment className="h-4 w-4" style={{ color: '#356B2A' }} />{' '}
+                <MdOutlineComment className="h-4 w-4" color="#010101" />{' '}
                 <span className="text-sm leading-none">{commentsCount}</span>
               </span>
 

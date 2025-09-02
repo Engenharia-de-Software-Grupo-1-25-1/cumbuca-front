@@ -186,7 +186,10 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
             )}
             {qtdCurtidas}
           </button>
-          <button className="flex gap-2 items-center text-base sm:text-base md:text-xl lg:text-xl" onClick={showModalDetalhar}>
+          <button
+            className="flex gap-2 items-center text-base sm:text-base md:text-xl lg:text-xl"
+            onClick={showModalDetalhar}
+          >
             <MdOutlineComment alt="Comentar" className="h-[24px] w-[24px]" />
             {qtdComentarios}
           </button>
