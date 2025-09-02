@@ -6,7 +6,7 @@ import AvaliacaoBox from './AvaliacaoBox';
 
 const PAGE_SIZE = 10;
 
-const FeedConteudo = forwardRef(({ filtros, ordenador }, ref) => {
+const FeedConteudo = forwardRef(({ filtros, ordenador, onSelecionarTag }, ref) => {
   const [data, setData] = useState([]);
   const [limit, setLimit] = useState(PAGE_SIZE);
   const [isLoading, setIsLoading] = useState(false);
@@ -90,7 +90,12 @@ const FeedConteudo = forwardRef(({ filtros, ordenador }, ref) => {
           <DataView
             value={visibleItems}
             itemTemplate={(avaliacao, index) => (
-              <AvaliacaoBox key={avaliacao?.id ?? `idx-${index}`} avaliacao={avaliacao} onChange={fetchAll} />
+              <AvaliacaoBox
+                key={avaliacao?.id ?? `idx-${index}`}
+                avaliacao={avaliacao}
+                onChange={fetchAll}
+                onSelecionarTag={onSelecionarTag}
+              />
             )}
             layout="list"
           />

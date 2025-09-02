@@ -2,9 +2,10 @@ import { FaHashtag } from 'react-icons/fa6';
 
 //Box de tag popular, cada tag apresenta um ícone, seu nome e seu número de publicações
 //As cores do componente são definidas pelos parâmetros corFundo e corDestaque
-function TagBox({ tag, corFundo, corDestaque }) {
+function TagBox({ tag, corFundo, corDestaque, onClick }) {
   return (
     <button
+      onClick={() => onClick?.(tag.tag)}
       className="flex items-center justify-around gap-4 rounded-xl px-2 py-4 w-full"
       style={{
         backgroundColor: corFundo,
