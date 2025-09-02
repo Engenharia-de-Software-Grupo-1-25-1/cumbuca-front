@@ -94,7 +94,9 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
               <p className="hover:underline mr-4 text-base sm:text-base md:text-xl lg:text-2xl">
                 {avaliacao.usuario.status === 'ATIVO' ? avaliacao.usuario.nome : 'Usuário inativo'}
               </p>
-              <p className="text-sm text-[#505050] sm:text-sm md:text-base lg:text-xl">@{avaliacao.usuario.username}</p>
+              <p className="text-sm text-[#505050] sm:text-sm md:text-base lg:text-xl">
+                {avaliacao.usuario.status === 'ATIVO' ? `@${avaliacao.usuario.username}` : ''}
+              </p>
             </Link>
 
             <Link

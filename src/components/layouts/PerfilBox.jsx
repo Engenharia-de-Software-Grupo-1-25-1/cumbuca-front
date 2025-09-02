@@ -83,7 +83,9 @@ export default function PerfilBox({ usuario, loadingUsuario }) {
           <h1 className="font-semibold text-[24px] sm:text-[24px] md:text-[36px] lg:text-[36px] leading-[1.2]">
             {usuario.status === 'ATIVO' ? usuario.nome : 'Usuário inativo'}
           </h1>
-          <h2 className="font-normal text-[16px] sm:text-[16px] md:text-[20px] lg:text-[20px]">@{usuario.username}</h2>
+          <h2 className="font-normal text-[16px] sm:text-[16px] md:text-[20px] lg:text-[20px]">
+            {usuario.status === 'ATIVO' ? `@${usuario.username}` : ''}
+          </h2>
         </div>
         {ehMeuPerfil && (
           <button

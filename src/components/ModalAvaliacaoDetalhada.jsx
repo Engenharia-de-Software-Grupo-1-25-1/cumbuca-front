@@ -205,7 +205,9 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
                 <p className="hover:underline text-[15px] font-semibold text-[#1E1E1E] truncate">
                   {avaliacao.usuario?.status === 'ATIVO' ? avaliacao.usuario?.nome : 'Usuário inativo'}
                 </p>
-                <p className="text-[13px] text-[#505050]">@{avaliacao.usuario?.username}</p>
+                <p className="text-[13px] text-[#505050]">
+                  {avaliacao.usuario?.status === 'ATIVO' ? `@${avaliacao.usuario?.username}` : ''}
+                </p>
               </Link>
 
               <div className="flex items-center gap-1 w-fit -translate-y-[8px]">
@@ -272,7 +274,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
 
           <div className="px-4 pt-3">
             <div className="grid grid-cols-2 gap-y-2 gap-x-4 text-[12px]">
-              <Nota label="Nota Geral" valor={avaliacao.notaGeral} />
+              <Nota label="Geral" valor={avaliacao.notaGeral} />
               <Nota label="Comida" valor={avaliacao.notaComida} />
               <Nota label="Ambiente" valor={avaliacao.notaAmbiente} />
               <Nota label="Atendimento" valor={avaliacao.notaAtendimento} />
@@ -383,7 +385,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
                           <span className="font-semibold">
                             {c?.usuario?.status === 'ATIVO' ? nome : 'Usuário inativo'}
                           </span>{' '}
-                          <span className="text-[#7A6A4C]">@{username}</span>
+                          <span className="text-[#7A6A4C]"> {c?.usuario?.status === 'ATIVO' ? `@${username}` : ''}</span>
                         </div>
 
                         {meuComentario && (

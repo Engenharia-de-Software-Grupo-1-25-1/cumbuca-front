@@ -17,7 +17,7 @@ const CardUsuario = ({ user }) => {
               {user.status === 'ATIVO' ? user.nome : 'Usuário inativo'}
             </h2>
           </div>
-          <p className="mt-1 mb-2 text-sm text-black">{user.username}</p>
+          <p className="mt-1 mb-2 text-sm text-black">{user.status === 'ATIVO' ? `@${user.username}` : ''}</p>
         </Link>
         <div className="flex items-center gap-5">
           <span className="text-md text-black whitespace-nowrap">
