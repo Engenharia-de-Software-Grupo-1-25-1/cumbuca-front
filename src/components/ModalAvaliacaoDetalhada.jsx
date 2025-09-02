@@ -4,9 +4,9 @@ import { obterAvaliacao, adicionarComentario } from '../services/avaliacaoServic
 import { removerComentario } from '../services/comentarioService.js';
 import { HiArrowLeft } from 'react-icons/hi2';
 import { formatFromDigits } from './utils/utilsModal.helpers';
-import { MdOutlineStorefront } from 'react-icons/md';
-import { FiImage, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
-import { FaRegHeart, FaRegComment, FaRegTrashAlt } from 'react-icons/fa';
+import { MdOutlineStorefront, MdOutlineComment } from 'react-icons/md';
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { FaRegHeart, FaRegTrashAlt } from 'react-icons/fa';
 import { Nota, InfoRow } from './utils/utilsModal.jsx';
 import { useAuth } from '../features/auth/useAuth';
 import { message } from 'antd';
@@ -14,7 +14,7 @@ import { coresTags } from './utils/coresTags';
 import fotoDePerfilPadrao from '../assets/fotoDePerfilPadrao.webp';
 import { FaHeart } from 'react-icons/fa6';
 
-export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtualizar }) {
+export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtualizar, onComment = () => {} }) {
   const { user } = useAuth();
   const [avaliacao, setAvaliacao] = useState(null);
   const [idx, setIdx] = useState(0);
@@ -90,6 +90,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
     setPosting(true);
     try {
       const response = await adicionarComentario(idAvaliacao, texto);
+      const novoTotal = (avaliacao?.qtdComentarios ?? 0) + 1;
       setComment('');
       setAvaliacao(old => ({
         ...old,
@@ -103,11 +104,13 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
               nome: user?.nome,
               username: user?.username,
               foto: user?.foto ?? null,
+              status: user?.status,
             },
           },
         ],
-        qtdComentarios: old?.qtdComentarios + 1,
+        qtdComentarios: novoTotal,
       }));
+      onComment?.(novoTotal);
     } catch (e) {
       console.error(e);
       message.error('Falha ao comentar. Tente novamente.');
@@ -120,14 +123,16 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
     setDeletingId(idComentario);
     try {
       await removerComentario(idComentario);
+      const novoTotal = Math.max(0, (avaliacao?.qtdComentarios ?? 0) - 1);
       setAvaliacao(old => {
         const filtrados = (old?.comentarios ?? []).filter(c => c.id !== idComentario);
         return {
           ...old,
           comentarios: filtrados,
-          qtdComentarios: Math.max(0, old?.qtdComentarios - 1),
+          qtdComentarios: novoTotal,
         };
       });
+      onComment?.(novoTotal);
       message.success('Comentário excluído.');
     } catch (e) {
       console.error(e);
@@ -198,9 +203,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
                 className="flex items-baseline gap-x-2 hover:no-underline translate-y-[6px]"
               >
                 <p className="hover:underline text-[15px] font-semibold text-[#1E1E1E] truncate">
-                  {avaliacao.usuario?.status === 'ATIVO'
-                    ? avaliacao.usuario?.nome
-                    : `${avaliacao.usuario?.nome} (INATIVO)`}
+                  {avaliacao.usuario?.status === 'ATIVO' ? avaliacao.usuario?.nome : 'Usuário inativo'}
                 </p>
                 <p className="text-[13px] text-[#505050]">@{avaliacao.usuario?.username}</p>
               </Link>
@@ -218,57 +221,53 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
           </div>
         </div>
 
-        <div className="h-[calc(92vh-72px)] overflow-y-auto border-t border-neutral-300">
+        <div className="max-h-[calc(92vh-72px)] overflow-y-auto border-t border-neutral-300">
           <div className="px-4 pt-3">
             <p className="text-[13px] text-[#4a3a1b]">{avaliacao.descricao}</p>
-            <div className="mt-3 rounded-xl p-3 border border-neutral-300 bg-[#F6E4B8]">
-              <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg bg-[#E9D3AE]">
-                {temFotos ? (
+            {temFotos && (
+              <div className="mt-3 rounded-xl p-3 border border-neutral-300 bg-[#F6E4B8]">
+                <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg bg-[#E9D3AE]">
                   <img
                     src={srcFoto(fotos[idx])}
                     alt={`Foto ${idx + 1} de ${fotos.length}`}
                     className="h-full w-full object-cover select-none"
                     draggable={false}
                   />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center">
-                    <FiImage className="h-10 w-10 text-[#6C5A3E]" />
-                  </div>
-                )}
+
+                  {temFotos && fotos.length > 1 && (
+                    <>
+                      <button
+                        onClick={prev}
+                        className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/25 p-2 text-white hover:bg-black/35"
+                        aria-label="Imagem anterior"
+                      >
+                        <FiChevronLeft className="h-5 w-5" />
+                      </button>
+                      <button
+                        onClick={next}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/25 p-2 text-white hover:bg-black/35"
+                        aria-label="Próxima imagem"
+                      >
+                        <FiChevronRight className="h-5 w-5" />
+                      </button>
+                    </>
+                  )}
+                </div>
 
                 {temFotos && fotos.length > 1 && (
-                  <>
-                    <button
-                      onClick={prev}
-                      className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/25 p-2 text-white hover:bg-black/35"
-                      aria-label="Imagem anterior"
-                    >
-                      <FiChevronLeft className="h-5 w-5" />
-                    </button>
-                    <button
-                      onClick={next}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/25 p-2 text-white hover:bg-black/35"
-                      aria-label="Próxima imagem"
-                    >
-                      <FiChevronRight className="h-5 w-5" />
-                    </button>
-                  </>
+                  <div className="mt-2 flex items-center justify-center gap-2">
+                    {fotos.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setIdx(i)}
+                        aria-label={`Ir para imagem ${i + 1}`}
+                        className={`h-[3px] rounded-full transition-all ${idx === i ? 'w-10 bg-[#C84F2E]' : 'w-5 bg-[#E9D3AE]'}`}
+                      />
+                    ))}
+                  </div>
                 )}
               </div>
-
-              {temFotos && fotos.length > 1 && (
-                <div className="mt-2 flex items-center justify-center gap-2">
-                  {fotos.map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setIdx(i)}
-                      aria-label={`Ir para imagem ${i + 1}`}
-                      className={`h-[3px] rounded-full transition-all ${idx === i ? 'w-10 bg-[#C84F2E]' : 'w-5 bg-[#E9D3AE]'}`}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
+            )}
           </div>
 
           <div className="px-4 pt-3">
@@ -302,7 +301,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
                 </button>
               </span>
               <span className="inline-flex items-center gap-1">
-                <FaRegComment className="h-4 w-4" style={{ color: '#356B2A' }} />{' '}
+                <MdOutlineComment className="h-4 w-4" color="#010101" />{' '}
                 <span className="text-sm leading-none">{commentsCount}</span>
               </span>
 
@@ -382,7 +381,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
                       <div className="flex items-start justify-between gap-3">
                         <div className="mb-1 text-sm text-[#3D2E1C] truncate">
                           <span className="font-semibold">
-                            {c?.usuario?.status === 'ATIVO' ? nome : `${nome} (INATIVO)`}
+                            {c?.usuario?.status === 'ATIVO' ? nome : 'Usuário inativo'}
                           </span>{' '}
                           <span className="text-[#7A6A4C]">@{username}</span>
                         </div>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { FaLock, FaCamera, FaArrowLeft, FaExclamationTriangle } from 'react-icons/fa';
+import { FaLock, FaCamera, FaArrowLeft } from 'react-icons/fa';
 import Layout2 from '../components/layouts/Layout2';
-import { atualizarPerfil, getUsuarioPorUsername, apagarUsuario } from '../services/usuarioService';
+import { atualizarPerfil, getUsuarioPorUsername } from '../services/usuarioService';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../features/auth/useAuth';
 import avatarPadrao from '../assets/fotoDePerfilPadrao.webp';
@@ -9,6 +9,7 @@ import { logout, verificarSenhaAtual } from '../services/authService';
 import { toISODateOnly } from '../utils/date';
 import { normalizeFoto } from '../utils/image';
 import { message } from 'antd';
+import ModalExcluirConta from '../components/ModalExcluirPerfil';
 
 const EditarPerfil = () => {
   const navigate = useNavigate();
@@ -32,6 +33,7 @@ const EditarPerfil = () => {
   const [carregando, setCarregando] = useState(true);
   const [salvando, setSalvando] = useState(false);
   const [excluindo, setExcluindo] = useState(false);
+  const [modalExcluir, setModalExcluir] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -71,25 +73,6 @@ const EditarPerfil = () => {
     if (file) {
       setFoto(file);
       setPreviewFoto(URL.createObjectURL(file));
-    }
-  };
-
-  const handleDelete = async () => {
-    setExcluindo(true);
-    if (!id) {
-      setErro('Não foi possível identificar o usuário para atualizar.');
-      setExcluindo(false);
-      return;
-    }
-    try {
-      await apagarUsuario(id);
-      message.success('Usuário removido com sucesso!');
-      logout();
-      navigate('/login');
-    } catch {
-      message.error('Não foi possível remover o usuário!');
-    } finally {
-      setExcluindo(false);
     }
   };
 
@@ -306,7 +289,7 @@ const EditarPerfil = () => {
                 <button
                   type="button"
                   disabled={salvando || excluindo}
-                  onClick={handleDelete}
+                  onClick={() => setModalExcluir(true)}
                   className="mt-6 bg-red-700 hover:bg-red-800 text-[#f5dfb6] font-bold py-2 px-6 rounded-full text-lg w-full transition flex items-center justify-center gap-2"
                 >
                   {excluindo && (
@@ -328,6 +311,13 @@ const EditarPerfil = () => {
             </form>
           )}
         </div>
+        <ModalExcluirConta
+          open={modalExcluir}
+          onClose={() => setModalExcluir(false)}
+          loading={excluindo}
+          excluindo={setExcluindo}
+          idUser={id}
+        />
       </div>
     </>
   );

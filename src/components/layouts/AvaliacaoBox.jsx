@@ -24,7 +24,7 @@ import ModalExcluirAvaliacao from '../ModalExcluirAvaliacao';
 export default function AvalicaoBox({ avaliacao, onChange }) {
   const [curtido, setCurtido] = useState(avaliacao.isCurtida);
   const [qtdCurtidas, setQtdCurtidas] = useState(avaliacao.qtdCurtidas);
-  const [qtdComentarios, _] = useState(avaliacao.qtdComentarios);
+  const [qtdComentarios, setQtdComentarios] = useState(avaliacao.qtdComentarios);
   const { user } = useAuth();
   const op = useRef(null);
   const [modalVisivel, setModalVisivel] = useState(false);
@@ -46,6 +46,10 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
     } finally {
       setDeletando(false);
     }
+  };
+
+  const handleComentar = qtdComentarios => {
+    setQtdComentarios(qtdComentarios);
   };
 
   const handleCurtida = async () => {
@@ -88,20 +92,20 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
           <div>
             <Link to={`/perfil/${avaliacao.usuario.username}`} className="flex hover:no-underline flex-wrap">
               <p className="hover:underline mr-4 text-base sm:text-base md:text-xl lg:text-2xl">
-                {avaliacao.usuario.status === 'ATIVO' ? avaliacao.usuario.nome : `${avaliacao.usuario.nome} (INATIVO)`}
+                {avaliacao.usuario.status === 'ATIVO' ? avaliacao.usuario.nome : 'Usuário inativo'}
               </p>
               <p className="text-sm text-[#505050] sm:text-sm md:text-base lg:text-xl">@{avaliacao.usuario.username}</p>
             </Link>
 
-            <a
-              href={`/estabelecimento/${avaliacao.estabelecimento.id}`}
+            <Link
+              to={`/estabelecimento/${avaliacao.estabelecimento.id}`}
               className="flex text-xl items-center gap-1 w-fit"
             >
               <MdOutlineStorefront color="#356B2A" size="24" />
               <p className="text-sm text-[#356B2A] sm:text-sm md:text-base lg:text-xl">
                 {avaliacao.estabelecimento.nome}
               </p>
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -186,7 +190,10 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
             )}
             {qtdCurtidas}
           </button>
-          <button className="flex gap-2 items-center text-base sm:text-base md:text-xl lg:text-xl">
+          <button
+            className="flex gap-2 items-center text-base sm:text-base md:text-xl lg:text-xl"
+            onClick={showModalDetalhar}
+          >
             <MdOutlineComment alt="Comentar" className="h-[24px] w-[24px]" />
             {qtdComentarios}
           </button>
@@ -226,13 +233,14 @@ export default function AvalicaoBox({ avaliacao, onChange }) {
           onClose={() => setModalVisivel(false)}
           editar={true}
           avaliacaoId={avaliacao.id}
-          onEditSuccess={() => onChange && onChange()}
+          onSuccess={() => onChange && onChange()}
         />
       )}
       {modalAvaliacaoDetalhada && (
         <ModalAvaliacaoDetalhada
           idAvaliacao={avaliacao.id}
           onAtualizar={handleCurtida}
+          onComment={handleComentar}
           onClose={() => showModalDetalhar(false)}
         />
       )}

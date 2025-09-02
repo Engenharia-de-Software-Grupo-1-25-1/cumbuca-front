@@ -12,12 +12,11 @@ import ModalFiltroEstabelecimento from '../ModalFiltroEstabelecimento';
 import ModalFiltroAvaliacao from '../ModalFiltroAvaliacoes';
 
 //Padrão de Header com logo com título, barra de pesquisa expansível, botão de filtrar e botão de sair
-function Header({ placeholder, onAplicarFiltros, filtros, ordenador }) {
+function Header({ placeholder, onAplicarFiltros, filtros, ordenador, onChange }) {
   const [mostrarPesquisa, setMostrarPesquisa] = useState(false);
   const [modalVisivel, setModalVisivel] = useState(false);
   const [modalFiltroVisivel, setModalFiltroVisivel] = useState(false);
   const { logout } = useAuth();
-  const { user } = useAuth();
   const location = useLocation();
 
   const alternarPesquisa = () => {
@@ -25,8 +24,8 @@ function Header({ placeholder, onAplicarFiltros, filtros, ordenador }) {
   };
 
   const mostrarBotaoNovaAvaliacao = location.pathname === '/feed';
-  const mostrarBotoesPesquisaEFiltro =
-    !location.pathname.startsWith(`/perfil/${user.username}`) && !location.pathname.startsWith('/estabelecimento/');
+  const mostrarBotaoPesquisa = location.pathname.startsWith('/feed');
+  const mostrarBotaoFiltro = mostrarBotaoPesquisa || location.pathname.endsWith('/estabelecimento');
 
   return (
     <header
@@ -65,19 +64,19 @@ function Header({ placeholder, onAplicarFiltros, filtros, ordenador }) {
       {mostrarPesquisa && <BarraDePesquisa placeholder={placeholder} />}
 
       <div className="flex gap-1 sm:gap-1 md:gap-4 lg:gap-4">
-        {mostrarBotoesPesquisaEFiltro && (
-          <>
-            <button className="flex-shrink-0" onClick={alternarPesquisa}>
-              {mostrarPesquisa ? (
-                <IoClose className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] h-auto" alt="Fechar pesquisa" />
-              ) : (
-                <IoSearch className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] h-auto" alt="Pesquisar" />
-              )}
-            </button>
-            <button className="flex-shrink-0" onClick={() => setModalFiltroVisivel(true)}>
-              <FiFilter className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] h-auto" alt="Filtrar" />
-            </button>
-          </>
+        {mostrarBotaoPesquisa && (
+          <button className="flex-shrink-0" onClick={alternarPesquisa}>
+            {mostrarPesquisa ? (
+              <IoClose className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] h-auto" alt="Fechar pesquisa" />
+            ) : (
+              <IoSearch className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] h-auto" alt="Pesquisar" />
+            )}
+          </button>
+        )}
+        {mostrarBotaoFiltro && (
+          <button className="flex-shrink-0" onClick={() => setModalFiltroVisivel(true)}>
+            <FiFilter className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] h-auto" alt="Filtrar" />
+          </button>
         )}
 
         {modalFiltroVisivel && location.pathname == '/estabelecimento' && (
@@ -113,7 +112,13 @@ function Header({ placeholder, onAplicarFiltros, filtros, ordenador }) {
           <MdOutlineLogout className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] h-auto" alt="Sair" />
         </button>
       </div>
-      {modalVisivel && <ModalAvaliacao open={modalVisivel} onClose={() => setModalVisivel(false)} />}
+      {modalVisivel && (
+        <ModalAvaliacao
+          open={modalVisivel}
+          onClose={() => setModalVisivel(false)}
+          onSuccess={() => onChange && onChange()}
+        />
+      )}
     </header>
   );
 }

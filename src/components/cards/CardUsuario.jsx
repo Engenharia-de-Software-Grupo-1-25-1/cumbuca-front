@@ -14,7 +14,7 @@ const CardUsuario = ({ user }) => {
         <Link to={`/perfil/${user.username}`} className="flex-shrink-0">
           <div className="flex items-center justify-between ">
             <h2 className="truncate text-2xl font-bold text-[#4b2509] hover:underline">
-              {user.status === 'ATIVO' ? user.nome : `${user.nome} (INATIVO)`}
+              {user.status === 'ATIVO' ? user.nome : 'Usuário inativo'}
             </h2>
           </div>
           <p className="mt-1 mb-2 text-sm text-black">{user.username}</p>
