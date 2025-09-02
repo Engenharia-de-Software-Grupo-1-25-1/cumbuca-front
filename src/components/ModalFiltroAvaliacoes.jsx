@@ -10,7 +10,7 @@ export default function ModalFiltroAvaliacao({ open, onClose, onAplicar, filtros
   const [tags, setTags] = useState([]);
   const [precoMinimo, setPrecoMinimo] = useState('');
   const [precoMaximo, setPrecoMaximo] = useState('');
-  const [classificacao, setClassificacao] = useState(null);
+  const [classificacao, setClassificacao] = useState('');
   const [notas, setNotas] = useState({ notaGeral: 0, notaComida: 0, notaAmbiente: 0, notaAtendimento: 0 });
 
   useEffect(() => {

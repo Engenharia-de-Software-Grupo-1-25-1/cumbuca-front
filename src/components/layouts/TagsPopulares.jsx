@@ -54,7 +54,7 @@ function TagsPopulares({ onSelecionarTag }) {
           const cor = coresTags[index % coresTags.length] || {};
           return (
             <li key={index} className="w-full">
-              <TagBox tag={tag} corFundo={cor?.corFundo} corDestaque={cor?.corDestaque} onClick={onSelecionarTag} />
+              <TagBox tag={tag} corFundo={cor?.corFundo} corDestaque={cor?.corDestaque} aplicarTag={onSelecionarTag} />
             </li>
           );
         })

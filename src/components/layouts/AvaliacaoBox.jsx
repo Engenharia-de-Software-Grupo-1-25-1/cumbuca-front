@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState, useRef } from 'react';
 import { OverlayPanel } from 'primereact/overlaypanel';
 import { useAuth } from '../../features/auth/useAuth';
@@ -33,6 +33,8 @@ export default function AvalicaoBox({ avaliacao, onChange, onSelecionarTag }) {
   const [deletando, setDeletando] = useState(false);
   const [curtindo, setCurtindo] = useState(false);
   const ehAutor = user.id === avaliacao.usuario.id;
+  const navigate = useNavigate();
+  const isFeed = location.pathname === '/feed';
 
   const handleExcluirAvaliacao = async () => {
     try {
@@ -69,6 +71,14 @@ export default function AvalicaoBox({ avaliacao, onChange, onSelecionarTag }) {
       message.error('Não foi possível registrar a curtida.');
     } finally {
       setCurtindo(false);
+    }
+  };
+
+  const handleSelecionarTag = tag => {
+    if (isFeed) {
+      onSelecionarTag?.(tag);
+    } else {
+      navigate('/feed', { state: { tagInicial: tag } });
     }
   };
 
@@ -212,7 +222,7 @@ export default function AvalicaoBox({ avaliacao, onChange, onSelecionarTag }) {
               return (
                 <button
                   key={index}
-                  onClick={() => onSelecionarTag?.(tag)}
+                  onClick={() => handleSelecionarTag(tag)}
                   className="px-2 rounded-full text-base"
                   style={{
                     backgroundColor: cor.corFundo,
