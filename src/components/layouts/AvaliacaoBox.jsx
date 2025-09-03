@@ -99,22 +99,22 @@ export default function AvalicaoBox({ avaliacao, onChange, onSelecionarTag }) {
               alt={`Foto de perfil de ${avaliacao.usuario.nome}`}
             />
           </Link>
-          <div>
+          <div className="min-w-0 max-w-[80%]">
             <Link to={`/perfil/${avaliacao.usuario.username}`} className="flex hover:no-underline flex-wrap">
-              <p className="hover:underline mr-4 text-base sm:text-base md:text-xl lg:text-2xl">
+              <p className="hover:underline mr-4 text-base sm:text-base md:text-xl lg:text-2xl truncate">
                 {avaliacao.usuario.status === 'ATIVO' ? avaliacao.usuario.nome : 'Usuário inativo'}
               </p>
-              <p className="text-sm text-[#505050] sm:text-sm md:text-base lg:text-xl">
+              <p className="text-sm text-[#505050] sm:text-sm md:text-base lg:text-xl truncate">
                 {avaliacao.usuario.status === 'ATIVO' ? `@${avaliacao.usuario.username}` : ''}
               </p>
             </Link>
 
             <Link
               to={`/estabelecimento/${avaliacao.estabelecimento.id}`}
-              className="flex text-xl items-center gap-1 w-fit"
+              className="flex items-center gap-1 flex-1 min-w-0"
             >
               <MdOutlineStorefront color="#356B2A" size="24" />
-              <p className="text-sm text-[#356B2A] sm:text-sm md:text-base lg:text-xl">
+              <p className="text-sm text-[#356B2A] sm:text-sm md:text-base lg:text-xl truncate">
                 {avaliacao.estabelecimento.nome}
               </p>
             </Link>

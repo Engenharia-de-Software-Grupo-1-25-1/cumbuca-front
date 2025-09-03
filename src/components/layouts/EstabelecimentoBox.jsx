@@ -137,7 +137,7 @@ export default function EstabelecimentoBox({ estabelecimentoId }) {
                 {categoriaMapeada}
               </h2>
             </div>
-            <div className="flex items-center min-w-0 mr-2 max-w-[10%] sm:max-w-[30%] md:max-w-[40%] lg:max-w-[47%]">
+            <div className="flex items-center min-w-0 mr-2 max-w-[10%] sm:max-w-[30%] md:max-w-[40%] lg:max-w-[47%] flex-wrap">
               <MdOutlineLocationOn size={20} className="mr-2 flex-shrink-0 text-[#f7d799]" />
               <span
                 className="truncate min-w-0 text-[#f7d799] text-[12px] md:text-[12px] lg:text-[16px]"
@@ -159,8 +159,8 @@ export default function EstabelecimentoBox({ estabelecimentoId }) {
           value={avaliacoes}
           itemTemplate={(avaliacao, index) => <AvaliacaoBox key={index} avaliacao={avaliacao} />}
           layout="list"
-          style={{ maxHeight: '500px', overflowY: 'auto' }}
-          className="scroll-dark mt-8"
+          style={{ overflowY: 'auto' }}
+          className="scroll-dark mt-8 max-h-[80vh]"
         />
       ) : (
         <h1 className="sm:text-[20px] md:text-[30px] lg:text-[30px] font-semibold text-[#1e1e1e] p-1 px-4 bg-[#f4a831] w-fit h-fit rounded-[10px] m-auto mt-8">
