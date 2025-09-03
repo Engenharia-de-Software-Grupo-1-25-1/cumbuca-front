@@ -109,7 +109,7 @@ export default function EstabelecimentoBox({ estabelecimentoId }) {
   }
 
   return (
-    <div className="bg-[#bc6302] w-[80%] rounded-[10px] py-4 px-6 max-w-[728px] flex flex-col">
+    <div className="bg-[#bc6302] w-[80%] rounded-[10px] py-4 px-6 max-w-[728px] flex flex-col max-h-[80vh]">
       <div className="flex items-center p-0">
         <img
           src={estabImagem}
@@ -160,7 +160,7 @@ export default function EstabelecimentoBox({ estabelecimentoId }) {
           itemTemplate={(avaliacao, index) => <AvaliacaoBox key={index} avaliacao={avaliacao} />}
           layout="list"
           style={{ overflowY: 'auto' }}
-          className="scroll-dark mt-8 max-h-[80vh]"
+          className="scroll-dark mt-8"
         />
       ) : (
         <h1 className="sm:text-[20px] md:text-[30px] lg:text-[30px] font-semibold text-[#1e1e1e] p-1 px-4 bg-[#f4a831] w-fit h-fit rounded-[10px] m-auto mt-8">

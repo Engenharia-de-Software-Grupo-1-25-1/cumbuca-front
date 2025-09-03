@@ -111,7 +111,7 @@ const CriarConta = () => {
   return (
     <>
       <Layout subtitulo="Criar Conta" />
-      <div className="flex flex-col items-center mt-4 px-4 font-poppins">
+      <div className="flex flex-col items-center mt-4 mb-8 px-4 font-poppins">
         <form onSubmit={handleSubmit} className="bg-[#f5dfb6] rounded-xl p-6 w-full max-w-sm shadow-md space-y-4">
           <label className="relative cursor-pointer flex flex-col items-center">
             <input
