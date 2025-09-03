@@ -101,7 +101,9 @@ function Header({ placeholder, onAplicarFiltros, filtros, ordenador, onChange })
         {mostrarBotaoNovaAvaliacao && (
           <button
             onClick={() => setModalVisivel(true)}
-            className="hidden sm:inline-flex items-center gap-2 rounded-lg px-4 py-2 font-semibold bg-[#db520a] hover:bg-[#c7470a] text-[#f5dfb6] shadow transition-colors"
+            className={`inline-flex items-center gap-2 rounded-lg px-4 py-2 font-semibold bg-[#db520a] hover:bg-[#c7470a] text-[#f5dfb6] shadow transition-colors w-auto
+            ${mostrarPesquisa ? 'hidden sm:hidden md:inline-flex lg:inline-flex' : ''}
+            `}
           >
             <FiPlus className="h-5 w-5" />
             <span>Nova Avaliação</span>
