@@ -170,7 +170,34 @@ const EditarPerfil = () => {
           </button>
 
           {carregando ? (
-            <div className="text-[#F4E9C3]">Carregando...</div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mt-6 animate-pulse">
+              <div className="col-span-1 flex flex-col items-center gap-3 self-center">
+                <div className="w-36 h-36 sm:w-40 sm:h-40 bg-[#E9D3AE] rounded-full" />
+                <div className="h-8 w-28 bg-[#E9D3AE] rounded-md" />
+              </div>
+
+              <div className="col-span-1 sm:col-span-2 flex flex-col gap-4 sm:pr-1">
+                <div className="h-11 w-full bg-[#E9D3AE] rounded-md" />
+                <div className="h-11 w-full bg-[#E9D3AE] rounded-md" />
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="h-11 w-full bg-[#E9D3AE] rounded-md" />
+                  <div className="h-11 w-full bg-[#E9D3AE] rounded-md" />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="h-11 w-full bg-[#E9D3AE] rounded-md" />
+                  <div className="h-11 w-full bg-[#E9D3AE] rounded-md" />
+                </div>
+
+                <div className="h-11 w-full bg-[#E9D3AE] rounded-md" />
+              </div>
+
+              <div className="col-span-full flex gap-4 justify-between mt-1">
+                <div className="h-12 w-full bg-red-700 rounded-full" />
+                <div className="h-12 w-full bg-red-700 rounded-full" />
+              </div>
+            </div>
           ) : (
             <form onSubmit={handleSalvar} className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mt-6">
               <div className="col-span-1 flex flex-col items-center sm:items-center gap-3 self-center">
