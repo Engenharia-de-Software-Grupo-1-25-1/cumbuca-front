@@ -28,7 +28,7 @@ export default function AvalicaoBox({ avaliacao, onChange, onSelecionarTag }) {
   const { user } = useAuth();
   const op = useRef(null);
   const [modalVisivel, setModalVisivel] = useState(false);
-  const [modalAvaliacaoDetalhada, showModalDetalhar] = useState(false);
+  const [modalAvaliacaoDetalhada, showModalDetalhar] = useState(null);
   const [modalExcluir, setModalExcluir] = useState(false);
   const [deletando, setDeletando] = useState(false);
   const [curtindo, setCurtindo] = useState(false);
@@ -141,7 +141,7 @@ export default function AvalicaoBox({ avaliacao, onChange, onSelecionarTag }) {
           <button
             className="w-full flex items-center gap-2 px-6 py-2 hover:bg-[#e0b874] transition-colors duration-200"
             onClick={e => {
-              showModalDetalhar(true);
+              showModalDetalhar({ scrollarParaComentarios: false });
               op.current.hide(e);
             }}
           >
@@ -204,7 +204,7 @@ export default function AvalicaoBox({ avaliacao, onChange, onSelecionarTag }) {
           </button>
           <button
             className="flex gap-2 items-center text-base sm:text-base md:text-xl lg:text-xl"
-            onClick={showModalDetalhar}
+            onClick={() => showModalDetalhar({ scrollarParaComentarios: true })}
           >
             <MdOutlineComment alt="Comentar" className="h-[24px] w-[24px]" />
             {qtdComentarios}
@@ -255,6 +255,7 @@ export default function AvalicaoBox({ avaliacao, onChange, onSelecionarTag }) {
           onAtualizar={handleCurtida}
           onComment={handleComentar}
           onClose={() => showModalDetalhar(false)}
+          scrollarParaComentarios={modalAvaliacaoDetalhada.scrollarParaComentarios}
         />
       )}
 
