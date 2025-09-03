@@ -66,7 +66,7 @@ export default function PerfilBox({ usuario, loadingUsuario }) {
   }
 
   return (
-    <div className="bg-[#bc6302] w-[80%] rounded-[10px] py-4 px-6 max-w-[728px] flex flex-col">
+    <div className="bg-[#bc6302] w-[80%] rounded-[10px] py-4 px-6 max-w-[728px]  max-h-[545px] flex flex-col">
       <div className="flex flex-wrap justify-between">
         <img
           src={

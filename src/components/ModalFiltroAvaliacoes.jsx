@@ -10,7 +10,7 @@ export default function ModalFiltroAvaliacao({ open, onClose, onAplicar, filtros
   const [tags, setTags] = useState([]);
   const [precoMinimo, setPrecoMinimo] = useState('');
   const [precoMaximo, setPrecoMaximo] = useState('');
-  const [classificacao, setClassificacao] = useState(null);
+  const [classificacao, setClassificacao] = useState('');
   const [notas, setNotas] = useState({ notaGeral: 0, notaComida: 0, notaAmbiente: 0, notaAtendimento: 0 });
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function ModalFiltroAvaliacao({ open, onClose, onAplicar, filtros
       setUsuarioNome(filtros.usuario || '');
       setEstabelecimentoNome(filtros.estabelecimento || '');
       setItemConsumido(filtros.itemConsumido || '');
-      setTags(filtros.tags || []);
+      setTags(prevTags => (prevTags.length === 0 ? filtros.tags || [] : prevTags));
       setPrecoMinimo(filtros.precoMinimo ? String(filtros.precoMinimo) : '');
       setPrecoMaximo(filtros.precoMaximo ? String(filtros.precoMaximo) : '');
       setNotas({
@@ -27,12 +27,7 @@ export default function ModalFiltroAvaliacao({ open, onClose, onAplicar, filtros
         notaAmbiente: filtros.notas?.notaAmbiente || 0,
         notaAtendimento: filtros.notas?.notaAtendimento || 0,
       });
-
-      if (ordenacao === 'popularidade' || ordenacao === 'notaGeral') {
-        setClassificacao(ordenacao);
-      } else {
-        setClassificacao(null);
-      }
+      setClassificacao(ordenacao === 'popularidade' || ordenacao === 'notaGeral' ? ordenacao : '');
     }
   }, [open, filtros, ordenacao]);
 

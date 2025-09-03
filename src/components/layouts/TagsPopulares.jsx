@@ -5,7 +5,7 @@ import { getTagsPopulares } from '../../services/tagService';
 import { message, Spin } from 'antd';
 
 // Container de Tags Populares ordenadas de mais a menos publicações
-function TagsPopulares() {
+function TagsPopulares({ onSelecionarTag }) {
   const [tags, setTags] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -54,7 +54,7 @@ function TagsPopulares() {
           const cor = coresTags[index % coresTags.length] || {};
           return (
             <li key={index} className="w-full">
-              <TagBox tag={tag} corFundo={cor?.corFundo} corDestaque={cor?.corDestaque} />
+              <TagBox tag={tag} corFundo={cor?.corFundo} corDestaque={cor?.corDestaque} aplicarTag={onSelecionarTag} />
             </li>
           );
         })
