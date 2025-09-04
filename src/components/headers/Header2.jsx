@@ -106,7 +106,7 @@ function Header({ placeholder, onAplicarFiltros, filtros, ordenador, onChange })
             `}
           >
             <FiPlus className="h-5 w-5" />
-            <span>Nova Avaliação</span>
+            <span className="text-sm sm:text-sm md:text-base lg:text-base">Nova Avaliação</span>
           </button>
         )}
 
