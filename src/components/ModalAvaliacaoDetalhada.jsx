@@ -286,7 +286,7 @@ export default function ModalAvaliacaoDetalhada({
           </div>
 
           <div className="px-4 pt-3">
-            <div className="grid grid-cols-2 gap-y-2 gap-x-4 text-[12px]">
+            <div className="flex flex-wrap gap-y-2 gap-x-4 text-[12px]">
               <Nota label="Geral" valor={avaliacao.notaGeral} />
               <Nota label="Comida" valor={avaliacao.notaComida} />
               <Nota label="Ambiente" valor={avaliacao.notaAmbiente} />
