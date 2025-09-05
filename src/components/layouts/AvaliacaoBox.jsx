@@ -95,7 +95,7 @@ export default function AvalicaoBox({ avaliacao, onChange, onSelecionarTag }) {
                     : fotoDePerfilPadrao
                   : fotoDePerfilPadrao
               }
-              className="rounded-full hover:brightness-90 transition duration-300 h-[48px] md:h-[54px] lg:h-[65px] h-[48px] md:w-[54px] lg:w-[65px] object-cover"
+              className="rounded-full hover:brightness-90 transition duration-300 h-[48px] md:h-[54px] lg:h-[65px] w-[48px] md:w-[54px] lg:w-[65px] object-cover"
               alt={`Foto de perfil de ${avaliacao.usuario.nome}`}
             />
           </Link>
