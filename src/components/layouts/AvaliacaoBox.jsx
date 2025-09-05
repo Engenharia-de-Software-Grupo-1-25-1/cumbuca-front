@@ -84,8 +84,8 @@ export default function AvalicaoBox({ avaliacao, onChange, onSelecionarTag }) {
 
   return (
     <div className="bg-[#f7d799] rounded-xl flex flex-col p-4 text-[#1E1E1E] text-2xl gap-4 mb-4">
-      <div className="flex gap-4 sm:gap-4 md:gap-8 lg:gap-8 w-full">
-        <div className="flex gap-4 sm:gap-4 md:gap-8 lg:gap-8 flex-col sm:flex-col md:flex-row lg:flex-row">
+      <div className="flex gap-4 md:gap-8 w-[50vw] [@media(min-width:400px)]:w-auto">
+        <div className="flex gap-4 md:gap-8 flex-col [@media(min-width:475px)]:flex-row w-[30vw] [@media(min-width:460px)]:w-auto">
           <Link to={`/perfil/${avaliacao.usuario.username}`} className="flex-shrink-0">
             <img
               src={
@@ -99,7 +99,7 @@ export default function AvalicaoBox({ avaliacao, onChange, onSelecionarTag }) {
               alt={`Foto de perfil de ${avaliacao.usuario.nome}`}
             />
           </Link>
-          <div className="min-w-0 max-w-[80%]">
+          <div className="min-w-0 max-w-[100%]">
             <Link to={`/perfil/${avaliacao.usuario.username}`} className="flex hover:no-underline flex-wrap">
               <p className="hover:underline mr-4 text-base sm:text-base md:text-xl lg:text-2xl truncate">
                 {avaliacao.usuario.status === 'ATIVO' ? avaliacao.usuario.nome : 'Usuário inativo'}
@@ -113,7 +113,7 @@ export default function AvalicaoBox({ avaliacao, onChange, onSelecionarTag }) {
               to={`/estabelecimento/${avaliacao.estabelecimento.id}`}
               className="flex items-center gap-1 flex-1 min-w-0"
             >
-              <MdOutlineStorefront color="#356B2A" size="24" />
+              <MdOutlineStorefront color="#356B2A" size="24" className="flex-shrink-0" />
               <p className="text-sm text-[#356B2A] sm:text-sm md:text-base lg:text-xl truncate">
                 {avaliacao.estabelecimento.nome}
               </p>
@@ -182,7 +182,7 @@ export default function AvalicaoBox({ avaliacao, onChange, onSelecionarTag }) {
         {avaliacao.fotos && avaliacao.fotos.length > 0 && (
           <img
             src={`data:image/jpeg;base64,${avaliacao.fotos[0]}`}
-            className="my-4 mx-auto h-[230px] w-[770px] object-cover object-center rounded-xl"
+            className="my-4 mx-0 [@media(min-width:400px)]:mx-auto w-[230px] [@media(min-width:460px)]:w-[770px] h-[230px] md:h-[230px] object-cover object-center rounded-xl"
             alt="Foto da avaliação"
           />
         )}

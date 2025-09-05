@@ -75,7 +75,12 @@ function Header({ placeholder, onAplicarFiltros, filtros, ordenador, onChange })
         )}
         {mostrarBotaoFiltro && (
           <button className="flex-shrink-0" onClick={() => setModalFiltroVisivel(true)}>
-            <FiFilter className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] h-auto" alt="Filtrar" />
+            <FiFilter
+              className={`w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] h-auto
+              ${mostrarPesquisa ? 'hidden sm:hidden md:inline-flex lg:inline-flex' : ''}
+              `}
+              alt="Filtrar"
+            />
           </button>
         )}
 
@@ -111,7 +116,12 @@ function Header({ placeholder, onAplicarFiltros, filtros, ordenador, onChange })
         )}
 
         <button className="flex-shrink-0" onClick={logout}>
-          <MdOutlineLogout className="w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] h-auto" alt="Sair" />
+          <MdOutlineLogout
+            className={`w-[30px] sm:w-[30px] md:w-[40px] lg:w-[45px] h-auto
+            ${mostrarPesquisa ? 'hidden sm:hidden md:inline-flex lg:inline-flex' : ''}
+            `}
+            alt="Sair"
+          />
         </button>
       </div>
       {modalVisivel && (
