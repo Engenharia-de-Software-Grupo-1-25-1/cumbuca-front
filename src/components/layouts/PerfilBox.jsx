@@ -76,7 +76,7 @@ export default function PerfilBox({ usuario, loadingUsuario }) {
                 : fotoDePerfilPadrao
               : fotoDePerfilPadrao
           }
-          className="h-[50px] sm:h-[50px] md:h-[75px] lg:h-[75px] rounded-full"
+          className="h-[50px] md:h-[75px] w-[50px] md:w-[75px] rounded-full object-cover"
           alt={`Foto de perfil de ${usuario.nome}`}
         />
         <div className="self-center ml-[1em] sm:ml-[1em] md:ml-[2em] lg:ml-[2em] mr-auto min-w-0 max-w-[60%]">

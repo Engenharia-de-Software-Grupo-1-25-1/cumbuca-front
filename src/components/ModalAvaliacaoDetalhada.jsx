@@ -205,7 +205,7 @@ export default function ModalAvaliacaoDetalhada({
                       : fotoDePerfilPadrao
                     : fotoDePerfilPadrao
                 }
-                className="rounded-full hover:brightness-90 transition duration-300 h-[40px] w-[40px] ring-1 ring-[#E9CD92] bg-[#E9D3AE]"
+                className="rounded-full hover:brightness-90 transition duration-300 h-[40px] w-[40px] ring-1 ring-[#E9CD92] bg-[#E9D3AE] object-cover"
                 alt={`Foto de perfil de ${avaliacao.usuario?.nome}`}
               />
             </Link>
