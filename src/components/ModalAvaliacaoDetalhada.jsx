@@ -380,29 +380,31 @@ export default function ModalAvaliacaoDetalhada({
                 const username = c?.usuario?.username;
                 return (
                   <li key={c.id} className="flex gap-3 items-start">
-                    <img
-                      src={
-                        c?.usuario?.status === 'ATIVO'
-                          ? c?.usuario?.foto
-                            ? srcFoto(c.usuario.foto)
+                    <Link to={`/perfil/${username}`}>
+                      <img
+                        src={
+                          c?.usuario?.status === 'ATIVO'
+                            ? c?.usuario?.foto
+                              ? srcFoto(c.usuario.foto)
+                              : fotoDePerfilPadrao
                             : fotoDePerfilPadrao
-                          : fotoDePerfilPadrao
-                      }
-                      alt={username}
-                      className="mt-1 h-8 w-8 rounded-full object-cover bg-[#E9D3AE] ring-1 ring-[#E9CD92]"
-                    />
+                        }
+                        alt={`Foto de perfil de ${nome}`}
+                        className="mt-1 h-8 w-8 rounded-full object-cover bg-[#E9D3AE] ring-1 ring-[#E9CD92] hover:brightness-90 transition duration-300"
+                      />
+                    </Link>
 
-                    <div className="flex-1 min-w-0 rounded-xl p-3 bg-[#F4E1C1] border border-neutral-300">
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="mb-1 text-sm text-[#3D2E1C] truncate">
-                          <span className="font-semibold">
-                            {c?.usuario?.status === 'ATIVO' ? nome : 'Usuário inativo'}
-                          </span>{' '}
-                          <span className="text-[#7A6A4C]">
-                            {' '}
-                            {c?.usuario?.status === 'ATIVO' ? `@${username}` : ''}
-                          </span>
-                        </div>
+                      <div className="flex-1 min-w-0 rounded-xl p-3 bg-[#F4E1C1] border border-neutral-300">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="mb-1 text-sm text-[#3D2E1C] truncate">
+                            <Link to={`/perfil/${username}`} className="font-semibold">
+                              {c?.usuario?.status === 'ATIVO' ? nome : 'Usuário inativo'}
+                            </Link>{' '}
+                            <Link to={`/perfil/${username}`} className="text-[#7A6A4C] hover:no-underline">
+                              {' '}
+                              {c?.usuario?.status === 'ATIVO' ? `@${username}` : ''}
+                            </Link>
+                          </div>
 
                         {meuComentario && (
                           <button
