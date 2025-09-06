@@ -1,16 +1,15 @@
 import AvaliacaoBox from '../layouts/AvaliacaoBox';
 import { getEstabelecimentoById, favoritarEstabelecimento } from '../../services/EstabelecimentoService';
 import { FaHeart } from 'react-icons/fa';
-import { MdOutlineStarPurple500 } from 'react-icons/md';
-import { MdOutlineLocationOn } from 'react-icons/md';
+import { MdOutlineStarPurple500, MdOutlineLocationOn } from 'react-icons/md';
 import { getEstabelecimentoImagem } from '../../utils/imagensCategoriasMapper';
 import { formataInfosEstabelecimento } from '../../utils/formataInfosEstabelecimento';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { message } from 'antd';
 import { DataView } from 'primereact/dataview';
 import { getAvaliacoesEstabelecimento } from '../../services/avaliacaoService';
 
-export default function EstabelecimentoBox({ estabelecimentoId }) {
+export default function EstabelecimentoBox({ estabelecimentoId, onAtualizarTags }) {
   const [estabelecimento, setEstabelecimento] = useState(null);
   const [loadingEstabelecimento, setLoadingEstabelecimento] = useState(true);
 
@@ -30,7 +29,6 @@ export default function EstabelecimentoBox({ estabelecimentoId }) {
       try {
         const data = await getEstabelecimentoById(estabelecimentoId);
         setEstabelecimento(data);
-
         if (data && data.isFavoritado !== undefined) {
           setCurtido(data.isFavoritado);
         }
@@ -52,29 +50,29 @@ export default function EstabelecimentoBox({ estabelecimentoId }) {
     : {};
   const estabImagem = estabelecimento ? getEstabelecimentoImagem(categoriaMapeada) : null;
 
-  useEffect(() => {
-    async function carregarAvaliacoes() {
-      if (!estabelecimento || !id) return;
+  const carregarAvaliacoes = useCallback(async () => {
+    if (!estabelecimento) return;
 
-      setLoadingAvaliacoes(true);
-      try {
-        const { data } = await getAvaliacoesEstabelecimento(id);
-        setAvaliacoes(data);
-      } catch (error) {
-        console.error(error);
-        message.error('Erro ao carregar avaliações!');
-        setAvaliacoes([]);
-      } finally {
-        setLoadingAvaliacoes(false);
-      }
+    setLoadingAvaliacoes(true);
+    try {
+      const { data } = await getAvaliacoesEstabelecimento(estabelecimento.id);
+      setAvaliacoes(data);
+    } catch (error) {
+      console.error(error);
+      message.error('Erro ao carregar avaliações!');
+      setAvaliacoes([]);
+    } finally {
+      setLoadingAvaliacoes(false);
     }
+  }, [estabelecimento]);
 
+  useEffect(() => {
     carregarAvaliacoes();
-  }, [estabelecimento, id]);
+  }, [carregarAvaliacoes]);
 
   const handleFavoritar = async () => {
     try {
-      favoritarEstabelecimento(id);
+      await favoritarEstabelecimento(id);
       setCurtido(!curtido);
     } catch (error) {
       console.error(error);
@@ -157,7 +155,16 @@ export default function EstabelecimentoBox({ estabelecimentoId }) {
       ) : avaliacoes.length > 0 ? (
         <DataView
           value={avaliacoes}
-          itemTemplate={(avaliacao, index) => <AvaliacaoBox key={index} avaliacao={avaliacao} />}
+          itemTemplate={(avaliacao, index) => (
+            <AvaliacaoBox
+              key={index}
+              avaliacao={avaliacao}
+              onChange={() => {
+                carregarAvaliacoes();
+                onAtualizarTags?.();
+              }}
+            />
+          )}
           layout="list"
           style={{ overflowY: 'auto' }}
           className="scroll-dark mt-8"

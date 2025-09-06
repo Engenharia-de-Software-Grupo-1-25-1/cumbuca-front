@@ -10,7 +10,7 @@ import { message } from 'antd';
 
 // Box que armazena perfil de estabelecimento ou de usuário
 // É possível definir o usuário exibido
-export default function PerfilBox({ usuario, loadingUsuario }) {
+export default function PerfilBox({ usuario, loadingUsuario, onAtualizarTags }) {
   const navigate = useNavigate();
   const { user } = useAuth();
   const ehMeuPerfil = usuario ? user.id === usuario.id : false;
@@ -107,7 +107,14 @@ export default function PerfilBox({ usuario, loadingUsuario }) {
         <DataView
           value={avaliacoes}
           itemTemplate={(avaliacao, index) => (
-            <AvaliacaoBox key={index} avaliacao={avaliacao} onChange={carregarAvaliacoes} />
+            <AvaliacaoBox
+              key={index}
+              avaliacao={avaliacao}
+              onChange={() => {
+                carregarAvaliacoes();
+                onAtualizarTags?.();
+              }}
+            />
           )}
           layout="list"
           style={{ overflowY: 'auto' }}
