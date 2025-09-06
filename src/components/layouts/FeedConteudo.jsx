@@ -93,8 +93,10 @@ const FeedConteudo = forwardRef(({ filtros, ordenador, onSelecionarTag, onAtuali
               <AvaliacaoBox
                 key={avaliacao?.id ?? `idx-${index}`}
                 avaliacao={avaliacao}
-                onChange={fetchAll}
-                onAtualizarTags={onAtualizarTags}
+                onChange={() => {
+                  fetchAll();
+                  onAtualizarTags?.();
+                }}
                 onSelecionarTag={onSelecionarTag}
               />
             )}

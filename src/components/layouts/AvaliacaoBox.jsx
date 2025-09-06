@@ -21,7 +21,7 @@ import ModalExcluirAvaliacao from '../ModalExcluirAvaliacao';
 // Box de Avaliação, recebe uma avaliação e a apresenta em um perfil ou no Feed
 // Consegue verificar se o usuário logado é o autor da avaliação para exibir botões de edição e exclusão
 // Lida com curtidas
-export default function AvalicaoBox({ avaliacao, onChange, onSelecionarTag, onAtualizarTags }) {
+export default function AvalicaoBox({ avaliacao, onChange, onSelecionarTag }) {
   const [curtido, setCurtido] = useState(avaliacao.isCurtida);
   const [qtdCurtidas, setQtdCurtidas] = useState(avaliacao.qtdCurtidas);
   const [qtdComentarios, setQtdComentarios] = useState(avaliacao.qtdComentarios);
@@ -43,7 +43,6 @@ export default function AvalicaoBox({ avaliacao, onChange, onSelecionarTag, onAt
       message.success('Avaliação excluída com sucesso.');
       setModalExcluir(false);
       onChange?.();
-      onAtualizarTags?.();
     } catch (e) {
       message.error(e?.message?.data || 'Erro ao excluir avaliação!');
     } finally {
@@ -247,10 +246,7 @@ export default function AvalicaoBox({ avaliacao, onChange, onSelecionarTag, onAt
           onClose={() => setModalVisivel(false)}
           editar={true}
           avaliacaoId={avaliacao.id}
-          onSuccess={() => {
-            onChange?.();
-            onAtualizarTags?.();
-          }}
+          onSuccess={() => onChange && onChange()}
         />
       )}
       {modalAvaliacaoDetalhada && (
