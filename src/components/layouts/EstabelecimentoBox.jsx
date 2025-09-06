@@ -116,7 +116,7 @@ export default function EstabelecimentoBox({ estabelecimentoId, onAtualizarTags 
         <div className="flex-grow ml-4 min-w-0">
           <div className="flex items-center justify-between gap-3 ">
             <div className="flex items-center min-w-0">
-              <h1 className="font-bold flex-grow truncate min-w-0 text-[20px] sm:text-[20px] md:text-[25px] lg:text-[30px] text-black">
+              <h1 className="font-bold flex-grow break-words min-w-0 text-[20px] sm:text-[20px] md:text-[25px] lg:text-[30px] text-black">
                 {nome}
               </h1>
               <button className="flex items-center flex-shrink-0 ml-2" onClick={handleFavoritar}>
@@ -124,21 +124,21 @@ export default function EstabelecimentoBox({ estabelecimentoId, onAtualizarTags 
               </button>
             </div>
           </div>
-          <div className="flex items-center justify-between gap-4 mt-2 w-full">
+          <div className="flex items-center justify-between gap-4 mt-2 w-full flex-wrap md:no-wrap">
             <div className="flex items-center gap-4 min-w-0">
               <div className="flex items-center flex-shrink-0">
                 <span className="text-[#ffb115] mt-1 text-2xl">{notaFormatada}</span>
                 <MdOutlineStarPurple500 size={35} className="text-[#ffb115] ml-1" />
               </div>
 
-              <h2 className="truncate max-w-[70%] text-[#f7d799] text-[12px] md:text-[12px] lg:text-[16px] whitespace-nowrap flex-shrink-0">
+              <h2 className="break-words max-w-[70%] text-[#f7d799] text-[12px] md:text-[12px] lg:text-[16px] whitespace-nowrap flex-shrink-0">
                 {categoriaMapeada}
               </h2>
             </div>
-            <div className="flex items-center min-w-0 mr-2 max-w-[10%] sm:max-w-[30%] md:max-w-[40%] lg:max-w-[47%] flex-wrap">
+            <div className="flex items-center min-w-0 mr-2">
               <MdOutlineLocationOn size={20} className="mr-2 flex-shrink-0 text-[#f7d799]" />
               <span
-                className="truncate min-w-0 text-[#f7d799] text-[12px] md:text-[12px] lg:text-[16px]"
+                className="break-words min-w-0 text-[#f7d799] text-[12px] md:text-[12px] lg:text-[16px]"
                 title={localizacao}
               >
                 {localizacao}

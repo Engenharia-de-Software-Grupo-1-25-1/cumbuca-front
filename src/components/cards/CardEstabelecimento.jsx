@@ -41,18 +41,18 @@ const CardEstab = ({ estabelecimento }) => {
         />
         <div className="flex-grow ml-4 min-w-0">
           <div className="flex items-center justify-between">
-            <h2 className="truncate text-2xl font-bold text-[#4b2509]">{nome}</h2>
+            <h2 className="break-words text-2xl font-bold text-[#4b2509]">{nome}</h2>
           </div>
           <p className="mt-1 mb-2 text-sm text-black">{categoriaMapeada}</p>
-          <div className="flex items-center gap-5">
+          <div className="flex flex-wrap items-center gap-5">
             <div className="flex items-center flex-shrink-0">
               <FaStar size={23} className="text-[#ffb115] mr-1" />
               <span className="text-[#ffb115] text-2xl ml-1">{notaFormatada}</span>
               <span className="ml-2 text-md text-black whitespace-nowrap">{formatarNum(qtdAvaliacoes)} avaliações</span>
             </div>
-            <div className="flex items-center text-black min-w-0 overflow-hidden">
+            <div className="flex items-center text-black overflow-hidden">
               <MdOutlineLocationOn size={20} className="mr-2 flex-shrink-0" />
-              <span className="truncate text-md">{localizacao}</span>
+              <span className="break-words text-md">{localizacao}</span>
             </div>
           </div>
         </div>

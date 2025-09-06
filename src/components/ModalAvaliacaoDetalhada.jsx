@@ -215,7 +215,7 @@ export default function ModalAvaliacaoDetalhada({
                 to={`/perfil/${avaliacao.usuario.username}`}
                 className="flex items-baseline gap-x-2 hover:no-underline translate-y-[6px]"
               >
-                <p className="hover:underline text-[15px] font-semibold text-[#1E1E1E] truncate">
+                <p className="hover:underline text-[15px] font-semibold text-[#1E1E1E] break-words">
                   {avaliacao.usuario?.status === 'ATIVO' ? avaliacao.usuario?.nome : 'Usuário inativo'}
                 </p>
                 <p className="text-[13px] text-[#505050]">
@@ -396,7 +396,7 @@ export default function ModalAvaliacaoDetalhada({
 
                     <div className="flex-1 min-w-0 rounded-xl p-3 bg-[#F4E1C1] border border-neutral-300">
                       <div className="flex items-start justify-between gap-3">
-                        <div className="mb-1 text-sm text-[#3D2E1C] truncate">
+                        <div className="mb-1 text-sm text-[#3D2E1C] break-words">
                           <Link to={`/perfil/${username}`} className="font-semibold">
                             {c?.usuario?.status === 'ATIVO' ? nome : 'Usuário inativo'}
                           </Link>{' '}
