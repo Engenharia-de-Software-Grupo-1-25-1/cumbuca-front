@@ -66,7 +66,7 @@ export default function PerfilBox({ usuario, loadingUsuario }) {
   }
 
   return (
-    <div className="bg-[#bc6302] w-[80%] rounded-[10px] py-4 px-6 max-w-[728px]  max-h-[545px] flex flex-col">
+    <div className="bg-[#bc6302] w-[80%] rounded-[10px] py-4 px-6 max-w-[728px] flex flex-col max-h-[80vh] sm:max-h-[80vh] md:max-h-[80vh] lg:max-h-[72vh]">
       <div className="flex flex-wrap justify-between">
         <img
           src={
@@ -76,14 +76,14 @@ export default function PerfilBox({ usuario, loadingUsuario }) {
                 : fotoDePerfilPadrao
               : fotoDePerfilPadrao
           }
-          className="h-[50px] sm:h-[50px] md:h-[75px] lg:h-[75px] rounded-full"
+          className="h-[50px] md:h-[75px] w-[50px] md:w-[75px] rounded-full object-cover"
           alt={`Foto de perfil de ${usuario.nome}`}
         />
-        <div className="self-center ml-[1em] sm:ml-[1em] md:ml-[2em] lg:ml-[2em] mr-auto">
-          <h1 className="font-semibold text-[24px] sm:text-[24px] md:text-[36px] lg:text-[36px] leading-[1.2]">
+        <div className="self-center ml-[1em] sm:ml-[1em] md:ml-[2em] lg:ml-[2em] mr-auto min-w-0 max-w-[60%]">
+          <h1 className="font-semibold text-[24px] sm:text-[24px] md:text-[36px] lg:text-[36px] leading-[1.2] truncate">
             {usuario.status === 'ATIVO' ? usuario.nome : 'Usuário inativo'}
           </h1>
-          <h2 className="font-normal text-[16px] sm:text-[16px] md:text-[20px] lg:text-[20px]">
+          <h2 className="font-normal text-[16px] sm:text-[16px] md:text-[20px] lg:text-[20px] truncate">
             {usuario.status === 'ATIVO' ? `@${usuario.username}` : ''}
           </h2>
         </div>
@@ -110,7 +110,7 @@ export default function PerfilBox({ usuario, loadingUsuario }) {
             <AvaliacaoBox key={index} avaliacao={avaliacao} onChange={carregarAvaliacoes} />
           )}
           layout="list"
-          style={{ maxHeight: '500px', overflowY: 'auto' }}
+          style={{ overflowY: 'auto' }}
           className="scroll-dark mt-8"
         />
       ) : (

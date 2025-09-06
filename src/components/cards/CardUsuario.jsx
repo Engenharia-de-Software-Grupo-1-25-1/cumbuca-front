@@ -8,7 +8,7 @@ const CardUsuario = ({ user }) => {
     <div className="flex items-center p-4 rounded-xl bg-[#f7d799] border-2 border-[#bb7e27] shadow-md overflow-hidden">
       <img
         src={user.status === 'ATIVO' ? (user.foto ? srcFoto(user.foto) : fotoUsuario) : fotoUsuario}
-        className="flex-shrink-0 rounded-lg w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] md:w-[90px] md:h-[90px] lg:w-[120px] lg:h-[120px] border-2 border-[#bb7e27] object-fill"
+        className="flex-shrink-0 rounded-lg w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] md:w-[90px] md:h-[90px] lg:w-[120px] lg:h-[120px] border-2 border-[#bb7e27] object-cover"
       />
       <div className="flex-grow ml-4 min-w-0">
         <Link to={`/perfil/${user.username}`} className="flex-shrink-0">

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useCallback } from 'react';
+import React, { useEffect, useMemo, useState, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { obterAvaliacao, adicionarComentario } from '../services/avaliacaoService';
 import { removerComentario } from '../services/comentarioService.js';
@@ -14,7 +14,13 @@ import { coresTags } from './utils/coresTags';
 import fotoDePerfilPadrao from '../assets/fotoDePerfilPadrao.webp';
 import { FaHeart } from 'react-icons/fa6';
 
-export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtualizar, onComment = () => {} }) {
+export default function ModalAvaliacaoDetalhada({
+  idAvaliacao,
+  onClose,
+  onAtualizar,
+  onComment = () => {},
+  scrollarParaComentarios,
+}) {
   const { user } = useAuth();
   const [avaliacao, setAvaliacao] = useState(null);
   const [idx, setIdx] = useState(0);
@@ -22,6 +28,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
   const [posting, setPosting] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
   const [curtindo, setCurtindo] = useState(false);
+  const commentsRef = useRef(null);
 
   const fetchData = useCallback(async () => {
     if (!idAvaliacao) return;
@@ -78,6 +85,12 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [onKey]);
+
+  useEffect(() => {
+    if (scrollarParaComentarios && commentsRef.current && avaliacao) {
+      commentsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [scrollarParaComentarios, avaliacao]);
 
   const likes = avaliacao?.qtdCurtidas ?? 0;
   const commentsCount = useMemo(() => avaliacao?.qtdComentarios, [avaliacao]);
@@ -192,7 +205,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
                       : fotoDePerfilPadrao
                     : fotoDePerfilPadrao
                 }
-                className="rounded-full hover:brightness-90 transition duration-300 h-[40px] w-[40px] ring-1 ring-[#E9CD92] bg-[#E9D3AE]"
+                className="rounded-full hover:brightness-90 transition duration-300 h-[40px] w-[40px] ring-1 ring-[#E9CD92] bg-[#E9D3AE] object-cover"
                 alt={`Foto de perfil de ${avaliacao.usuario?.nome}`}
               />
             </Link>
@@ -273,7 +286,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
           </div>
 
           <div className="px-4 pt-3">
-            <div className="grid grid-cols-2 gap-y-2 gap-x-4 text-[12px]">
+            <div className="flex flex-wrap gap-y-2 gap-x-4 text-[12px]">
               <Nota label="Geral" valor={avaliacao.notaGeral} />
               <Nota label="Comida" valor={avaliacao.notaComida} />
               <Nota label="Ambiente" valor={avaliacao.notaAmbiente} />
@@ -334,7 +347,7 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
             </span>
           </div>
 
-          <div className="px-4 py-6">
+          <div className="px-4 py-6" ref={commentsRef}>
             <h3 className="text-sm font-semibold text-[#3D2E1C]">Comentários</h3>
 
             <div className="mt-2 rounded-xl border p-3 border-neutral-300 bg-[#F4E1C1]">
@@ -385,7 +398,10 @@ export default function ModalAvaliacaoDetalhada({ idAvaliacao, onClose, onAtuali
                           <span className="font-semibold">
                             {c?.usuario?.status === 'ATIVO' ? nome : 'Usuário inativo'}
                           </span>{' '}
-                          <span className="text-[#7A6A4C]"> {c?.usuario?.status === 'ATIVO' ? `@${username}` : ''}</span>
+                          <span className="text-[#7A6A4C]">
+                            {' '}
+                            {c?.usuario?.status === 'ATIVO' ? `@${username}` : ''}
+                          </span>
                         </div>
 
                         {meuComentario && (

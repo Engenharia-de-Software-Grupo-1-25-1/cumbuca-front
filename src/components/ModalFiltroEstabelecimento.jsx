@@ -132,7 +132,7 @@ export default function ModalFiltroEstabelecimento({ open, onClose, onAplicar, f
               </label>
             </div>
 
-            <div className="grid grid-cols-2 gap-x-10 gap-y-3 pt-1">
+            <div className="flex flex-wrap gap-x-10 gap-y-3 pt-1">
               <CampoEstrelas rotulo="Nota Geral" valor={nota} onChange={handleNotaChange} obrigatorio={false} />
               <div>
                 <label htmlFor="curtido" className="mb-1 block text-sm font-semibold text-[#3D2E1C]">

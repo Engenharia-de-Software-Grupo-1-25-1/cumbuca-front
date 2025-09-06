@@ -206,7 +206,7 @@ export default function ModalFiltroAvaliacao({ open, onClose, onAplicar, filtros
                 <option value="notaGeral">Maior nota geral</option>
               </select>
             </div>
-            <div className="grid grid-cols-2 gap-x-8 gap-y-3 pt-1">
+            <div className="flex flex-wrap gap-x-8 gap-y-3 pt-1">
               <CampoEstrelas
                 rotulo="Nota Geral"
                 valor={notas.notaGeral}

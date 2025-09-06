@@ -28,7 +28,7 @@ export default function AvalicaoBox({ avaliacao, onChange, onSelecionarTag }) {
   const { user } = useAuth();
   const op = useRef(null);
   const [modalVisivel, setModalVisivel] = useState(false);
-  const [modalAvaliacaoDetalhada, showModalDetalhar] = useState(false);
+  const [modalAvaliacaoDetalhada, showModalDetalhar] = useState(null);
   const [modalExcluir, setModalExcluir] = useState(false);
   const [deletando, setDeletando] = useState(false);
   const [curtindo, setCurtindo] = useState(false);
@@ -84,8 +84,8 @@ export default function AvalicaoBox({ avaliacao, onChange, onSelecionarTag }) {
 
   return (
     <div className="bg-[#f7d799] rounded-xl flex flex-col p-4 text-[#1E1E1E] text-2xl gap-4 mb-4">
-      <div className="flex gap-4 sm:gap-4 md:gap-8 lg:gap-8 w-full">
-        <div className="flex gap-4 sm:gap-4 md:gap-8 lg:gap-8 flex-col sm:flex-col md:flex-row lg:flex-row">
+      <div className="flex gap-4 md:gap-8 w-[50vw] [@media(min-width:400px)]:w-auto">
+        <div className="flex gap-4 md:gap-8 flex-col [@media(min-width:475px)]:flex-row w-[30vw] [@media(min-width:460px)]:w-auto">
           <Link to={`/perfil/${avaliacao.usuario.username}`} className="flex-shrink-0">
             <img
               src={
@@ -95,26 +95,26 @@ export default function AvalicaoBox({ avaliacao, onChange, onSelecionarTag }) {
                     : fotoDePerfilPadrao
                   : fotoDePerfilPadrao
               }
-              className="rounded-full hover:brightness-90 transition duration-300 h-auto w-[48px] sm:w-[48px] md:w-[54px] lg:w-[65px]"
+              className="rounded-full hover:brightness-90 transition duration-300 h-[48px] md:h-[54px] lg:h-[65px] w-[48px] md:w-[54px] lg:w-[65px] object-cover"
               alt={`Foto de perfil de ${avaliacao.usuario.nome}`}
             />
           </Link>
-          <div>
+          <div className="min-w-0 max-w-[100%]">
             <Link to={`/perfil/${avaliacao.usuario.username}`} className="flex hover:no-underline flex-wrap">
-              <p className="hover:underline mr-4 text-base sm:text-base md:text-xl lg:text-2xl">
+              <p className="hover:underline mr-4 text-base sm:text-base md:text-xl lg:text-2xl truncate">
                 {avaliacao.usuario.status === 'ATIVO' ? avaliacao.usuario.nome : 'Usuário inativo'}
               </p>
-              <p className="text-sm text-[#505050] sm:text-sm md:text-base lg:text-xl">
+              <p className="text-sm text-[#505050] sm:text-sm md:text-base lg:text-xl truncate">
                 {avaliacao.usuario.status === 'ATIVO' ? `@${avaliacao.usuario.username}` : ''}
               </p>
             </Link>
 
             <Link
               to={`/estabelecimento/${avaliacao.estabelecimento.id}`}
-              className="flex text-xl items-center gap-1 w-fit"
+              className="flex items-center gap-1 flex-1 min-w-0"
             >
-              <MdOutlineStorefront color="#356B2A" size="24" />
-              <p className="text-sm text-[#356B2A] sm:text-sm md:text-base lg:text-xl">
+              <MdOutlineStorefront color="#356B2A" size="24" className="flex-shrink-0" />
+              <p className="text-sm text-[#356B2A] sm:text-sm md:text-base lg:text-xl truncate">
                 {avaliacao.estabelecimento.nome}
               </p>
             </Link>
@@ -141,7 +141,7 @@ export default function AvalicaoBox({ avaliacao, onChange, onSelecionarTag }) {
           <button
             className="w-full flex items-center gap-2 px-6 py-2 hover:bg-[#e0b874] transition-colors duration-200"
             onClick={e => {
-              showModalDetalhar(true);
+              showModalDetalhar({ scrollarParaComentarios: false });
               op.current.hide(e);
             }}
           >
@@ -182,7 +182,7 @@ export default function AvalicaoBox({ avaliacao, onChange, onSelecionarTag }) {
         {avaliacao.fotos && avaliacao.fotos.length > 0 && (
           <img
             src={`data:image/jpeg;base64,${avaliacao.fotos[0]}`}
-            className="my-4 mx-auto h-[230px] w-[770px] object-cover object-center rounded-xl"
+            className="my-4 mx-0 [@media(min-width:400px)]:mx-auto w-[230px] [@media(min-width:460px)]:w-[770px] h-[230px] md:h-[230px] object-cover object-center rounded-xl"
             alt="Foto da avaliação"
           />
         )}
@@ -204,7 +204,7 @@ export default function AvalicaoBox({ avaliacao, onChange, onSelecionarTag }) {
           </button>
           <button
             className="flex gap-2 items-center text-base sm:text-base md:text-xl lg:text-xl"
-            onClick={showModalDetalhar}
+            onClick={() => showModalDetalhar({ scrollarParaComentarios: true })}
           >
             <MdOutlineComment alt="Comentar" className="h-[24px] w-[24px]" />
             {qtdComentarios}
@@ -255,6 +255,7 @@ export default function AvalicaoBox({ avaliacao, onChange, onSelecionarTag }) {
           onAtualizar={handleCurtida}
           onComment={handleComentar}
           onClose={() => showModalDetalhar(false)}
+          scrollarParaComentarios={modalAvaliacaoDetalhada.scrollarParaComentarios}
         />
       )}
 

@@ -109,7 +109,7 @@ export default function EstabelecimentoBox({ estabelecimentoId }) {
   }
 
   return (
-    <div className="bg-[#bc6302] w-[80%] rounded-[10px] py-4 px-6 max-w-[728px] flex flex-col">
+    <div className="bg-[#bc6302] w-[80%] sm:w-[80%] md:w-[60%] lg:w-[80%] rounded-[10px] py-4 px-6 max-w-[728px] flex flex-col max-h-[80vh] sm:max-h-[80vh] md:max-h-[80vh] lg:max-h-[72vh]">
       <div className="flex items-center p-0">
         <img
           src={estabImagem}
@@ -137,7 +137,7 @@ export default function EstabelecimentoBox({ estabelecimentoId }) {
                 {categoriaMapeada}
               </h2>
             </div>
-            <div className="flex items-center min-w-0 mr-2 max-w-[10%] sm:max-w-[30%] md:max-w-[40%] lg:max-w-[47%]">
+            <div className="flex items-center min-w-0 mr-2 max-w-[10%] sm:max-w-[30%] md:max-w-[40%] lg:max-w-[47%] flex-wrap">
               <MdOutlineLocationOn size={20} className="mr-2 flex-shrink-0 text-[#f7d799]" />
               <span
                 className="truncate min-w-0 text-[#f7d799] text-[12px] md:text-[12px] lg:text-[16px]"
@@ -159,7 +159,7 @@ export default function EstabelecimentoBox({ estabelecimentoId }) {
           value={avaliacoes}
           itemTemplate={(avaliacao, index) => <AvaliacaoBox key={index} avaliacao={avaliacao} />}
           layout="list"
-          style={{ maxHeight: '500px', overflowY: 'auto' }}
+          style={{ overflowY: 'auto' }}
           className="scroll-dark mt-8"
         />
       ) : (
