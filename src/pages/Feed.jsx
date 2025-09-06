@@ -8,6 +8,7 @@ import FeedConteudo from '../components/layouts/FeedConteudo';
 export default function Feed() {
   const location = useLocation();
   const tagInicial = location.state?.tagInicial;
+  const [recarregarTags, setRecarregarTags] = useState(0);
   const [filtros, setFiltros] = useState(tagInicial ? { tags: [tagInicial] } : {});
   const [ordenador, setOrdenador] = useState(null);
   const feedRef = useRef(null);
@@ -17,6 +18,11 @@ export default function Feed() {
       setFiltros({ tags: [tagInicial] });
     }
   }, [tagInicial]);
+
+  const atualizarTagsPopulares = () => {
+    sessionStorage.removeItem('tagsPopulares');
+    setRecarregarTags(prev => prev + 1);
+  };
 
   const handleAplicarFiltros = (novosFiltros, novaOrdenacao) => {
     setFiltros(novosFiltros);
@@ -38,14 +44,23 @@ export default function Feed() {
         onAplicarFiltros={handleAplicarFiltros}
         filtros={filtros}
         ordenador={ordenador}
-        onChange={() => feedRef.current?.fetchAll?.()}
+        onChange={() => {
+          feedRef.current?.fetchAll?.();
+          atualizarTagsPopulares();
+        }}
       />
 
       <div className="max-w-6xl mx-auto px-0 sm:px-0 md:px-4 lg:px-4">
         <NavBar />
         <div className="flex gap-4 justify-center ml-0 sm:ml-0 md:ml-4 lg:ml-4 mb-8">
-          <FeedConteudo ref={feedRef} filtros={filtros} ordenador={ordenador} onSelecionarTag={handleSelecionarTag} />
-          <TagsPopulares onSelecionarTag={handleSelecionarTag} />
+          <FeedConteudo
+            ref={feedRef}
+            filtros={filtros}
+            ordenador={ordenador}
+            onSelecionarTag={handleSelecionarTag}
+            onAtualizarTags={atualizarTagsPopulares}
+          />
+          <TagsPopulares onSelecionarTag={handleSelecionarTag} recarregar={recarregarTags} />
         </div>
       </div>
     </>

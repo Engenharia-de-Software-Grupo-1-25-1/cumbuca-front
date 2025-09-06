@@ -6,7 +6,7 @@ import AvaliacaoBox from './AvaliacaoBox';
 
 const PAGE_SIZE = 10;
 
-const FeedConteudo = forwardRef(({ filtros, ordenador, onSelecionarTag }, ref) => {
+const FeedConteudo = forwardRef(({ filtros, ordenador, onSelecionarTag, onAtualizarTags }, ref) => {
   const [data, setData] = useState([]);
   const [limit, setLimit] = useState(PAGE_SIZE);
   const [isLoading, setIsLoading] = useState(false);
@@ -94,6 +94,7 @@ const FeedConteudo = forwardRef(({ filtros, ordenador, onSelecionarTag }, ref) =
                 key={avaliacao?.id ?? `idx-${index}`}
                 avaliacao={avaliacao}
                 onChange={fetchAll}
+                onAtualizarTags={onAtualizarTags}
                 onSelecionarTag={onSelecionarTag}
               />
             )}

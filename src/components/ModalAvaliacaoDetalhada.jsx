@@ -394,17 +394,17 @@ export default function ModalAvaliacaoDetalhada({
                       />
                     </Link>
 
-                      <div className="flex-1 min-w-0 rounded-xl p-3 bg-[#F4E1C1] border border-neutral-300">
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="mb-1 text-sm text-[#3D2E1C] truncate">
-                            <Link to={`/perfil/${username}`} className="font-semibold">
-                              {c?.usuario?.status === 'ATIVO' ? nome : 'Usuário inativo'}
-                            </Link>{' '}
-                            <Link to={`/perfil/${username}`} className="text-[#7A6A4C] hover:no-underline">
-                              {' '}
-                              {c?.usuario?.status === 'ATIVO' ? `@${username}` : ''}
-                            </Link>
-                          </div>
+                    <div className="flex-1 min-w-0 rounded-xl p-3 bg-[#F4E1C1] border border-neutral-300">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="mb-1 text-sm text-[#3D2E1C] truncate">
+                          <Link to={`/perfil/${username}`} className="font-semibold">
+                            {c?.usuario?.status === 'ATIVO' ? nome : 'Usuário inativo'}
+                          </Link>{' '}
+                          <Link to={`/perfil/${username}`} className="text-[#7A6A4C] hover:no-underline">
+                            {' '}
+                            {c?.usuario?.status === 'ATIVO' ? `@${username}` : ''}
+                          </Link>
+                        </div>
 
                         {meuComentario && (
                           <button
