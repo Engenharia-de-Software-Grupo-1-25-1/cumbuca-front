@@ -107,7 +107,10 @@ export default function EstabelecimentoBox({ estabelecimentoId, onAtualizarTags 
   }
 
   return (
-    <div className="bg-[#bc6302] w-[80%] sm:w-[80%] md:w-[60%] lg:w-[80%] rounded-[10px] py-4 px-6 max-w-[728px] flex flex-col max-h-[80vh] sm:max-h-[80vh] md:max-h-[80vh] lg:max-h-[72vh]">
+    <div
+      className="bg-[#bc6302] w-[80%] sm:w-[80%] md:w-[60%] lg:w-[80%] rounded-[10px] py-4 px-6 max-w-[728px] flex flex-col max-h-[80vh] sm:max-h-[80vh] md:max-h-[80vh] lg:max-h-[72vh]"
+      style={{ minHeight: 'calc(100vh - 220px)' }}
+    >
       <div className="flex items-center p-0">
         <img
           src={estabImagem}

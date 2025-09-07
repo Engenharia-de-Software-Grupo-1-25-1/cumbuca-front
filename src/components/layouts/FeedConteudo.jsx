@@ -72,7 +72,10 @@ const FeedConteudo = forwardRef(({ filtros, ordenador, onSelecionarTag, onAtuali
   }, [data.length, limit, isPaging, reachedEnd]);
 
   return (
-    <div className="bg-[#bc6302] w-[80%] rounded-[10px] py-4 px-6 max-w-[728px] flex flex-col">
+    <div
+      className="bg-[#bc6302] w-[80%] rounded-[10px] py-4 px-6 max-w-[728px] flex flex-col"
+      style={{ minHeight: 'calc(100vh - 220px)' }}
+    >
       {isLoading && (
         <h2 className="text-center sm:text-[18px] md:text-[20px] lg:text-[20px] font-medium text-[#1e1e1e] p-2 px-4 bg-[#f4a831] w-fit h-fit rounded-[10px] m-auto mt-4 animate-pulse">
           Carregando avaliações...
@@ -86,7 +89,11 @@ const FeedConteudo = forwardRef(({ filtros, ordenador, onSelecionarTag, onAtuali
       )}
 
       {!isLoading && data.length > 0 && (
-        <div ref={scrollContainerRef} className="scroll-dark mt-2" style={{ maxHeight: '60vh', overflowY: 'auto' }}>
+        <div
+          ref={scrollContainerRef}
+          className="scroll-dark mt-2"
+          style={{ maxHeight: 'calc(100vh - 280px)', overflowY: 'auto' }}
+        >
           <DataView
             value={visibleItems}
             itemTemplate={(avaliacao, index) => (
