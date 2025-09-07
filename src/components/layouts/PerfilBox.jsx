@@ -10,7 +10,7 @@ import { message } from 'antd';
 
 // Box que armazena perfil de estabelecimento ou de usuário
 // É possível definir o usuário exibido
-export default function PerfilBox({ usuario, loadingUsuario }) {
+export default function PerfilBox({ usuario, loadingUsuario, onAtualizarTags }) {
   const navigate = useNavigate();
   const { user } = useAuth();
   const ehMeuPerfil = usuario ? user.id === usuario.id : false;
@@ -80,10 +80,10 @@ export default function PerfilBox({ usuario, loadingUsuario }) {
           alt={`Foto de perfil de ${usuario.nome}`}
         />
         <div className="self-center ml-[1em] sm:ml-[1em] md:ml-[2em] lg:ml-[2em] mr-auto min-w-0 max-w-[60%]">
-          <h1 className="font-semibold text-[24px] sm:text-[24px] md:text-[36px] lg:text-[36px] leading-[1.2] truncate">
+          <h1 className="font-semibold text-[24px] sm:text-[24px] md:text-[36px] lg:text-[36px] leading-[1.2] break-words">
             {usuario.status === 'ATIVO' ? usuario.nome : 'Usuário inativo'}
           </h1>
-          <h2 className="font-normal text-[16px] sm:text-[16px] md:text-[20px] lg:text-[20px] truncate">
+          <h2 className="font-normal text-[16px] sm:text-[16px] md:text-[20px] lg:text-[20px] break-words">
             {usuario.status === 'ATIVO' ? `@${usuario.username}` : ''}
           </h2>
         </div>
@@ -107,7 +107,14 @@ export default function PerfilBox({ usuario, loadingUsuario }) {
         <DataView
           value={avaliacoes}
           itemTemplate={(avaliacao, index) => (
-            <AvaliacaoBox key={index} avaliacao={avaliacao} onChange={carregarAvaliacoes} />
+            <AvaliacaoBox
+              key={index}
+              avaliacao={avaliacao}
+              onChange={() => {
+                carregarAvaliacoes();
+                onAtualizarTags?.();
+              }}
+            />
           )}
           layout="list"
           style={{ overflowY: 'auto' }}

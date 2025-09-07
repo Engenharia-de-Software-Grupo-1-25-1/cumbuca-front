@@ -13,7 +13,7 @@ const CardUsuario = ({ user }) => {
       <div className="flex-grow ml-4 min-w-0">
         <Link to={`/perfil/${user.username}`} className="flex-shrink-0">
           <div className="flex items-center justify-between ">
-            <h2 className="truncate text-2xl font-bold text-[#4b2509] hover:underline">
+            <h2 className="break-all text-2xl font-bold text-[#4b2509] hover:underline">
               {user.status === 'ATIVO' ? user.nome : 'Usuário inativo'}
             </h2>
           </div>

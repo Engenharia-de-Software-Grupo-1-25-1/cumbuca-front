@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Spin } from 'antd';
 import CardEstab from './cards/CardEstabelecimento';
 
-const ListaEstabelecimentos = ({ arrayEstabelecimentos, filtros, ordenador }) => {
+const ListaDeEstabelecimentos = ({ arrayEstabelecimentos, filtros, ordenador }) => {
   const [estabelecimentos, setEstabelecimentos] = useState([]);
   const [carregando, setLoading] = useState(true);
 
@@ -51,4 +51,4 @@ const ListaEstabelecimentos = ({ arrayEstabelecimentos, filtros, ordenador }) =>
   );
 };
 
-export default ListaEstabelecimentos;
+export default ListaDeEstabelecimentos;

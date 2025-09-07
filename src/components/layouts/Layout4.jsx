@@ -3,7 +3,7 @@ import PerfilBox from './PerfilBox';
 
 //Layout Padrão com Header completo, Tags Populares e box de Perfil
 // É possível definir o usuário exibido
-function Layout({ usuario, loadingUsuario }) {
+function Layout({ usuario, loadingUsuario, onAtualizarTags }) {
   return (
     <>
       <LayoutBase
@@ -11,6 +11,7 @@ function Layout({ usuario, loadingUsuario }) {
         conteudoProps={{
           usuario,
           loadingUsuario,
+          onAtualizarTags,
         }}
       />
     </>

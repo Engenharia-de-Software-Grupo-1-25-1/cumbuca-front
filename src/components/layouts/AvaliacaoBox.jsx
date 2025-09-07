@@ -101,10 +101,10 @@ export default function AvalicaoBox({ avaliacao, onChange, onSelecionarTag }) {
           </Link>
           <div className="min-w-0 max-w-[100%]">
             <Link to={`/perfil/${avaliacao.usuario.username}`} className="flex hover:no-underline flex-wrap">
-              <p className="hover:underline mr-4 text-base sm:text-base md:text-xl lg:text-2xl truncate">
+              <p className="hover:underline mr-4 text-base sm:text-base md:text-xl lg:text-2xl break-words">
                 {avaliacao.usuario.status === 'ATIVO' ? avaliacao.usuario.nome : 'Usuário inativo'}
               </p>
-              <p className="text-sm text-[#505050] sm:text-sm md:text-base lg:text-xl truncate">
+              <p className="text-sm text-[#505050] sm:text-sm md:text-base lg:text-xl break-words">
                 {avaliacao.usuario.status === 'ATIVO' ? `@${avaliacao.usuario.username}` : ''}
               </p>
             </Link>
@@ -114,7 +114,7 @@ export default function AvalicaoBox({ avaliacao, onChange, onSelecionarTag }) {
               className="flex items-center gap-1 flex-1 min-w-0"
             >
               <MdOutlineStorefront color="#356B2A" size="24" className="flex-shrink-0" />
-              <p className="text-sm text-[#356B2A] sm:text-sm md:text-base lg:text-xl truncate">
+              <p className="text-sm text-[#356B2A] sm:text-sm md:text-base lg:text-xl break-words">
                 {avaliacao.estabelecimento.nome}
               </p>
             </Link>

@@ -1,16 +1,15 @@
 import AvaliacaoBox from '../layouts/AvaliacaoBox';
 import { getEstabelecimentoById, favoritarEstabelecimento } from '../../services/EstabelecimentoService';
 import { FaHeart } from 'react-icons/fa';
-import { MdOutlineStarPurple500 } from 'react-icons/md';
-import { MdOutlineLocationOn } from 'react-icons/md';
+import { MdOutlineStarPurple500, MdOutlineLocationOn } from 'react-icons/md';
 import { getEstabelecimentoImagem } from '../../utils/imagensCategoriasMapper';
 import { formataInfosEstabelecimento } from '../../utils/formataInfosEstabelecimento';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { message } from 'antd';
 import { DataView } from 'primereact/dataview';
 import { getAvaliacoesEstabelecimento } from '../../services/avaliacaoService';
 
-export default function EstabelecimentoBox({ estabelecimentoId }) {
+export default function EstabelecimentoBox({ estabelecimentoId, onAtualizarTags }) {
   const [estabelecimento, setEstabelecimento] = useState(null);
   const [loadingEstabelecimento, setLoadingEstabelecimento] = useState(true);
 
@@ -30,7 +29,6 @@ export default function EstabelecimentoBox({ estabelecimentoId }) {
       try {
         const data = await getEstabelecimentoById(estabelecimentoId);
         setEstabelecimento(data);
-
         if (data && data.isFavoritado !== undefined) {
           setCurtido(data.isFavoritado);
         }
@@ -52,29 +50,29 @@ export default function EstabelecimentoBox({ estabelecimentoId }) {
     : {};
   const estabImagem = estabelecimento ? getEstabelecimentoImagem(categoriaMapeada) : null;
 
-  useEffect(() => {
-    async function carregarAvaliacoes() {
-      if (!estabelecimento || !id) return;
+  const carregarAvaliacoes = useCallback(async () => {
+    if (!estabelecimento) return;
 
-      setLoadingAvaliacoes(true);
-      try {
-        const { data } = await getAvaliacoesEstabelecimento(id);
-        setAvaliacoes(data);
-      } catch (error) {
-        console.error(error);
-        message.error('Erro ao carregar avaliações!');
-        setAvaliacoes([]);
-      } finally {
-        setLoadingAvaliacoes(false);
-      }
+    setLoadingAvaliacoes(true);
+    try {
+      const { data } = await getAvaliacoesEstabelecimento(estabelecimento.id);
+      setAvaliacoes(data);
+    } catch (error) {
+      console.error(error);
+      message.error('Erro ao carregar avaliações!');
+      setAvaliacoes([]);
+    } finally {
+      setLoadingAvaliacoes(false);
     }
+  }, [estabelecimento]);
 
+  useEffect(() => {
     carregarAvaliacoes();
-  }, [estabelecimento, id]);
+  }, [carregarAvaliacoes]);
 
   const handleFavoritar = async () => {
     try {
-      favoritarEstabelecimento(id);
+      await favoritarEstabelecimento(id);
       setCurtido(!curtido);
     } catch (error) {
       console.error(error);
@@ -118,7 +116,7 @@ export default function EstabelecimentoBox({ estabelecimentoId }) {
         <div className="flex-grow ml-4 min-w-0">
           <div className="flex items-center justify-between gap-3 ">
             <div className="flex items-center min-w-0">
-              <h1 className="font-bold flex-grow truncate min-w-0 text-[20px] sm:text-[20px] md:text-[25px] lg:text-[30px] text-black">
+              <h1 className="font-bold flex-grow break-words min-w-0 text-[20px] sm:text-[20px] md:text-[25px] lg:text-[30px] text-black">
                 {nome}
               </h1>
               <button className="flex items-center flex-shrink-0 ml-2" onClick={handleFavoritar}>
@@ -126,21 +124,21 @@ export default function EstabelecimentoBox({ estabelecimentoId }) {
               </button>
             </div>
           </div>
-          <div className="flex items-center justify-between gap-4 mt-2 w-full">
+          <div className="flex items-center justify-between gap-4 mt-2 w-full flex-wrap md:no-wrap">
             <div className="flex items-center gap-4 min-w-0">
               <div className="flex items-center flex-shrink-0">
                 <span className="text-[#ffb115] mt-1 text-2xl">{notaFormatada}</span>
                 <MdOutlineStarPurple500 size={35} className="text-[#ffb115] ml-1" />
               </div>
 
-              <h2 className="truncate max-w-[70%] text-[#f7d799] text-[12px] md:text-[12px] lg:text-[16px] whitespace-nowrap flex-shrink-0">
+              <h2 className="break-words max-w-[70%] text-[#f7d799] text-[12px] md:text-[12px] lg:text-[16px] whitespace-nowrap flex-shrink-0">
                 {categoriaMapeada}
               </h2>
             </div>
-            <div className="flex items-center min-w-0 mr-2 max-w-[10%] sm:max-w-[30%] md:max-w-[40%] lg:max-w-[47%] flex-wrap">
+            <div className="flex items-center min-w-0 mr-2">
               <MdOutlineLocationOn size={20} className="mr-2 flex-shrink-0 text-[#f7d799]" />
               <span
-                className="truncate min-w-0 text-[#f7d799] text-[12px] md:text-[12px] lg:text-[16px]"
+                className="break-words min-w-0 text-[#f7d799] text-[12px] md:text-[12px] lg:text-[16px]"
                 title={localizacao}
               >
                 {localizacao}
@@ -157,7 +155,16 @@ export default function EstabelecimentoBox({ estabelecimentoId }) {
       ) : avaliacoes.length > 0 ? (
         <DataView
           value={avaliacoes}
-          itemTemplate={(avaliacao, index) => <AvaliacaoBox key={index} avaliacao={avaliacao} />}
+          itemTemplate={(avaliacao, index) => (
+            <AvaliacaoBox
+              key={index}
+              avaliacao={avaliacao}
+              onChange={() => {
+                carregarAvaliacoes();
+                onAtualizarTags?.();
+              }}
+            />
+          )}
           layout="list"
           style={{ overflowY: 'auto' }}
           className="scroll-dark mt-8"
