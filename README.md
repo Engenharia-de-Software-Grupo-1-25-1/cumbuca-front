@@ -36,6 +36,9 @@ Em resumo, o Cumbuca conecta pessoas aos melhores lugares para viver experiênci
 ### 📰 Feed
 O **Feed** funciona como a linha do tempo principal da plataforma, reunindo as avaliações mais recentes feitas pelos usuários sobre diferentes restaurantes.  
 Nele é possível **visualizar notas e comentários**, além de **curtir** e **interagir** com as publicações de outros membros da comunidade.
+<p align="center">
+  <img width="750" alt="Feed" src="https://github.com/user-attachments/assets/61d2656b-1948-4d0c-afd0-b11b5ba709f8" />
+</p>
 
 ### 👤 Meu Perfil
 A tela **Meu Perfil** reúne todas as informações do usuário, como nome, foto e dados de conta.  
