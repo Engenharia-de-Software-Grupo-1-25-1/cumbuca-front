@@ -6,15 +6,30 @@
 
 ## Conteúdos
 - [Descrição](#descrição)
-- [Tecnologias Utilizadas](#tecnologias-utilizadas)
-- [Funcionalidades](#funcionalidades)
 - [Preview das Telas](#preview-das-telas)
   - [Feed](#-feed)
   - [Meu Perfil](#-meu-perfil)
   - [Feed de Estabelecimentos](#-feed-de-estabelecimentos)
   - [Gerenciamento de Conta e Avaliações](#-gerenciamento-de-conta-e-avaliações)
 - [Guia de Instalação](#-guia-de-instalação)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
 - [Equipe / Autores](#equipe--autores)
+
+<h2 id="descricao">📝Descrição</h2>
+
+O **Cumbuca** é uma plataforma web criada para centralizar e organizar informações sobre bares, restaurantes e estabelecimentos gastronômicos de Campina Grande (PB) e região.  
+
+Atualmente, moradores e turistas enfrentam dificuldades para encontrar dados confiáveis e atualizados em fontes como redes sociais e Google Maps, que muitas vezes são incompletos e dispersos. Da mesma forma, empreendedores locais encontram poucos meios eficazes de divulgar seus serviços, promoções e diferenciais.
+
+O Cumbuca surge para resolver esse problema, reunindo em um só lugar avaliações feitas pelos próprios usuários, notas de comida, ambiente e atendimento, além de comentários, curtidas e filtros avançados.  
+
+Com isso, a plataforma:  
+- Facilita a escolha de onde comer, beber ou se reunir com amigos.  
+- Valoriza a cena gastronômica local e fortalece a visibilidade dos empreendimentos.  
+- Incentiva o consumo consciente e de qualidade.  
+- Contribui para o desenvolvimento econômico e cultural da cidade.  
+
+Em resumo, o Cumbuca conecta pessoas aos melhores lugares para viver experiências gastronômicas, ao mesmo tempo em que apoia o crescimento de negócios locais.
 
 <h2 id="preview-das-telas">📸 Preview das Telas</h2>
 
@@ -93,6 +108,14 @@ Para iniciar a aplicação em ambiente de desenvolvimento:
 ```bash
 yarn dev
 ```
+
+<h2 id="tecnologias-utilizadas">💻 Tecnologias Utilizadas</h2>
+
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=FFD62E)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
+![Yarn](https://img.shields.io/badge/Yarn-2C8EBB?style=for-the-badge&logo=yarn&logoColor=white)
 
 <h2 id="equipe--autores">🤝 Equipe / Autores</h2>
 
